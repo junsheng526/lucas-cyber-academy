@@ -5,6 +5,7 @@ import { HOME_HERO_1, HOME_HERO_2, HOME_HERO_3 } from "../../assets/assets";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/swiper-bundle.min.css";
 import { Pagination } from "swiper/modules";
 
 interface FeaturedCourse {
