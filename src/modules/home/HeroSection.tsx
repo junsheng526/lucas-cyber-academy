@@ -10,7 +10,6 @@ const HeroSection: React.FC = () => {
       style={{ minHeight: "calc(100vh - 64px)" }}
     >
       <div className="container mx-auto px-6 flex items-center justify-between gap-8">
-        {/* Left Section */}
         <div className="w-full lg:w-1/2">
           <Text
             as="h1"
@@ -41,9 +40,7 @@ const HeroSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Section */}
         <div className="w-full lg:w-1/2 grid grid-cols-3 gap-4 h-[500px]">
-          {/* Left Image Row (2 images) */}
           <div className="grid gap-4">
             <div className="col-span-1">
               <img
@@ -61,7 +58,6 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Image Row (1 image) */}
           <div className="w-full h-full mt-24">
             <img
               src={HOME_HERO_3}
