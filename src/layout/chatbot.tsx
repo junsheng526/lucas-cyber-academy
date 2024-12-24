@@ -1,4 +1,3 @@
-// src/components/Chatbot.tsx
 import React, { useEffect } from "react";
 
 const Chatbot: React.FC = () => {

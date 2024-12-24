@@ -1,14 +1,31 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import Chatbot from "./Chatbot";
+import "./index.css";
+import { Route, Routes } from "react-router-dom";
+import Login from "./modules/auth/login";
+import Register from "./modules/auth/register";
+import NotFound from "./layout/page-not-found";
+import Home from "./modules/home/home";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Welcome to Learning System</h1>
-      <Chatbot />
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      {/* <Route
+        path="/"
+        element={
+          <ProtectedRoute
+            element={
+              <Layout isSidebar={isSidebar} setIsSidebar={setIsSidebar}>
+                <Dashboard />
+              </Layout>
+            }
+          />
+        }
+      /> */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
 
