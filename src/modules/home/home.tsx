@@ -1,11 +1,12 @@
 import Navbar from "../../components/Navbar";
 import Chatbot from "../../layout/chatbot";
+import HeroSection from "./HeroSection";
 
 const Home: React.FC = () => {
   return (
     <div className="App">
       <Navbar />
-      <h1>Welcome to Learning System</h1>
+      <HeroSection />
       {/* <Chatbot /> */}
     </div>
   );

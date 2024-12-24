@@ -4,8 +4,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#4F46E5", // Your primary color
-        "primary-dark": "#2779bd", // Darker shade for hover
+        primary: "#4F46E5",
+        "primary-dark": "#2779bd",
+      },
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
       },
     },
   },
