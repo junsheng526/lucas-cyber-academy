@@ -3,6 +3,9 @@ import Chatbot from "../../layout/chatbot";
 import { FeaturedClassesSection } from "./FeaturedClassesSection";
 import HeroSection from "./HeroSection";
 import PopularCoursesSection from "./PopularCourseSection";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 const Home: React.FC = () => {
   return (
