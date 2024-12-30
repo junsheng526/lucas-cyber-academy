@@ -6,6 +6,7 @@ import PopularCoursesSection from "./PopularCourseSection";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { TopLecturerSection } from "./TopLecturerSection";
 
 const Home: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const Home: React.FC = () => {
       <HeroSection />
       <PopularCoursesSection />
       <FeaturedClassesSection />
+      <TopLecturerSection />
       {/* <Chatbot /> */}
     </div>
   );
