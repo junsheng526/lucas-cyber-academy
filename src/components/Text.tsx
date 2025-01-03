@@ -9,9 +9,7 @@ interface TextProps {
 const Text: React.FC<TextProps> = ({ children, as = "p", className = "" }) => {
   const Component = as;
 
-  return (
-    <Component className={`font-poppins ${className}`}>{children}</Component>
-  );
+  return <Component className={`${className}`}>{children}</Component>;
 };
 
 export default Text;

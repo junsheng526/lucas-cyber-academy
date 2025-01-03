@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.nc-header-bg {
+  @apply bg-white/70 backdrop-blur-2xl backdrop-filter;
+}
