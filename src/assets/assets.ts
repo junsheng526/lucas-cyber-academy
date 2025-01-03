@@ -1,4 +1,4 @@
-import logo from './logo.png';
+import logo from './Logo.png';
 import lightModeIcon from './light-mode-btn.png';
 import homeHero1 from './home-hero-1.png';
 import homeHero2 from './home-hero-2.png';
