@@ -5,3 +5,9 @@
 .nc-header-bg {
   @apply bg-white/70 backdrop-blur-2xl backdrop-filter;
 }
+
+.nc-PropertyCardH {
+  .nc-BtnLikeIcon--liked {
+    @apply text-red-500;
+  }
+}

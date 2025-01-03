@@ -1,11 +1,12 @@
 import Navbar from "../../components/Navbar";
-import { FeaturedClassesSection } from "./FeaturedClassesSection";
 import { TopLecturerSection } from "./TopLecturerSection";
 import SectionHero from "./SectionHero";
 import BgGlassmorphism from "../../components/background/BgGlassmorphism";
 import SectionSliderNewCategories, {
   TaxonomyType,
 } from "../../components/slider/SectionSliderNewCategories";
+import SectionGridFeaturePlaces from "../../components/slider/SectionGridFeaturePlaces";
+import SectionHowItWork from "./SectionHowItWork";
 
 const DEMO_CATS: TaxonomyType[] = [
   {
@@ -86,10 +87,13 @@ const Home: React.FC = () => {
             categories={DEMO_CATS}
             className="py-16"
           />
+
+          <SectionGridFeaturePlaces cardType="card2" />
+
+          <SectionHowItWork className="py-20" />
         </div>
       </main>
-      <FeaturedClassesSection />
-      <TopLecturerSection />
+      {/* <TopLecturerSection /> */}
       {/* <Chatbot /> */}
     </div>
   );
