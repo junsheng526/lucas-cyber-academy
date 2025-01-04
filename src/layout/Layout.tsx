@@ -14,7 +14,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       <main className="nc-PageHome relative overflow-hidden flex justify-center">
         {children}
       </main>
-      <Chatbot />
+      {/* <Chatbot /> */}
       <Footer />
     </div>
   );
