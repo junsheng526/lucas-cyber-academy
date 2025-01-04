@@ -1,6 +1,4 @@
-import Navbar from "../../components/Navbar";
 import SectionHero from "./SectionHero";
-import BgGlassmorphism from "../../components/background/BgGlassmorphism";
 import SectionSliderNewCategories, {
   TaxonomyType,
 } from "../../components/slider/SectionSliderNewCategories";
@@ -11,8 +9,6 @@ import BackgroundSection from "../../components/background/BackgroundSection";
 import SectionGridCategoryBox from "../../components/SectionGridCategoryBox";
 import SectionBecomeAnAuthor from "../../components/SectionBecomeAnAuthor";
 import SectionVideos from "../../components/SectionVideos";
-import FooterNav from "../../components/footer/FooterNav";
-import Footer from "../../components/footer/Footer";
 import Layout from "../../layout/Layout";
 
 const DEMO_CATS: TaxonomyType[] = [
