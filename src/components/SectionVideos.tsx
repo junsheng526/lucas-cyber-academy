@@ -16,10 +16,10 @@ export interface SectionVideosProps {
 
 const VIDEOS_DEMO: VideoType[] = [
   {
-    id: "Ao7e4iisKMs",
-    title: "Magical Scotland - 4K Scenic Relaxation Film with Calming Music",
+    id: "MSq_DCRxOxw",
+    title: "This is the Only Right Way to Write React clean-code - SOLID",
     thumbnail:
-      "https://images.pexels.com/photos/131423/pexels-photo-131423.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "https://knackforge.com/wp-content/uploads/2022/11/Benefits-of-ReactJS.jpg",
   },
   {
     id: "a5V6gdu5ih8",
@@ -65,7 +65,7 @@ const SectionVideos: FC<SectionVideosProps> = ({
           <iframe
             src={`https://www.youtube.com/embed/${video.id}?autoplay=1`}
             title={video.title}
-            className="w-full h-full"
+            className="w-full h-[40vh] lg:min-h-[80vh]"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           ></iframe>
@@ -92,7 +92,7 @@ const SectionVideos: FC<SectionVideosProps> = ({
     if (index === currentVideo) return null;
     return (
       <div
-        className="group relative aspect-w-16 aspect-h-9 rounded-2xl cursor-pointer overflow-hidden"
+        className="h-[20vh] group relative aspect-w-16 aspect-h-9 rounded-2xl cursor-pointer overflow-hidden"
         onClick={() => {
           setCurrentVideo(index);
           !isPlay && setIsPlay(true);
