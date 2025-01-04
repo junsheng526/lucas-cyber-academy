@@ -7,6 +7,8 @@ import Register from "./modules/auth/register";
 import NotFound from "./layout/page-not-found";
 import Home from "./modules/home/home";
 import CoursePage from "./modules/course/Course";
+import PageLogin from "./modules/auth/SignIn";
+import PageSignUp from "./modules/auth/SignUp";
 
 function App() {
   return (
@@ -14,8 +16,8 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
       <Route path="/courses" element={<CoursePage />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<PageLogin />} />
+      <Route path="/register" element={<PageSignUp />} />
       {/* <Route
         path="/"
         element={

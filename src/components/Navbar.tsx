@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Text from "./Text";
 import { SunIcon } from "@heroicons/react/24/outline";
 import Logo from "./Logo";
@@ -17,6 +17,7 @@ const Navbar: React.FC = () => {
 
   const handleOpenMenu = () => setIsVisible(true);
   const handleCloseMenu = () => setIsVisible(false);
+  const navigate = useNavigate();
 
   const renderContent = () => {
     return (
@@ -108,7 +109,12 @@ const Navbar: React.FC = () => {
               <i className="w-7 h-7 las la-search text-2xl text-gray-500"></i>
             </div>
             <div className="hidden md:block">
-              <ButtonPrimary className="self-center">Sign up</ButtonPrimary>
+              <ButtonPrimary
+                className="self-center"
+                onClick={() => navigate("/login")}
+              >
+                Sign up
+              </ButtonPrimary>
             </div>
 
             {/* Hamburger Icon for Mobile */}

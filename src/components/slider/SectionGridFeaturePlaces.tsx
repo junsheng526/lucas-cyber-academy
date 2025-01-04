@@ -6,6 +6,7 @@ import HeaderFilter from "../HeaderFilter";
 import Pagination from "../button/Pagination";
 import Heading from "../text/Heading";
 import StayCard from "../card/StayCard";
+import { useNavigate } from "react-router-dom";
 
 const DEMO_DATA: any[] = DEMO_STAY_LISTINGS.slice(0, 8);
 
@@ -30,6 +31,7 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
   cardType = "card2",
   pagination = false,
 }) => {
+  const navigate = useNavigate();
   const renderCard = (stay: any) => {
     let CardName = StayCard;
     switch (cardType) {
@@ -63,7 +65,9 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
             {stayListings.map((stay) => renderCard(stay))}
           </div>
           <div className="flex mt-16 justify-center items-center">
-            <ButtonPrimary>Show me more</ButtonPrimary>
+            <ButtonPrimary onClick={() => navigate("/courses")}>
+              Show me more
+            </ButtonPrimary>
           </div>
         </div>
       ) : (
