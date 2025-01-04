@@ -10,6 +10,7 @@ import SectionGridCategoryBox from "../../components/SectionGridCategoryBox";
 import SectionBecomeAnAuthor from "../../components/SectionBecomeAnAuthor";
 import SectionVideos from "../../components/SectionVideos";
 import Layout from "../../layout/Layout";
+import BgGlassmorphism from "../../components/background/BgGlassmorphism";
 
 const DEMO_CATS: TaxonomyType[] = [
   {
@@ -80,6 +81,7 @@ const DEMO_CATS: TaxonomyType[] = [
 const Home: React.FC = () => {
   return (
     <Layout>
+      <BgGlassmorphism />
       <div className="container relative px-8 md:px-28 space-y-24 mb-24 lg:space-y-28 lg:mb-28">
         <SectionHero className="text-start pt-10 pt-16 md:pb-16" />
 

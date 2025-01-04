@@ -1,10 +1,11 @@
 import { FC, useState } from "react";
 import Input from "../../components/input/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ButtonPrimary from "../../components/button/ButtonPrimary";
 import Layout from "../../layout/Layout";
 import { auth } from "../../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import BgGlassmorphism from "../../components/background/BgGlassmorphism";
 
 export interface PageLoginProps {}
 
@@ -13,19 +14,23 @@ const PageLogin: FC<PageLoginProps> = ({}) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const navigate = useNavigate();
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert("Login successful!");
+      navigate("/");
     } catch (err: any) {
       setError(err.message);
     }
   };
 
   return (
-    <Layout isShowBg={false}>
-      <div className="container mb-24 lg:mb-32">
+    <Layout>
+      <BgGlassmorphism />
+      <div className="container relative mb-24 lg:mb-32">
         <h2 className="my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 justify-center">
           Login
         </h2>

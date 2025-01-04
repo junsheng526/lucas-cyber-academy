@@ -3,10 +3,9 @@ import Input from "../../components/input/Input";
 import { Link } from "react-router-dom";
 import ButtonPrimary from "../../components/button/ButtonPrimary";
 import Layout from "../../layout/Layout";
-import { auth } from "../../firebase/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { User } from "../../types/user";
 import { registerUser } from "../../services/userService";
+import BgGlassmorphism from "../../components/background/BgGlassmorphism";
 
 export interface PageSignUpProps {}
 
@@ -57,8 +56,9 @@ const PageSignUp: FC<PageSignUpProps> = ({}) => {
   };
 
   return (
-    <Layout isShowBg={false}>
-      <div className="container mb-24 lg:mb-32">
+    <Layout>
+      <BgGlassmorphism />
+      <div className="container relative mb-24 lg:mb-32">
         <h2 className="my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 justify-center">
           Sign Up
         </h2>

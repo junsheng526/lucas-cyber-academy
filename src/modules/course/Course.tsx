@@ -3,12 +3,14 @@ import SectionGridFeaturePlaces from "../../components/slider/SectionGridFeature
 import Layout from "../../layout/Layout";
 import BackgroundSection from "../../components/background/BackgroundSection";
 import SectionGridFeatureProperty from "../../components/SectionGridFeatureProperty";
+import BgGlassmorphism from "../../components/background/BgGlassmorphism";
 
 export interface ListingCoursePageProps {}
 
 const CoursePage: FC<ListingCoursePageProps> = () => {
   return (
     <Layout>
+      <BgGlassmorphism />
       <div className="container relative px-8 md:px-28 space-y-24 mb-24 lg:space-y-28 lg:mb-28">
         {/* <div className="relative py-16">
           <SectionGridFeaturePlaces

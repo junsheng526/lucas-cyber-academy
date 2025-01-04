@@ -6,16 +6,14 @@ import BgGlassmorphism from "../components/background/BgGlassmorphism";
 
 interface LayoutProps {
   children: React.ReactNode;
-  isShowBg?: boolean;
 }
 
-const Layout: FC<LayoutProps> = ({ children, isShowBg = true }) => {
+const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <div className="App">
       <Navbar />
       <main className="nc-PageHome relative overflow-hidden flex justify-center">
         {children}
-        {isShowBg && <BgGlassmorphism />}
       </main>
       {/* <Chatbot /> */}
       <Footer />
