@@ -6,12 +6,14 @@ import Login from "./modules/auth/login";
 import Register from "./modules/auth/register";
 import NotFound from "./layout/page-not-found";
 import Home from "./modules/home/home";
+import CoursePage from "./modules/course/Course";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/courses" element={<CoursePage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       {/* <Route

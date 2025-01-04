@@ -85,7 +85,7 @@ const Home: React.FC = () => {
 
         <SectionSliderNewCategories categories={DEMO_CATS} className="py-16" />
 
-        <SectionGridFeaturePlaces cardType="card2" />
+        <SectionGridFeaturePlaces />
 
         <SectionHowItWork className="py-20" />
         <div className="relative py-16">

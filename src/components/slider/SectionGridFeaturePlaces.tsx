@@ -1,11 +1,11 @@
 import { FC, ReactNode } from "react";
-// import ButtonPrimary from "@/shared/ButtonPrimary";
-// import HeaderFilter from "./HeaderFilter";
-import StayCard from "../card/StayCard2";
 import StayCard2 from "../card/StayCard2";
 import { DEMO_STAY_LISTINGS } from "../../data/listings";
 import ButtonPrimary from "../button/ButtonPrimary";
 import HeaderFilter from "../HeaderFilter";
+import Pagination from "../button/Pagination";
+import Heading from "../text/Heading";
+import StayCard from "../card/StayCard";
 
 const DEMO_DATA: any[] = DEMO_STAY_LISTINGS.slice(0, 8);
 
@@ -17,6 +17,7 @@ export interface SectionGridFeaturePlacesProps {
   headingIsCenter?: boolean;
   tabs?: string[];
   cardType?: "card1" | "card2";
+  pagination?: boolean;
 }
 
 const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
@@ -27,29 +28,61 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
   headingIsCenter,
   tabs = ["All", "Web Development", "Data Science", "Design"],
   cardType = "card2",
+  pagination = false,
 }) => {
   const renderCard = (stay: any) => {
-    const CardComponent = cardType === "card2" ? StayCard2 : StayCard;
-    return <CardComponent key={stay.id} data={stay} />;
+    let CardName = StayCard;
+    switch (cardType) {
+      case "card1":
+        CardName = StayCard;
+        break;
+      case "card2":
+        CardName = StayCard2;
+        break;
+
+      default:
+        CardName = StayCard;
+    }
+
+    return <CardName key={stay.id} data={stay} />;
   };
 
   return (
-    <div className="relative">
-      <HeaderFilter
-        tabActive="All"
-        subHeading={subHeading}
-        tabs={tabs}
-        heading={heading}
-      />
-      <div
-        className={`grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${gridClass}`}
-      >
-        {stayListings.map((stay) => renderCard(stay))}
-      </div>
-      <div className="flex mt-16 justify-center items-center">
-        <ButtonPrimary>Show me more</ButtonPrimary>
-      </div>
-    </div>
+    <>
+      {!pagination ? (
+        <div className="relative">
+          <HeaderFilter
+            tabActive="All"
+            subHeading={subHeading}
+            tabs={tabs}
+            heading={heading}
+          />
+          <div
+            className={`grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${gridClass}`}
+          >
+            {stayListings.map((stay) => renderCard(stay))}
+          </div>
+          <div className="flex mt-16 justify-center items-center">
+            <ButtonPrimary>Show me more</ButtonPrimary>
+          </div>
+        </div>
+      ) : (
+        <div className="relative">
+          <Heading desc={subHeading}>{heading}</Heading>
+          <span className="mb-3 text-start block mt-2 md:mt-3 font-normal text-base sm:text-lg text-neutral-500">
+            Total 56 courses
+          </span>
+          <div
+            className={`grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${gridClass}`}
+          >
+            {stayListings.map((stay) => renderCard(stay))}
+          </div>
+          <div className="flex mt-16 justify-center items-center">
+            <Pagination />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
