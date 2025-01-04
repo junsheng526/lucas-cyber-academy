@@ -63,12 +63,12 @@ const SectionHowItWork: FC<SectionHowItWorkProps> = ({
             {item.imgDark ? (
               <>
                 <img
-                  className="dark:hidden block mb-8 max-w-[180px] mx-auto"
+                  className="block mb-8 max-w-[180px] mx-auto"
                   src={item.img}
                   alt={item.title}
                 />
                 <img
-                  className="hidden dark:block mb-8 max-w-[180px] mx-auto"
+                  className="hidden mb-8 max-w-[180px] mx-auto"
                   src={item.imgDark}
                   alt={item.title}
                 />
@@ -82,9 +82,7 @@ const SectionHowItWork: FC<SectionHowItWorkProps> = ({
             )}
             <div className="text-center mt-auto">
               <h3 className="text-xl font-semibold">{item.title}</h3>
-              <p className="block mt-5 text-neutral-500 dark:text-neutral-400">
-                {item.desc}
-              </p>
+              <p className="block mt-5 text-neutral-500">{item.desc}</p>
             </div>
           </div>
         ))}

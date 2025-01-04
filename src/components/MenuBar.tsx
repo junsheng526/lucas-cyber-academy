@@ -9,7 +9,7 @@ export interface MenuBarProps {
 }
 
 const MenuBar: React.FC<MenuBarProps> = ({
-  className = "p-2.5 rounded-lg text-neutral-700 dark:text-neutral-300",
+  className = "p-2.5 rounded-lg text-neutral-700",
   iconClassName = "h-8 w-8",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -33,39 +33,27 @@ const MenuBar: React.FC<MenuBarProps> = ({
       </button>
 
       {isVisible && (
-        <div className="absolute top-0 right-0 bg-white dark:bg-neutral-800 p-5 w-64 shadow-lg z-50">
+        <div className="absolute top-0 right-0 bg-white p-5 w-64 shadow-lg z-50">
           {/* This can be your navigation content */}
           <nav>
             <ul className="space-y-4">
               <li>
-                <a
-                  href="/"
-                  className="text-sm text-neutral-900 dark:text-neutral-100"
-                >
+                <a href="/" className="text-sm text-neutral-900">
                   Home
                 </a>
               </li>
               <li>
-                <a
-                  href="/about"
-                  className="text-sm text-neutral-900 dark:text-neutral-100"
-                >
+                <a href="/about" className="text-sm text-neutral-900">
                   About
                 </a>
               </li>
               <li>
-                <a
-                  href="/services"
-                  className="text-sm text-neutral-900 dark:text-neutral-100"
-                >
+                <a href="/services" className="text-sm text-neutral-900">
                   Services
                 </a>
               </li>
               <li>
-                <a
-                  href="/contact"
-                  className="text-sm text-neutral-900 dark:text-neutral-100"
-                >
+                <a href="/contact" className="text-sm text-neutral-900">
                   Contact
                 </a>
               </li>

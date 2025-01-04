@@ -24,8 +24,8 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
 }) => {
   return (
     <div className={`relative ${className}`} data-id="SectionGridAuthorBox">
-      <Heading desc="Rating based on customer reviews" isCenter>
-        Top 10 Authors of the Month
+      <Heading desc="Rating based on student reviews" isCenter>
+        Top 10 Lecturer of the Month
       </Heading>
 
       <div className={`grid gap-6 md:gap-8 ${gridClassName}`}>
