@@ -11,8 +11,6 @@ const Navbar: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const location = useLocation();
 
-  const isActive = (path: string) => location.pathname === path;
-
   const getLinkClass = () => {
     return `block hover:bg-gray-200 hover:text-gray-900 text-gray-500 py-2 px-4 rounded-full items-center flex`;
   };
@@ -103,11 +101,11 @@ const Navbar: React.FC = () => {
             </ul>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="hidden md:block">
+            <div className="hidden md:block hover:bg-gray-200 hover:text-gray-900 text-gray-500 py-2 px-2 rounded-full items-center flex">
               <SunIcon className="w-7 h-7 text-gray-500" aria-hidden="true" />
             </div>
-            <div className="hidden md:block">
-              <i className="las la-search text-2xl text-gray-500"></i>
+            <div className="hidden md:block hover:bg-gray-200 hover:text-gray-900 text-gray-500 py-2 px-3 rounded-full items-center flex">
+              <i className="w-7 h-7 las la-search text-2xl text-gray-500"></i>
             </div>
             <div className="hidden md:block">
               <ButtonPrimary className="self-center">Sign up</ButtonPrimary>
