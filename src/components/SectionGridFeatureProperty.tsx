@@ -71,7 +71,7 @@ const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
       <div
         className={`${
           view === "list"
-            ? "grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-1 xl:grid-cols-2" // List view (vertical stacking)
+            ? "text-start grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-1 xl:grid-cols-2" // List view (vertical stacking)
             : "grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" // Card view (grid layout)
         } ${gridClass}`}
       >
