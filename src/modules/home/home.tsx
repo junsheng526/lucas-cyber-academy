@@ -1,5 +1,4 @@
 import Navbar from "../../components/Navbar";
-import { TopLecturerSection } from "./TopLecturerSection";
 import SectionHero from "./SectionHero";
 import BgGlassmorphism from "../../components/background/BgGlassmorphism";
 import SectionSliderNewCategories, {
@@ -7,6 +6,14 @@ import SectionSliderNewCategories, {
 } from "../../components/slider/SectionSliderNewCategories";
 import SectionGridFeaturePlaces from "../../components/slider/SectionGridFeaturePlaces";
 import SectionHowItWork from "./SectionHowItWork";
+import SectionGridAuthorBox from "../../components/SectionGridAuthorBox";
+import BackgroundSection from "../../components/background/BackgroundSection";
+import SectionGridCategoryBox from "../../components/SectionGridCategoryBox";
+import SectionBecomeAnAuthor from "../../components/SectionBecomeAnAuthor";
+import SectionVideos from "../../components/SectionVideos";
+import FooterNav from "../../components/footer/FooterNav";
+import Footer from "../../components/footer/Footer";
+import Layout from "../../layout/Layout";
 
 const DEMO_CATS: TaxonomyType[] = [
   {
@@ -76,26 +83,30 @@ const DEMO_CATS: TaxonomyType[] = [
 
 const Home: React.FC = () => {
   return (
-    <div className="App">
-      <Navbar />
-      <main className="nc-PageHome relative overflow-hidden flex justify-center">
-        <BgGlassmorphism />
-        <div className="container relative px-28">
-          <SectionHero className="text-start pt-10 pt-16 pb-16" />
+    <Layout>
+      <div className="container relative px-28">
+        <SectionHero className="text-start pt-10 pt-16 pb-16" />
 
-          <SectionSliderNewCategories
-            categories={DEMO_CATS}
-            className="py-16"
-          />
+        <SectionSliderNewCategories categories={DEMO_CATS} className="py-16" />
 
-          <SectionGridFeaturePlaces cardType="card2" />
+        <SectionGridFeaturePlaces cardType="card2" />
 
-          <SectionHowItWork className="py-20" />
+        <SectionHowItWork className="py-20" />
+        <div className="relative py-16">
+          <BackgroundSection className="bg-orange-50" />
+          <SectionGridAuthorBox />
         </div>
-      </main>
-      {/* <TopLecturerSection /> */}
-      {/* <Chatbot /> */}
-    </div>
+
+        <SectionGridCategoryBox className="py-20" />
+
+        <div className="relative py-16">
+          <BackgroundSection />
+          <SectionBecomeAnAuthor />
+        </div>
+
+        <SectionVideos className="py-16" />
+      </div>
+    </Layout>
   );
 };
 
