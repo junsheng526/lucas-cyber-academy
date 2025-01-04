@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Text from "./Text";
 import { SunIcon } from "@heroicons/react/24/outline";
 import Logo from "./Logo";
 import ButtonPrimary from "./button/ButtonPrimary";
+import { Dialog, Transition } from "@headlessui/react";
+import NavMobile from "./navbar/NavMobile";
 
 const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
   const location = useLocation();
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -19,94 +17,111 @@ const Navbar: React.FC = () => {
     return `block hover:bg-gray-200 hover:text-gray-900 text-gray-500 py-2 px-4 rounded-full items-center flex`;
   };
 
-  return (
-    <nav className="bg-light-800 p-4 px-12 nc-Header sticky top-0 w-full left-0 right-0 z-40 nc-header-bg">
-      <div className="container mx-auto flex justify-between items-center px-28">
-        <div className="flex items-center">
-          <Logo className="w-24 self-center mr-4" />
-          <ul className="hidden md:flex md:items-center md:space-x-6">
-            <li>
-              <Link to="/home">
-                <Text as="span" className={getLinkClass()}>
-                  Home
-                </Text>
-              </Link>
-            </li>
-            <li>
-              <Link to="/courses" className={getLinkClass()}>
-                <Text as="span">Courses</Text>
-              </Link>
-            </li>
-            <li>
-              <Link to="/blog" className={getLinkClass()}>
-                <Text as="span">Blog</Text>
-              </Link>
-            </li>
-            <li>
-              <Link to="/about" className={getLinkClass()}>
-                <Text as="span">About Us</Text>
-              </Link>
-            </li>
-            <li>
-              <Link to="/career" className={getLinkClass()}>
-                <Text as="span">Career</Text>
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div className="flex items-center space-x-4">
-          <div className="hidden md:block">
-            <SunIcon className="w-7 h-7 text-gray-500" aria-hidden="true" />
-          </div>
-          <div className="hidden md:block">
-            <i className="las la-search text-2xl text-gray-500"></i>
-          </div>
-          <div className="hidden md:block">
-            <ButtonPrimary className="self-center">Sign up</ButtonPrimary>
-          </div>
+  const handleOpenMenu = () => setIsVisible(true);
+  const handleCloseMenu = () => setIsVisible(false);
 
-          <div className="block md:hidden" onClick={toggleMenu}>
-            <i
-              className={
-                isOpen ? "fas fa-times text-black" : "fas fa-bars text-black"
-              }
-            ></i>
+  const renderContent = () => {
+    return (
+      <Transition appear show={isVisible} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-50 overflow-hidden"
+          onClose={handleCloseMenu}
+        >
+          {/* Overlay for background dimming */}
+          <Transition.Child
+            as={Fragment}
+            enter="duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Dialog className="fixed inset-0 bg-black/60" onClose={() => {}} />
+          </Transition.Child>
+
+          <div className="fixed inset-0">
+            <div className="flex justify-end min-h-full">
+              <Transition.Child
+                as={Fragment}
+                enter="transition duration-100 transform"
+                enterFrom="opacity-0 translate-x-56"
+                enterTo="opacity-100 translate-x-0"
+                leave="transition duration-150 transform"
+                leaveFrom="opacity-100 translate-x-0"
+                leaveTo="opacity-0 translate-x-56"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden transition-all">
+                  {/* This is where the NavMobile content is rendered */}
+                  <NavMobile onClickClose={handleCloseMenu} />
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+    );
+  };
+
+  return (
+    <>
+      {" "}
+      <nav className="bg-light-800 py-2 px-5 md:p-4 md:px-12 nc-Header sticky top-0 w-full left-0 right-0 z-40 nc-header-bg">
+        <div className="container mx-auto flex justify-between items-center lg:px-28">
+          <div className="flex items-center">
+            <Logo className="w-24 self-center mr-4" />
+            {/* Desktop Menu */}
+            <ul className="hidden md:flex md:items-center md:space-x-6">
+              <li>
+                <Link to="/home">
+                  <Text as="span" className={getLinkClass()}>
+                    Home
+                  </Text>
+                </Link>
+              </li>
+              <li>
+                <Link to="/courses" className={getLinkClass()}>
+                  <Text as="span">Courses</Text>
+                </Link>
+              </li>
+              <li>
+                <Link to="/blog" className={getLinkClass()}>
+                  <Text as="span">Blog</Text>
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className={getLinkClass()}>
+                  <Text as="span">About Us</Text>
+                </Link>
+              </li>
+              <li>
+                <Link to="/career" className={getLinkClass()}>
+                  <Text as="span">Career</Text>
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="flex items-center space-x-4">
+            <div className="hidden md:block">
+              <SunIcon className="w-7 h-7 text-gray-500" aria-hidden="true" />
+            </div>
+            <div className="hidden md:block">
+              <i className="las la-search text-2xl text-gray-500"></i>
+            </div>
+            <div className="hidden md:block">
+              <ButtonPrimary className="self-center">Sign up</ButtonPrimary>
+            </div>
+
+            {/* Hamburger Icon for Mobile */}
+            <div className="block md:hidden" onClick={() => setIsVisible(true)}>
+              <i className="fas fa-bars text-black"></i>
+            </div>
           </div>
         </div>
-        <ul className={`md:hidden ${isOpen ? "block" : "hidden"} w-full mt-4`}>
-          <li>
-            <Link
-              to="/about"
-              className={`block py-2 ${
-                isActive("/about") ? "bg-gray-200" : ""
-              }`}
-            >
-              About
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/services"
-              className={`block py-2 ${
-                isActive("/services") ? "bg-gray-200" : ""
-              }`}
-            >
-              Services
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/contact"
-              className={`block py-2 ${
-                isActive("/contact") ? "bg-gray-200" : ""
-              }`}
-            >
-              Contact
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </nav>
+      </nav>
+      {renderContent()}
+    </>
   );
 };
 

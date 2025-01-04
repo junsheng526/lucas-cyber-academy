@@ -10,7 +10,7 @@ const SectionHero: FC<SectionHeroProps> = ({ className = "" }) => {
   return (
     <div className={`flex flex-col-reverse lg:flex-col relative ${className}`}>
       <div className="flex flex-col lg:flex-row lg:items-center">
-        <div className="flex-shrink-0 lg:w-1/2 flex flex-col items-start space-y-8 sm:space-y-10 pb-14 lg:pb-64 xl:pr-14 lg:mr-10 xl:mr-0">
+        <div className="flex-shrink-0 lg:w-1/2 flex flex-col items-start space-y-8 pb-14 lg:pb-64 xl:pr-14 lg:mr-10 xl:mr-0">
           <h2 className="font-medium text-4xl md:text-5xl xl:text-7xl leading-[114%]">
             Empower Your Skills with Our Courses
           </h2>
@@ -18,7 +18,7 @@ const SectionHero: FC<SectionHeroProps> = ({ className = "" }) => {
             Discover our wide range of courses that help you build a strong
             foundation in various fields.
           </span>
-          <ButtonPrimary className="px-5 py-4 sm:px-7" onClick={() => {}}>
+          <ButtonPrimary className="md:px-5 md:py-4 px-7" onClick={() => {}}>
             Visit Courses
           </ButtonPrimary>
         </div>

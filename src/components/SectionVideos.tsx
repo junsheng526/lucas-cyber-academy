@@ -39,6 +39,12 @@ const VIDEOS_DEMO: VideoType[] = [
     thumbnail:
       "https://images.pexels.com/photos/4983184/pexels-photo-4983184.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
   },
+  {
+    id: "EuDJZDaSP0Q",
+    title: "Magical Scotland - 4K Scenic Relaxation Film with Calming Music",
+    thumbnail:
+      "https://images.pexels.com/photos/2549018/pexels-photo-2549018.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+  },
 ];
 
 const SectionVideos: FC<SectionVideosProps> = ({
@@ -115,12 +121,12 @@ const SectionVideos: FC<SectionVideosProps> = ({
         🎬 The Videos
       </Heading>
 
-      <div className="flex flex-col relative sm:pr-4 sm:py-4 md:pr-6 md:py-6 xl:pr-14 xl:py-14 lg:flex-row">
+      <div className="flex flex-col relative pr-4 py-4 md:pr-6 md:py-6 xl:pr-14 xl:py-14 lg:flex-row">
         <div className="absolute -top-4 -bottom-4 -right-4 w-2/3 rounded-3xl z-0 bg-[#F0FDFA]"></div>
         <div className="flex-grow relative pb-2 sm:pb-4 lg:pb-0 lg:pr-5 xl:pr-6">
           {renderMainVideo()}
         </div>
-        <div className="flex-shrink-0 grid gap-4 grid-cols-2 sm:gap-6 lg:grid-cols-1 lg:w-40">
+        <div className="flex-shrink-0 grid gap-2 md:gap-4 grid-cols-2 lg:gap-6 lg:grid-cols-1 lg:w-40">
           {videos.map(renderSubVideo)}
         </div>
       </div>

@@ -79,9 +79,9 @@ const Footer: React.FC = () => {
 
   return (
     <>
-      <FooterNav />
+      {/* <FooterNav /> */}
 
-      <div className="text-start nc-Footer relative py-24 lg:py-28 border-t border-neutral-200 justify-center flex">
+      <div className="text-start nc-Footer relative px-10 py-24 lg:py-28 border-t border-neutral-200 justify-center flex">
         <div className="container grid grid-cols-2 gap-y-10 gap-x-5 sm:gap-x-8 md:grid-cols-4 lg:grid-cols-5 lg:gap-x-10">
           {/* Left Section - Logo and Socials */}
           <div className="grid grid-cols-4 gap-5 col-span-2 md:col-span-4 lg:col-span-1 lg:flex lg:flex-col">

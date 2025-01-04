@@ -80,8 +80,8 @@ const DEMO_CATS: TaxonomyType[] = [
 const Home: React.FC = () => {
   return (
     <Layout>
-      <div className="container relative px-28">
-        <SectionHero className="text-start pt-10 pt-16 pb-16" />
+      <div className="container relative px-8 md:px-28 space-y-24 mb-24 lg:space-y-28 lg:mb-28">
+        <SectionHero className="text-start pt-10 pt-16 md:pb-16" />
 
         <SectionSliderNewCategories categories={DEMO_CATS} className="py-16" />
 
@@ -93,7 +93,7 @@ const Home: React.FC = () => {
           <SectionGridAuthorBox />
         </div>
 
-        <SectionGridCategoryBox className="py-20" />
+        <SectionGridCategoryBox className="md:py-20" />
 
         <div className="relative py-16">
           <BackgroundSection />

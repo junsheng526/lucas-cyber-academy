@@ -88,6 +88,8 @@ const SectionSliderNewCategories: FC<SectionSliderNewCategoriesProps> = ({
     if (windowWidth < 320) {
       setNumberOfItems(1);
     } else if (windowWidth < 500) {
+      setNumberOfItems(1);
+    } else if (windowWidth < 720) {
       setNumberOfItems(itemPerRow - 3);
     } else if (windowWidth < 1024) {
       setNumberOfItems(itemPerRow - 2);
