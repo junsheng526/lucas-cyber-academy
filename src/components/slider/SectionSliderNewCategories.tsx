@@ -1,6 +1,4 @@
 import { FC, useEffect, useState } from "react";
-// import CardCategory4 from "../components/CardCategory4";
-// import CardCategory5 from "../components/CardCategory5";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { useSwipeable } from "react-swipeable";
 import { useWindowSize } from "react-use";

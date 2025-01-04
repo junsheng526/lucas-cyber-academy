@@ -1,12 +1,14 @@
 import { FC } from "react";
 import ButtonPrimary from "../../components/button/ButtonPrimary";
 import { HERO_RIGHT } from "../../assets/assets";
+import { useNavigate } from "react-router-dom";
 
 export interface SectionHeroProps {
   className?: string;
 }
 
 const SectionHero: FC<SectionHeroProps> = ({ className = "" }) => {
+  const navigate = useNavigate();
   return (
     <div className={`flex flex-col-reverse lg:flex-col relative ${className}`}>
       <div className="flex flex-col lg:flex-row lg:items-center">
@@ -18,7 +20,10 @@ const SectionHero: FC<SectionHeroProps> = ({ className = "" }) => {
             Discover our wide range of courses that help you build a strong
             foundation in various fields.
           </span>
-          <ButtonPrimary className="md:px-5 md:py-4 px-7" onClick={() => {}}>
+          <ButtonPrimary
+            className="md:px-5 md:py-4 px-7"
+            onClick={() => navigate("/courses")}
+          >
             Visit Courses
           </ButtonPrimary>
         </div>
