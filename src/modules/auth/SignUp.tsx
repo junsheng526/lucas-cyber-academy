@@ -44,6 +44,7 @@ const PageSignUp: FC<PageSignUpProps> = ({}) => {
       name: fullName,
       email: email,
       role: role,
+      profileImage: "",
     };
 
     try {

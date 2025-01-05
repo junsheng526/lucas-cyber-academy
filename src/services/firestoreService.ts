@@ -1,16 +1,27 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
 // Firestore Node References
-export type NodeRef = 
-  | "users" 
-  | "students" 
-  | "courses" 
-  | "enrollments" 
-  | "schedules" 
-  | "attendance" 
+export type NodeRef =
+  | "users"
+  | "students"
+  | "courses"
+  | "enrollments"
+  | "schedules"
+  | "attendance"
   | "payments"
   | "sessions"
+  | "user_profile";
 
 export enum Docs {
   USERS = "users",
@@ -20,7 +31,8 @@ export enum Docs {
   SCHEDULES = "schedules",
   ATTENDANCE = "attendance",
   PAYMENTS = "payments",
-  SESSION = "sessions"
+  SESSION = "sessions",
+  USER_PROFILE = "user_profile",
 }
 
 // Firestore Utilities
@@ -51,7 +63,7 @@ export const firestoreService = {
     try {
       const ref = collection(db, nodeRef);
       const snapshot = await getDocs(ref);
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
       console.error(`Error fetching documents from ${nodeRef}:`, error);
       throw error;
@@ -64,7 +76,10 @@ export const firestoreService = {
    * @param docId - Document ID
    * @returns The fetched document data
    */
-  fetchDocById: async (nodeRef: NodeRef, docId: string): Promise<any | null> => {
+  fetchDocById: async (
+    nodeRef: NodeRef,
+    docId: string
+  ): Promise<any | null> => {
     try {
       const docRef = doc(db, nodeRef, docId);
       const snapshot = await getDoc(docRef);
@@ -85,7 +100,11 @@ export const firestoreService = {
    * @param docId - Document ID
    * @param params - Data to update
    */
-  updateDoc: async (nodeRef: NodeRef, docId: string, params: any): Promise<void> => {
+  updateDoc: async (
+    nodeRef: NodeRef,
+    docId: string,
+    params: any
+  ): Promise<void> => {
     try {
       const docRef = doc(db, nodeRef, docId);
       await updateDoc(docRef, params);
@@ -130,7 +149,11 @@ export const firestoreService = {
       throw error;
     }
   },
-  listenToDoc: (nodeRef: NodeRef, docId: string, onUpdate: (data: any) => void): (() => void) => {
+  listenToDoc: (
+    nodeRef: NodeRef,
+    docId: string,
+    onUpdate: (data: any) => void
+  ): (() => void) => {
     try {
       const docRef = doc(db, nodeRef, docId);
       const unsubscribe = onSnapshot(docRef, (docSnapshot) => {
@@ -143,7 +166,10 @@ export const firestoreService = {
       });
       return unsubscribe;
     } catch (error) {
-      console.error(`Error listening to document ${docId} in ${nodeRef}:`, error);
+      console.error(
+        `Error listening to document ${docId} in ${nodeRef}:`,
+        error
+      );
       throw error;
     }
   },

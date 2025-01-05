@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -12,6 +12,8 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { tokens } from "../../../styles/theme";
+import { useAuth } from "../../../firebase/useAuth";
+import { useUser } from "../../../hooks/useUser";
 
 type ItemProps = {
   title: string;
@@ -46,7 +48,7 @@ const Item: React.FC<ItemProps> = ({
 };
 
 type SidebarProps = {
-  isSidebar: boolean; // Define the type for the `isSidebar` prop
+  isSidebar: boolean;
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({ isSidebar }) => {
@@ -54,6 +56,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSidebar }) => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(isSidebar);
   const [selected, setSelected] = useState("Dashboard");
+  const { userData } = useUser();
+
+  const profileImage = userData?.profileImage || "/assets/user.png";
 
   return (
     <Box
@@ -96,7 +101,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSidebar }) => {
                 ml="15px"
               >
                 <Typography variant="h3" color={colors.grey[100]}>
-                  ADMINIS
+                  {userData?.role.toUpperCase() || "ADMINS"}
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -105,6 +110,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSidebar }) => {
             )}
           </MenuItem>
 
+          {/* USER PROFILE */}
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
@@ -112,7 +118,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSidebar }) => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/user.png`}
+                  src={profileImage} // Dynamically use user's profile image
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
@@ -123,15 +129,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSidebar }) => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Ed Roh
+                  {userData?.fullName || "Ed Roh"} {/* Dynamic full name */}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
+                  {userData?.role || "VP Fancy Admin"} {/* Dynamic role */}
                 </Typography>
               </Box>
             </Box>
           )}
 
+          {/* SIDEBAR MENU */}
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Dashboard"
@@ -140,7 +147,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSidebar }) => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -186,7 +192,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSidebar }) => {
             </Typography>
             <Item
               title="Profile Form"
-              to="/add-user"
+              to="/edit-profile"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
