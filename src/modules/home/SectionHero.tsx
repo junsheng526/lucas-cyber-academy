@@ -1,7 +1,7 @@
 import { FC } from "react";
-import ButtonPrimary from "../../components/button/ButtonPrimary";
 import { HERO_RIGHT } from "../../assets/assets";
 import { useNavigate } from "react-router-dom";
+import ButtonPrimary from "../../components/molecules/button/ButtonPrimary";
 
 export interface SectionHeroProps {
   className?: string;

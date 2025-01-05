@@ -1,7 +1,7 @@
-import ButtonPrimary from "../components/button/ButtonPrimary";
 import { useNavigate } from "react-router-dom";
 import I404Png from "../assets/404.png";
 import Layout from "./Layout";
+import ButtonPrimary from "../components/molecules/button/ButtonPrimary";
 
 const NotFound = () => {
   const navigate = useNavigate();

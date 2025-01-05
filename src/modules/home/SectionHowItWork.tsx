@@ -3,7 +3,7 @@ import HIW1img from "../../assets/HIW1.png";
 import HIW2img from "../../assets/HIW2.png";
 import HIW3img from "../../assets/HIW3.png";
 import VectorImg from "../../assets/VectorHIW.svg";
-import Heading from "../../components/text/Heading";
+import Heading from "../../components/molecules/text/Heading";
 
 interface SectionHowItWorkProps {
   className?: string;

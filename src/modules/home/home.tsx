@@ -1,16 +1,16 @@
 import SectionHero from "./SectionHero";
 import SectionSliderNewCategories, {
   TaxonomyType,
-} from "../../components/slider/SectionSliderNewCategories";
-import SectionGridFeaturePlaces from "../../components/slider/SectionGridFeaturePlaces";
+} from "../../components/templates/SectionSliderNewCategories";
+import SectionGridFeaturePlaces from "../../components/templates/SectionGridFeaturePlaces";
 import SectionHowItWork from "./SectionHowItWork";
-import SectionGridAuthorBox from "../../components/SectionGridAuthorBox";
-import BackgroundSection from "../../components/background/BackgroundSection";
-import SectionGridCategoryBox from "../../components/SectionGridCategoryBox";
-import SectionBecomeAnAuthor from "../../components/SectionBecomeAnAuthor";
-import SectionVideos from "../../components/SectionVideos";
+import SectionGridAuthorBox from "../../components/templates/SectionGridAuthorBox";
+import BackgroundSection from "../../components/atoms/background/BackgroundSection";
+import SectionGridCategoryBox from "../../components/templates/SectionGridCategoryBox";
+import SectionBecomeAnAuthor from "../../components/templates/SectionBecomeAnAuthor";
+import SectionVideos from "../../components/templates/SectionVideos";
 import Layout from "../../layout/Layout";
-import BgGlassmorphism from "../../components/background/BgGlassmorphism";
+import BgGlassmorphism from "../../components/atoms/background/BgGlassmorphism";
 
 const DEMO_CATS: TaxonomyType[] = [
   {

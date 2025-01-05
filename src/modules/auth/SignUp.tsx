@@ -1,11 +1,11 @@
 import { FC, useState } from "react";
-import Input from "../../components/input/Input";
+import Input from "../../components/atoms/input/Input";
 import { Link } from "react-router-dom";
-import ButtonPrimary from "../../components/button/ButtonPrimary";
 import Layout from "../../layout/Layout";
 import { User } from "../../types/user";
 import { registerUser } from "../../services/userService";
-import BgGlassmorphism from "../../components/background/BgGlassmorphism";
+import BgGlassmorphism from "../../components/atoms/background/BgGlassmorphism";
+import ButtonPrimary from "../../components/molecules/button/ButtonPrimary";
 
 export interface PageSignUpProps {}
 
