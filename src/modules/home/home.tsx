@@ -9,7 +9,7 @@ import BackgroundSection from "../../components/atoms/background/BackgroundSecti
 import SectionGridCategoryBox from "../../components/templates/SectionGridCategoryBox";
 import SectionBecomeAnAuthor from "../../components/templates/SectionBecomeAnAuthor";
 import SectionVideos from "../../components/templates/SectionVideos";
-import Layout from "../../layout/Layout";
+import Layout from "../../components/templates/layout/Layout";
 import BgGlassmorphism from "../../components/atoms/background/BgGlassmorphism";
 
 const DEMO_CATS: TaxonomyType[] = [

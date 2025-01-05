@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import I404Png from "../assets/404.png";
-import Layout from "./Layout";
+import Layout from "../components/templates/layout/Layout";
 import ButtonPrimary from "../components/molecules/button/ButtonPrimary";
 
 const NotFound = () => {

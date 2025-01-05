@@ -6,7 +6,7 @@ import Home from "./modules/home/home";
 import CoursePage from "./modules/course/Course";
 import PageLogin from "./modules/auth/SignIn";
 import PageSignUp from "./modules/auth/SignUp";
-import NotFound from "./layout/not-found";
+import NotFound from "./modules/not-found";
 
 function App() {
   return (

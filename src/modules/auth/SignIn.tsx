@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import Input from "../../components/atoms/input/Input";
 import { Link, useNavigate } from "react-router-dom";
-import Layout from "../../layout/Layout";
+import Layout from "../../components/templates/layout/Layout";
 import { auth } from "../../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import BgGlassmorphism from "../../components/atoms/background/BgGlassmorphism";

@@ -1,8 +1,6 @@
 import React, { FC } from "react";
-import Navbar from "../components/organisms/Navbar";
-import Chatbot from "./chatbot";
-import Footer from "../components/organisms/footer/Footer";
-import BgGlassmorphism from "../components/atoms/background/BgGlassmorphism";
+import Navbar from "../../organisms/Navbar";
+import Footer from "../../organisms/footer/Footer";
 
 interface LayoutProps {
   children: React.ReactNode;

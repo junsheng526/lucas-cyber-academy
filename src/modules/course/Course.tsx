@@ -1,6 +1,6 @@
 import { FC } from "react";
 import SectionGridFeaturePlaces from "../../components/templates/SectionGridFeaturePlaces";
-import Layout from "../../layout/Layout";
+import Layout from "../../components/templates/layout/Layout";
 import BackgroundSection from "../../components/atoms/background/BackgroundSection";
 import SectionGridFeatureProperty from "../../components/templates/SectionGridFeatureProperty";
 import BgGlassmorphism from "../../components/atoms/background/BgGlassmorphism";

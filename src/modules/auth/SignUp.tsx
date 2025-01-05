@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import Input from "../../components/atoms/input/Input";
 import { Link } from "react-router-dom";
-import Layout from "../../layout/Layout";
+import Layout from "../../components/templates/layout/Layout";
 import { User } from "../../types/user";
 import { registerUser } from "../../services/userService";
 import BgGlassmorphism from "../../components/atoms/background/BgGlassmorphism";
