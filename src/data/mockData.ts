@@ -1,7 +1,7 @@
 import { tokens } from "../styles/theme";
-import { TeamMember } from "./model";
+import { Person } from "./model";
 
-export const mockDataTeam: TeamMember[] = [
+export const mockDataTeam: any[] = [
   {
     id: 1,
     name: "Jon Snow",
@@ -9,6 +9,7 @@ export const mockDataTeam: TeamMember[] = [
     age: 35,
     phone: "(665)121-5454",
     access: "admin",
+    profileImage: "",
   },
   {
     id: 2,

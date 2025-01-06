@@ -14,6 +14,7 @@ import { useState } from "react";
 import DashboardLayout from "./components/templates/layout/DashboardLayout";
 import { ProtectedRoute } from "./firebase/ProtectedRoute";
 import EditProfile from "./modules/admin/EditProfile";
+import ManageCourse from "./modules/admin/ManageCourse";
 
 // Define route lists
 const publicRoutes = [
@@ -43,6 +44,17 @@ const secureRoutes = [
     ) => (
       <DashboardLayout isSidebar={isSidebar} setIsSidebar={setIsSidebar}>
         <EditProfile />
+      </DashboardLayout>
+    ),
+  },
+  {
+    path: "/manage-course",
+    element: (
+      isSidebar: boolean,
+      setIsSidebar: React.Dispatch<React.SetStateAction<boolean>>
+    ) => (
+      <DashboardLayout isSidebar={isSidebar} setIsSidebar={setIsSidebar}>
+        <ManageCourse />
       </DashboardLayout>
     ),
   },

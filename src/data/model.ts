@@ -1,8 +1,48 @@
-export interface TeamMember {
-    id: number;
-    name: string;
-    age: number;
-    phone: string;
-    email: string;
-    access: "admin" | "manager" | "user"; 
+export interface Person {
+  id: string | number;
+  name: string;
+  age: number;
+  phone: string;
+  email: string;
+  access: "admin" | "lecturer" | "student" | "guest";
+  profileImage: string;
+}
+
+export interface Lecturer extends Person {
+  // TODO: Lecturer details such as certification and course in charge
+  courses: string[]; // course id
+}
+
+export interface Rating {
+  id: string | number; // course id
+  average: number;
+  count: number;
+}
+
+export interface CourseCategory {
+  id: string | number; // course id
+  name: string;
+}
+
+export interface PriceType {
+  amount: number;
+  currency: string;
+  discount?: number;
+}
+
+export interface Course {
+  id: string | number;
+  title: string;
+  description?: string;
+  featuredImage: string;
+  href: string;
+  category: CourseCategory;
+  price: PriceType;
+  duration: string;
+  lessons: number;
+  level: "Beginner" | "Intermediate" | "Advanced";
+  tags?: string[];
+  isAds: boolean | null;
+  createdAt: string;
+  modifiedAt: string;
 }
