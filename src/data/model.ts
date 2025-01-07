@@ -36,12 +36,13 @@ export interface Course {
   description?: string;
   featuredImage: string;
   href: string;
-  category: CourseCategory;
-  price: PriceType;
+  category: string;
+  price: number;
   duration: string;
   lessons: number;
   level: "Beginner" | "Intermediate" | "Advanced";
   tags?: string[];
+  galleryImgs: string[];
   isAds: boolean | null;
   createdAt: string;
   modifiedAt: string;

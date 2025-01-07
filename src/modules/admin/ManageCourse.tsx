@@ -20,23 +20,9 @@ import { GridColDef } from "@mui/x-data-grid";
 import { DataTable } from "../../components/templates/DataTable";
 import { Header } from "../../components/organisms/header/Header";
 import { Docs, firestoreService } from "../../services/firestoreService";
-
-interface Course {
-  id: string | number;
-  title: string;
-  description?: string;
-  featuredImage: string;
-  href: string;
-  category: string;
-  price: number;
-  duration: string;
-  lessons: number;
-  level: "Beginner" | "Intermediate" | "Advanced";
-  tags?: string[];
-  isAds: boolean | null;
-  createdAt: string;
-  modifiedAt: string;
-}
+import { Course } from "../../data/model";
+import { useAuth } from "../../firebase/useAuth";
+import { useFileUpload } from "../../supabase/useFileUpload";
 
 const ManageCourses = () => {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -55,11 +41,25 @@ const ManageCourses = () => {
     duration: "",
     lessons: 0,
     level: "Beginner",
+    tags: [],
+    galleryImgs: [],
     isAds: null,
-    createdAt: "",
-    modifiedAt: "",
+    createdAt: new Date().toISOString(),
+    modifiedAt: new Date().toISOString(),
   });
-  const [courseToDelete, setCourseToDelete] = useState<Course | null>(null); // For the course to delete
+  const [courseToDelete, setCourseToDelete] = useState<Course | null>(null);
+  const [featuredImageFile, setFeaturedImageFile] = useState<File | null>(null);
+  const [galleryImageFiles, setGalleryImageFiles] = useState<FileList | null>(
+    null
+  );
+  const user = useAuth();
+  const { uploading, fileUrl, uploadFiles } = useFileUpload();
+  const [currentFeaturedImage, setCurrentFeaturedImage] = useState<
+    string | null
+  >(newCourse.featuredImage || null);
+  const [currentGalleryImages, setCurrentGalleryImages] = useState<string[]>(
+    newCourse.galleryImgs || []
+  );
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 1 },
@@ -75,6 +75,7 @@ const ManageCourses = () => {
     { field: "modifiedAt", headerName: "Modified At", flex: 1.5 },
     { field: "href", headerName: "Course Link", flex: 1 },
     { field: "featuredImage", headerName: "Featured Image", flex: 2 },
+    { field: "galleryImgs", headerName: "Gallery Image", flex: 2 },
     { field: "tags", headerName: "Tags", flex: 1 },
     {
       field: "actions",
@@ -135,42 +136,6 @@ const ManageCourses = () => {
       ...prevCourse,
       isAds: value,
     }));
-  };
-
-  const handleAddCourse = async () => {
-    try {
-      const { id, ...courseData } = newCourse;
-      const newCourseId = await firestoreService.insertDoc(
-        Docs.COURSES,
-        courseData
-      );
-      setCourses((prevCourses) => [
-        ...prevCourses,
-        { id: newCourseId, ...courseData },
-      ]);
-      setOpen(false);
-      resetForm();
-    } catch (err) {
-      setError("Failed to add the course.");
-      console.error(err);
-    }
-  };
-
-  const handleUpdateCourse = async () => {
-    try {
-      const { id, ...courseData } = newCourse;
-      await firestoreService.updateDoc(Docs.COURSES, id as string, courseData);
-      setCourses((prevCourses) =>
-        prevCourses.map((course) =>
-          course.id === id ? { ...course, ...courseData } : course
-        )
-      );
-      setOpen(false);
-      resetForm();
-    } catch (err) {
-      setError("Failed to update the course.");
-      console.error(err);
-    }
   };
 
   const handleDelete = (course: Course) => {
@@ -235,14 +200,18 @@ const ManageCourses = () => {
       duration: "",
       lessons: 0,
       level: "Beginner",
+      tags: [],
+      galleryImgs: [],
       isAds: null,
-      createdAt: "",
-      modifiedAt: "",
+      createdAt: new Date().toISOString(),
+      modifiedAt: new Date().toISOString(),
     });
   };
 
   const handleEdit = (course: Course) => {
     setNewCourse(course);
+    setCurrentFeaturedImage(course.featuredImage || null); // Set the existing featured image for preview
+    setCurrentGalleryImages(course.galleryImgs || []);
     setOpen(true);
   };
 
@@ -252,6 +221,162 @@ const ManageCourses = () => {
       handleUpdateCourse();
     } else {
       handleAddCourse();
+    }
+  };
+
+  const handleFileUpload = async (
+    file: File,
+    path: string
+  ): Promise<string> => {
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+
+    // Validate file type
+    if (!allowedTypes.includes(file.type)) {
+      throw new Error("Only PNG, JPG, and JPEG files are allowed.");
+    }
+
+    // Upload the file using the uploadFiles function
+    const uploadedUrls = await uploadFiles([file], user?.uid);
+
+    // If the upload fails (uploadedUrls is null), throw an error
+    if (!uploadedUrls) {
+      throw new Error("Failed to upload the file.");
+    }
+
+    // Return the first URL since it's a single file upload
+    return uploadedUrls[0];
+  };
+
+  const handleAddCourse = async () => {
+    try {
+      // Handle Featured Image Upload
+      if (featuredImageFile) {
+        const imageUrl = await handleFileUpload(
+          featuredImageFile,
+          `courses/${featuredImageFile.name}`
+        );
+        newCourse.featuredImage = imageUrl; // Store the returned URL in newCourse
+      }
+
+      // Handle Gallery Images Upload (Multiple)
+      if (galleryImageFiles) {
+        const galleryUrls = await Promise.all(
+          Array.from(galleryImageFiles).map((file) =>
+            handleFileUpload(file, `courses/gallery/${file.name}`)
+          )
+        );
+        newCourse.galleryImgs = galleryUrls; // Store the array of URLs in newCourse
+      }
+
+      // Proceed with adding the course data to Firestore
+      const { id, ...courseData } = newCourse;
+      const newCourseId = await firestoreService.insertDoc(
+        Docs.COURSES,
+        courseData
+      );
+      setCourses((prevCourses) => [
+        ...prevCourses,
+        { id: newCourseId, ...courseData },
+      ]);
+
+      // Reset and close modal after adding
+      setOpen(false);
+      resetForm();
+    } catch (err) {
+      setError("Failed to add the course.");
+      console.error(err);
+    }
+  };
+
+  const handleUpdateCourse = async () => {
+    try {
+      // Handle Featured Image Upload if a new one is provided
+      if (featuredImageFile) {
+        const imageUrl = await handleFileUpload(
+          featuredImageFile,
+          `courses/${featuredImageFile.name}`
+        );
+        newCourse.featuredImage = imageUrl; // Set the new image URL
+      }
+
+      // Handle Gallery Images Upload if new ones are provided
+      if (galleryImageFiles) {
+        const galleryUrls = await Promise.all(
+          Array.from(galleryImageFiles).map((file) =>
+            handleFileUpload(file, `courses/gallery/${file.name}`)
+          )
+        );
+        newCourse.galleryImgs = galleryUrls; // Set the new gallery image URLs
+      }
+
+      // If no new images were uploaded, ensure the course fields reflect null or empty arrays
+      if (!featuredImageFile && !currentFeaturedImage) {
+        newCourse.featuredImage = ""; // Set featured image to null if removed
+      }
+
+      if (!galleryImageFiles && currentGalleryImages.length === 0) {
+        newCourse.galleryImgs = []; // Set gallery images to empty array if removed
+      }
+
+      // Update the course data in Firestore
+      const { id, ...courseData } = newCourse;
+      await firestoreService.updateDoc(Docs.COURSES, id as string, courseData);
+
+      setCourses((prevCourses) =>
+        prevCourses.map((course) =>
+          course.id === id ? { ...course, ...courseData } : course
+        )
+      );
+
+      // Reset and close modal after updating
+      setOpen(false);
+      resetForm();
+    } catch (err) {
+      setError("Failed to update the course.");
+      console.error(err);
+    }
+  };
+
+  const handleRemoveFeaturedImage = () => {
+    setCurrentFeaturedImage(null); // Remove the preview from UI
+    setFeaturedImageFile(null); // Clear the uploaded file state
+    setNewCourse((prevCourse) => ({
+      ...prevCourse,
+      featuredImage: "",
+    }));
+  };
+
+  const handleRemoveGalleryImage = (index: number) => {
+    const updatedGalleryImages = [...currentGalleryImages];
+    updatedGalleryImages.splice(index, 1); // Remove the image at the selected index
+    setCurrentGalleryImages(updatedGalleryImages); // Update the preview state
+    setNewCourse((prevCourse) => ({
+      ...prevCourse,
+      galleryImgs: updatedGalleryImages, // Remove the gallery image from the course
+    }));
+  };
+
+  const handleFeaturedImageChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Preview the file locally
+      const previewUrl = URL.createObjectURL(file);
+      setFeaturedImageFile(file);
+      setCurrentFeaturedImage(previewUrl); // Update state with the preview URL
+    }
+  };
+
+  // Gallery Image Handler
+  const handleGalleryImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const fileUrls = Array.from(files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setGalleryImageFiles(files);
+      setCurrentGalleryImages(fileUrls); // Update the gallery images preview
     }
   };
 
@@ -275,9 +400,10 @@ const ManageCourses = () => {
         checkboxSelection
       />
 
-      {/* Modal for creating/updating a course */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Create New Course</DialogTitle>
+        <DialogTitle>
+          {newCourse ? "Update Course" : "Create New Course"}
+        </DialogTitle>
         <DialogContent>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -290,6 +416,7 @@ const ManageCourses = () => {
                 onChange={handleChange}
               />
             </Grid>
+
             <Grid item xs={12}>
               <TextField
                 label="Description"
@@ -302,16 +429,60 @@ const ManageCourses = () => {
                 rows={4}
               />
             </Grid>
+
+            {/* Featured Image Preview */}
             <Grid item xs={12}>
-              <TextField
-                label="Featured Image URL"
-                variant="outlined"
-                fullWidth
-                name="featuredImage"
-                value={newCourse.featuredImage}
-                onChange={handleChange}
+              {currentFeaturedImage && (
+                <div>
+                  <img
+                    src={currentFeaturedImage}
+                    alt="Featured"
+                    style={{ width: "100px", height: "auto" }}
+                  />
+                  <button type="button" onClick={handleRemoveFeaturedImage}>
+                    Remove Featured Image
+                  </button>
+                </div>
+              )}
+              <input
+                accept="image/*"
+                type="file"
+                onChange={handleFeaturedImageChange} // Using handler function
               />
             </Grid>
+
+            {/* Gallery Images Preview */}
+            <Grid item xs={12}>
+              {currentGalleryImages.length > 0 && (
+                <div>
+                  {currentGalleryImages.map((imageUrl, index) => (
+                    <div
+                      key={index}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <img
+                        src={imageUrl}
+                        alt={`Gallery Image ${index + 1}`}
+                        style={{ width: "100px", height: "auto" }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveGalleryImage(index)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <input
+                accept="image/*"
+                type="file"
+                multiple
+                onChange={handleGalleryImageChange} // Using handler function
+              />
+            </Grid>
+
             <Grid item xs={12}>
               <TextField
                 label="Course Link"
@@ -322,6 +493,7 @@ const ManageCourses = () => {
                 onChange={handleChange}
               />
             </Grid>
+
             <Grid item xs={6}>
               <TextField
                 label="Category"
@@ -332,6 +504,7 @@ const ManageCourses = () => {
                 onChange={handleChange}
               />
             </Grid>
+
             <Grid item xs={6}>
               <TextField
                 label="Price"
@@ -347,6 +520,7 @@ const ManageCourses = () => {
                 }}
               />
             </Grid>
+
             <Grid item xs={6}>
               <TextField
                 label="Duration"
@@ -357,6 +531,7 @@ const ManageCourses = () => {
                 onChange={handleChange}
               />
             </Grid>
+
             <Grid item xs={6}>
               <TextField
                 label="Lessons"
@@ -368,6 +543,7 @@ const ManageCourses = () => {
                 onChange={handleChange}
               />
             </Grid>
+
             <Grid item xs={6}>
               <FormControl fullWidth>
                 <InputLabel>Level</InputLabel>
@@ -383,6 +559,7 @@ const ManageCourses = () => {
                 </Select>
               </FormControl>
             </Grid>
+
             <Grid item xs={6}>
               <FormControl fullWidth>
                 <InputLabel>Is Ads</InputLabel>
@@ -407,7 +584,7 @@ const ManageCourses = () => {
             Cancel
           </Button>
           <Button onClick={handleSubmit} color="primary">
-            Create
+            {newCourse ? "Update" : "Create"}
           </Button>
         </DialogActions>
       </Dialog>

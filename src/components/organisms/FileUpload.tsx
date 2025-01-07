@@ -4,7 +4,7 @@ import { firestoreService } from "../../services/firestoreService";
 
 const FileUpload: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
-  const { uploading, error, fileUrl, uploadFile } = useFileUpload();
+  const { uploading, error, fileUrl, uploadFiles } = useFileUpload();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files?.[0] || null;
@@ -15,7 +15,7 @@ const FileUpload: React.FC = () => {
     if (!file) return;
 
     // Upload file to Supabase and get the URL
-    const uploadedUrl = await uploadFile(file, "user123");
+    const uploadedUrl = await uploadFiles([file], "user123");
 
     if (uploadedUrl) {
       try {

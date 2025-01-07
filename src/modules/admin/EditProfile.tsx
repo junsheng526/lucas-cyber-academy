@@ -15,7 +15,7 @@ import { User } from "../../types/user";
 
 const EditProfile: React.FC = () => {
   const user = useAuth();
-  const { uploading, error, fileUrl, uploadFile } = useFileUpload();
+  const { uploading, error, fileUrl, uploadFiles } = useFileUpload();
   const [fullName, setFullName] = useState<string>("");
   const [role, setRole] = useState<string>("");
   const [profileImage, setProfileImage] = useState<string>("");
@@ -44,9 +44,9 @@ const EditProfile: React.FC = () => {
   ) => {
     const file = event.target.files?.[0];
     if (file && user?.uid) {
-      const uploadedUrl = await uploadFile(file, user.uid);
+      const uploadedUrl = await uploadFiles([file], user.uid);
       if (uploadedUrl) {
-        setProfileImage(uploadedUrl);
+        setProfileImage(uploadedUrl[0]);
       }
     }
   };

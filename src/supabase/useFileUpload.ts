@@ -16,26 +16,38 @@ export const useFileUpload = () => {
     fileUrl: null,
   });
 
-  const uploadFile = async (file: File, userId: string) => {
+  const uploadFiles = async (files: FileList | File[], userId: string) => {
     setUploadState({ uploading: true, error: null, fileUrl: null });
 
-    const result = await storageService.uploadFile(file, userId);
+    const uploadedUrls: string[] = [];
+    let errorMessage: string | null = null;
 
-    if (result.publicUrl) {
+    for (const file of Array.from(files)) {
+      const result = await storageService.uploadFile(file, userId);
+
+      if (result.publicUrl) {
+        uploadedUrls.push(result.publicUrl);
+      } else {
+        errorMessage = result.error;
+        break; // Stop if an error occurs
+      }
+    }
+
+    if (errorMessage) {
+      setUploadState({ uploading: false, error: errorMessage, fileUrl: null });
+      return null;
+    } else {
       setUploadState({
         uploading: false,
         error: null,
-        fileUrl: result.publicUrl,
+        fileUrl: uploadedUrls.join(","),
       });
-      return result.publicUrl;
-    } else {
-      setUploadState({ uploading: false, error: result.error, fileUrl: null });
-      return null;
+      return uploadedUrls;
     }
   };
 
   return {
     ...uploadState,
-    uploadFile,
+    uploadFiles,
   };
 };
