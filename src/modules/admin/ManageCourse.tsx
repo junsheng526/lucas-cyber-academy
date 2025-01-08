@@ -13,9 +13,8 @@ import {
   MenuItem,
   InputAdornment,
   SelectChangeEvent,
-  DialogContentText,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { DataTable } from "../../components/templates/DataTable";
 import { Header } from "../../components/organisms/header/Header";
@@ -23,13 +22,13 @@ import { Docs, firestoreService } from "../../services/firestoreService";
 import { Course } from "../../data/model";
 import { useAuth } from "../../firebase/useAuth";
 import { useFileUpload } from "../../supabase/useFileUpload";
+import { DeleteConfirmationDialog } from "../../components/templates/DeleteCourseForm";
+import { useCourses } from "../../hooks/useCourses";
 
 const ManageCourses = () => {
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [open, setOpen] = useState(false); // For managing the modal state
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false); // For delete confirmation
+  const { courses, loading, error, setCourses } = useCourses();
+  const [open, setOpen] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [newCourse, setNewCourse] = useState<Course>({
     id: "",
     title: "",
@@ -173,26 +172,9 @@ const ManageCourses = () => {
         setCourseToDelete(null);
       }
     } catch (err) {
-      setError("Failed to delete the course.");
       console.error(err);
     }
   };
-
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        setLoading(true);
-        const data = await firestoreService.fetchDocs(Docs.COURSES);
-        setCourses(data);
-      } catch (err) {
-        setError("Failed to load courses.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCourses();
-  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -263,23 +245,20 @@ const ManageCourses = () => {
 
   const handleAddCourse = async () => {
     try {
-      // Handle Featured Image Upload
       if (featuredImageFile) {
         const imageUrl = await handleFileUpload(featuredImageFile);
-        newCourse.featuredImage = imageUrl; // Store the returned URL in newCourse
+        newCourse.featuredImage = imageUrl;
       }
 
-      // Handle Gallery Images Upload (Multiple)
       if (galleryImageFiles) {
         const galleryUrls = await Promise.all(
           Array.from(galleryImageFiles).map((file, index) =>
             handleFileUpload(file)
           )
         );
-        newCourse.galleryImgs = galleryUrls; // Store the array of URLs in newCourse
+        newCourse.galleryImgs = galleryUrls;
       }
 
-      // Proceed with adding the course data to Firestore
       const { id, ...courseData } = newCourse;
       const newCourseId = await firestoreService.insertDoc(
         Docs.COURSES,
@@ -290,11 +269,9 @@ const ManageCourses = () => {
         { id: newCourseId, ...courseData },
       ]);
 
-      // Reset and close modal after adding
       setOpen(false);
       resetForm();
     } catch (err) {
-      setError("Failed to add the course.");
       console.error(err);
     }
   };
@@ -342,7 +319,6 @@ const ManageCourses = () => {
       setOpen(false);
       resetForm();
     } catch (err) {
-      setError("Failed to update the course.");
       console.error(err);
     }
   };
@@ -672,26 +648,11 @@ const ManageCourses = () => {
       </Dialog>
 
       {/* Delete confirmation dialog */}
-      <Dialog
+      <DeleteConfirmationDialog
         open={openDeleteDialog}
+        onDelete={handleDeleteConfirmation}
         onClose={() => setOpenDeleteDialog(false)}
-      >
-        <DialogTitle>Confirm Deletion</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Are you sure you want to delete this course? This action cannot be
-            undone.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenDeleteDialog(false)} color="secondary">
-            Cancel
-          </Button>
-          <Button onClick={handleDeleteConfirmation} color="primary">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+      />
     </Box>
   );
 };
