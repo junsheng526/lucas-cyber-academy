@@ -23,7 +23,8 @@ export const useFileUpload = () => {
     let errorMessage: string | null = null;
 
     for (const file of Array.from(files)) {
-      const result = await storageService.uploadFile(file, userId);
+      const uuid = crypto.randomUUID();
+      const result = await storageService.uploadFile(file, userId, uuid);
 
       if (result.publicUrl) {
         uploadedUrls.push(result.publicUrl);

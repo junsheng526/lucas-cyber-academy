@@ -12,9 +12,13 @@ export class SupabaseStorageService {
     this.bucket = bucketName;
   }
 
-  async uploadFile(file: File, userId: string): Promise<UploadResult> {
-    const filePath = `public/${userId}/${Date.now()}_${file.name}`;
-    const { data, error } = await supabase.storage
+  async uploadFile(
+    file: File,
+    userId: string,
+    uuid: string
+  ): Promise<UploadResult> {
+    let filePath = `public/${userId}/${uuid}`;
+    const { error } = await supabase.storage
       .from(this.bucket)
       .upload(filePath, file);
 

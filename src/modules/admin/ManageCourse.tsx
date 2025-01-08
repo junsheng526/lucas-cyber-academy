@@ -48,18 +48,16 @@ const ManageCourses = () => {
     modifiedAt: new Date().toISOString(),
   });
   const [courseToDelete, setCourseToDelete] = useState<Course | null>(null);
-  const [featuredImageFile, setFeaturedImageFile] = useState<File | null>(null);
-  const [galleryImageFiles, setGalleryImageFiles] = useState<FileList | null>(
-    null
-  );
+  const [featuredImageFile, setFeaturedImageFile] = useState<File | null>();
+  const [galleryImageFiles, setGalleryImageFiles] = useState<File[]>([]);
   const user = useAuth();
-  const { uploading, fileUrl, uploadFiles } = useFileUpload();
-  const [currentFeaturedImage, setCurrentFeaturedImage] = useState<
+  const { uploadFiles } = useFileUpload();
+  const [currentFeaturedImageUrl, setCurrentFeaturedImageUrl] = useState<
     string | null
   >(newCourse.featuredImage || null);
-  const [currentGalleryImages, setCurrentGalleryImages] = useState<string[]>(
-    newCourse.galleryImgs || []
-  );
+  const [currentGalleryImagesUrl, setCurrentGalleryImagesUrl] = useState<
+    string[]
+  >(newCourse.galleryImgs || []);
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 1 },
@@ -74,8 +72,26 @@ const ManageCourses = () => {
     { field: "createdAt", headerName: "Created At", flex: 1.5 },
     { field: "modifiedAt", headerName: "Modified At", flex: 1.5 },
     { field: "href", headerName: "Course Link", flex: 1 },
-    { field: "featuredImage", headerName: "Featured Image", flex: 2 },
-    { field: "galleryImgs", headerName: "Gallery Image", flex: 2 },
+    {
+      field: "featuredImage",
+      headerName: "Featured Image",
+      flex: 2,
+      renderCell: (params) => {
+        const fileName = params.value?.split("/").pop(); // Extract file name from the URL
+        return <span>{fileName}</span>; // Display the file name
+      },
+    },
+    {
+      field: "galleryImgs",
+      headerName: "Gallery Image",
+      flex: 2,
+      renderCell: (params) => {
+        const galleryFileNames = params.value?.map((url: string) =>
+          url.split("/").pop()
+        ); // Extract file names from the gallery image URLs
+        return galleryFileNames ? galleryFileNames.join(", ") : "";
+      },
+    },
     { field: "tags", headerName: "Tags", flex: 1 },
     {
       field: "actions",
@@ -180,12 +196,12 @@ const ManageCourses = () => {
 
   const handleClickOpen = () => {
     setOpen(true);
-    resetForm(); // Reset the form when opening the modal for a new course
+    resetForm();
   };
 
   const handleClose = () => {
     setOpen(false);
-    resetForm(); // Reset the form when closing the modal, ensuring no lingering data
+    resetForm();
   };
 
   const resetForm = () => {
@@ -210,8 +226,9 @@ const ManageCourses = () => {
 
   const handleEdit = (course: Course) => {
     setNewCourse(course);
-    setCurrentFeaturedImage(course.featuredImage || null); // Set the existing featured image for preview
-    setCurrentGalleryImages(course.galleryImgs || []);
+    // Set the existing featured image for preview
+    setCurrentFeaturedImageUrl(course.featuredImage || null);
+    setCurrentGalleryImagesUrl(course.galleryImgs || []);
     setOpen(true);
   };
 
@@ -224,10 +241,7 @@ const ManageCourses = () => {
     }
   };
 
-  const handleFileUpload = async (
-    file: File,
-    path: string
-  ): Promise<string> => {
+  const handleFileUpload = async (file: File): Promise<string> => {
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
 
     // Validate file type
@@ -251,18 +265,15 @@ const ManageCourses = () => {
     try {
       // Handle Featured Image Upload
       if (featuredImageFile) {
-        const imageUrl = await handleFileUpload(
-          featuredImageFile,
-          `courses/${featuredImageFile.name}`
-        );
+        const imageUrl = await handleFileUpload(featuredImageFile);
         newCourse.featuredImage = imageUrl; // Store the returned URL in newCourse
       }
 
       // Handle Gallery Images Upload (Multiple)
       if (galleryImageFiles) {
         const galleryUrls = await Promise.all(
-          Array.from(galleryImageFiles).map((file) =>
-            handleFileUpload(file, `courses/gallery/${file.name}`)
+          Array.from(galleryImageFiles).map((file, index) =>
+            handleFileUpload(file)
           )
         );
         newCourse.galleryImgs = galleryUrls; // Store the array of URLs in newCourse
@@ -290,37 +301,36 @@ const ManageCourses = () => {
 
   const handleUpdateCourse = async () => {
     try {
-      // Handle Featured Image Upload if a new one is provided
       if (featuredImageFile) {
-        const imageUrl = await handleFileUpload(
-          featuredImageFile,
-          `courses/${featuredImageFile.name}`
-        );
-        newCourse.featuredImage = imageUrl; // Set the new image URL
+        const imageUrl = await handleFileUpload(featuredImageFile);
+        newCourse.featuredImage = imageUrl;
       }
 
-      // Handle Gallery Images Upload if new ones are provided
       if (galleryImageFiles) {
         const galleryUrls = await Promise.all(
-          Array.from(galleryImageFiles).map((file) =>
-            handleFileUpload(file, `courses/gallery/${file.name}`)
+          Array.from(galleryImageFiles).map((file, index) =>
+            handleFileUpload(file)
           )
         );
-        newCourse.galleryImgs = galleryUrls; // Set the new gallery image URLs
+        newCourse.galleryImgs = [...galleryUrls]; // Combine with existing images
       }
 
       // If no new images were uploaded, ensure the course fields reflect null or empty arrays
-      if (!featuredImageFile && !currentFeaturedImage) {
+      if (!featuredImageFile && !currentFeaturedImageUrl) {
         newCourse.featuredImage = ""; // Set featured image to null if removed
       }
 
-      if (!galleryImageFiles && currentGalleryImages.length === 0) {
+      if (!galleryImageFiles && currentGalleryImagesUrl.length === 0) {
         newCourse.galleryImgs = []; // Set gallery images to empty array if removed
       }
 
       // Update the course data in Firestore
       const { id, ...courseData } = newCourse;
       await firestoreService.updateDoc(Docs.COURSES, id as string, courseData);
+
+      // since already upload to firebase, clear the local uploaded files state
+      // the local url
+      setGalleryImageFiles([]);
 
       setCourses((prevCourses) =>
         prevCourses.map((course) =>
@@ -338,8 +348,8 @@ const ManageCourses = () => {
   };
 
   const handleRemoveFeaturedImage = () => {
-    setCurrentFeaturedImage(null); // Remove the preview from UI
-    setFeaturedImageFile(null); // Clear the uploaded file state
+    setCurrentFeaturedImageUrl(null);
+    setFeaturedImageFile(null);
     setNewCourse((prevCourse) => ({
       ...prevCourse,
       featuredImage: "",
@@ -347,12 +357,13 @@ const ManageCourses = () => {
   };
 
   const handleRemoveGalleryImage = (index: number) => {
-    const updatedGalleryImages = [...currentGalleryImages];
-    updatedGalleryImages.splice(index, 1); // Remove the image at the selected index
-    setCurrentGalleryImages(updatedGalleryImages); // Update the preview state
+    const updatedGalleryImages = [...currentGalleryImagesUrl];
+    updatedGalleryImages.splice(index, 1);
+    // Update the preview state
+    setCurrentGalleryImagesUrl(updatedGalleryImages);
     setNewCourse((prevCourse) => ({
       ...prevCourse,
-      galleryImgs: updatedGalleryImages, // Remove the gallery image from the course
+      galleryImgs: updatedGalleryImages,
     }));
   };
 
@@ -363,8 +374,17 @@ const ManageCourses = () => {
     if (file) {
       // Preview the file locally
       const previewUrl = URL.createObjectURL(file);
-      setFeaturedImageFile(file);
-      setCurrentFeaturedImage(previewUrl); // Update state with the preview URL
+
+      // If there's already a featured image, keep the old one and add the new one
+      if (currentFeaturedImageUrl) {
+        // Combine the previous image with the new one
+        setFeaturedImageFile(file);
+      } else {
+        // Otherwise, just set the new image
+        setFeaturedImageFile(file);
+      }
+
+      setCurrentFeaturedImageUrl(previewUrl); // Update state with the preview URL
     }
   };
 
@@ -372,11 +392,25 @@ const ManageCourses = () => {
   const handleGalleryImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-      const fileUrls = Array.from(files).map((file) =>
+      const newFilesArray = Array.from(files); // Convert FileList to array
+      const totalFilesCount =
+        currentGalleryImagesUrl.length + newFilesArray.length;
+
+      if (totalFilesCount > 9) {
+        alert("You cannot upload more than 9 gallery images.");
+        return;
+      }
+
+      // Combine new gallery images with existing ones
+      const newFileUrls = newFilesArray.map((file) =>
         URL.createObjectURL(file)
       );
-      setGalleryImageFiles(files);
-      setCurrentGalleryImages(fileUrls); // Update the gallery images preview
+      setGalleryImageFiles((prevFiles) => [...prevFiles, ...newFilesArray]);
+
+      setCurrentGalleryImagesUrl((prevImages) => [
+        ...prevImages,
+        ...newFileUrls,
+      ]);
     }
   };
 
@@ -432,14 +466,33 @@ const ManageCourses = () => {
 
             {/* Featured Image Preview */}
             <Grid item xs={12}>
-              {currentFeaturedImage && (
-                <div>
+              {currentFeaturedImageUrl && (
+                <div style={{ marginBottom: "16px" }}>
                   <img
-                    src={currentFeaturedImage}
+                    src={currentFeaturedImageUrl}
                     alt="Featured"
-                    style={{ width: "100px", height: "auto" }}
+                    style={{
+                      width: "150px",
+                      height: "auto",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                      marginRight: "8px",
+                    }}
                   />
-                  <button type="button" onClick={handleRemoveFeaturedImage}>
+                  <button
+                    type="button"
+                    onClick={handleRemoveFeaturedImage}
+                    style={{
+                      backgroundColor: "#FF6347",
+                      border: "none",
+                      color: "white",
+                      padding: "8px 16px",
+                      cursor: "pointer",
+                      borderRadius: "4px",
+                      fontSize: "14px",
+                      transition: "background-color 0.3s",
+                    }}
+                  >
                     Remove Featured Image
                   </button>
                 </div>
@@ -447,27 +500,55 @@ const ManageCourses = () => {
               <input
                 accept="image/*"
                 type="file"
-                onChange={handleFeaturedImageChange} // Using handler function
+                onChange={handleFeaturedImageChange}
+                style={{ display: "block", marginTop: "8px" }}
               />
             </Grid>
 
             {/* Gallery Images Preview */}
             <Grid item xs={12}>
-              {currentGalleryImages.length > 0 && (
-                <div>
-                  {currentGalleryImages.map((imageUrl, index) => (
+              {currentGalleryImagesUrl.length > 0 && (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
+                  {currentGalleryImagesUrl.map((imageUrl, index) => (
                     <div
                       key={index}
-                      style={{ display: "flex", alignItems: "center" }}
+                      style={{
+                        position: "relative",
+                        width: "120px",
+                        height: "auto",
+                        borderRadius: "8px",
+                        overflow: "hidden",
+                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                        border: "1px solid #ddd",
+                      }}
                     >
                       <img
                         src={imageUrl}
                         alt={`Gallery Image ${index + 1}`}
-                        style={{ width: "100px", height: "auto" }}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          borderRadius: "8px",
+                        }}
                       />
                       <button
                         type="button"
                         onClick={() => handleRemoveGalleryImage(index)}
+                        style={{
+                          position: "absolute",
+                          top: "8px",
+                          right: "8px",
+                          backgroundColor: "rgba(255, 99, 71, 0.8)",
+                          border: "none",
+                          color: "white",
+                          padding: "4px 8px",
+                          cursor: "pointer",
+                          borderRadius: "4px",
+                          fontSize: "12px",
+                          opacity: "0.9",
+                          transition: "opacity 0.3s",
+                        }}
                       >
                         Remove
                       </button>
@@ -479,7 +560,8 @@ const ManageCourses = () => {
                 accept="image/*"
                 type="file"
                 multiple
-                onChange={handleGalleryImageChange} // Using handler function
+                onChange={handleGalleryImageChange}
+                style={{ display: "block", marginTop: "8px" }}
               />
             </Grid>
 
