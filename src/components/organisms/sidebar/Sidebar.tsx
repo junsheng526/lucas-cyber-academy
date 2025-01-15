@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -12,7 +12,6 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { tokens } from "../../../styles/theme";
-import { useAuth } from "../../../firebase/useAuth";
 import { useUser } from "../../../hooks/useUser";
 
 type ItemProps = {
@@ -155,8 +154,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSidebar }) => {
               Data
             </Typography>
             <Item
-              title="Manage Team"
-              to="/team"
+              title="Manage Courses"
+              to="/manage-course"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

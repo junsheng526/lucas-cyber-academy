@@ -5,35 +5,54 @@ import Badge from "../../molecules/Badge";
 import StartRating from "../../molecules/StartRating";
 import BtnLikeIcon from "../../molecules/button/BtnLikeIcon";
 import SaleOffBadge from "../../molecules/SaleOffBadge";
+import { Course } from "../../../data/model";
 
 export interface StayCard2Props {
   className?: string;
-  data?: any;
+  data?: Course;
   size?: "default" | "small";
 }
 
-const DEMO_DATA = DEMO_STAY_LISTINGS[0];
+// const DEMO_DATA = DEMO_STAY_LISTINGS[0];
 
 const StayCard2: FC<StayCard2Props> = ({
   size = "default",
   className = "",
-  data = DEMO_DATA,
+  data,
 }) => {
+  // const {
+  //   galleryImgs,
+  //   listingCategory,
+  //   address,
+  //   title,
+  //   bedrooms,
+  //   href,
+  //   like,
+  //   saleOff,
+  //   isAds,
+  //   price,
+  //   reviewStart,
+  //   reviewCount,
+  //   id,
+  // } = data;
+
   const {
-    galleryImgs,
-    listingCategory,
-    address,
-    title,
-    bedrooms,
-    href,
-    like,
-    saleOff,
-    isAds,
-    price,
-    reviewStart,
-    reviewCount,
     id,
-  } = data;
+    galleryImgs = ["placeholder.jpg"],
+    title = "Untitled Course",
+    href = "#",
+    category,
+    price = 0,
+    duration,
+    lessons,
+    level,
+    tags = [],
+    isAds = false,
+    featuredImage,
+    saleOff,
+  } = data || {};
+
+  // TODO: address should query based on lecturer
 
   // Renders the image slider with badges and like button
   const renderSliderGallery = () => {
@@ -47,7 +66,7 @@ const StayCard2: FC<StayCard2Props> = ({
           href={href}
         />
         <BtnLikeIcon
-          isLiked={like}
+          isLiked={false}
           className="absolute right-3 top-3 p-1 rounded-full shadow-md"
         />
         {saleOff && (
@@ -67,7 +86,7 @@ const StayCard2: FC<StayCard2Props> = ({
       >
         <div className="text-start space-y-2">
           <span className="text-sm text-gray-500">
-            {listingCategory.name} · {bedrooms} weeks
+            {category} · {duration} weeks
           </span>
           <div className="flex items-center space-x-2">
             {isAds && <Badge name="ADS" color="green" />}
@@ -101,7 +120,7 @@ const StayCard2: FC<StayCard2Props> = ({
                 />
               </svg>
             )}
-            <span>{address}</span>
+            <span>{"123, Jalan Kuching"}</span>
           </div>
         </div>
 
@@ -109,14 +128,14 @@ const StayCard2: FC<StayCard2Props> = ({
 
         <div className="flex justify-between items-center">
           <span className="text-lg font-semibold">
-            {price}
+            {`$${price}`}
             {size === "default" && (
               <span className="text-sm text-gray-500 font-normal">/hour</span>
             )}
           </span>
-          {!!reviewStart && (
+          {/* {!!reviewStart && (
             <StartRating reviewCount={reviewCount} point={reviewStart} />
-          )}
+          )} */}
         </div>
       </div>
     );

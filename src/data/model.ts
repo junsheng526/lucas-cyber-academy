@@ -46,4 +46,5 @@ export interface Course {
   isAds: boolean | null;
   createdAt: string;
   modifiedAt: string;
+  saleOff?: string;
 }

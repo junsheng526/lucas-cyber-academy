@@ -14,7 +14,7 @@ import {
   InputAdornment,
   SelectChangeEvent,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { DataTable } from "../../components/templates/DataTable";
 import { Header } from "../../components/organisms/header/Header";
@@ -24,8 +24,22 @@ import { useAuth } from "../../firebase/useAuth";
 import { useFileUpload } from "../../supabase/useFileUpload";
 import { DeleteConfirmationDialog } from "../../components/templates/DeleteCourseForm";
 import { useCourses } from "../../hooks/useCourses";
+import { coursesListing } from "../../data/jsons/coursesListing";
 
 const ManageCourses = () => {
+  // useEffect(() => {
+  //   let data = coursesListing;
+  //   const insert = async () => {
+  //     for (let i = 0; i < data.length; i++) {
+  //       console.log("Inserting data -> " + data[i].title);
+  //       const newCourseId = await firestoreService.insertDoc(
+  //         Docs.COURSES,
+  //         data[i]
+  //       );
+  //     }
+  //   };
+  //   insert();
+  // }, []);
   const { courses, loading, error, setCourses } = useCourses();
   const [open, setOpen] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);

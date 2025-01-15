@@ -7,45 +7,46 @@ import Pagination from "../molecules/button/Pagination";
 import HeaderList from "../organisms/header/HeaderList";
 import StayCard2 from "../organisms/card/StayCard2";
 import ButtonPrimary from "../molecules/button/ButtonPrimary";
+import { Course } from "../../data/model";
 
 const DEMO_DATA: StayDataType[] = DEMO_STAY_LISTINGS.filter((_, i) => i < 8);
 
 export interface SectionGridFeaturePropertyProps {
-  stayListings?: StayDataType[];
+  courseListings?: Course[];
   gridClass?: string;
   heading?: string;
   subHeading?: string;
   headingIsCenter?: boolean;
   tabs?: string[];
   pagination?: boolean;
+  itemsPerPage?: number; // Number of items per page
 }
 
 const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
-  stayListings = DEMO_DATA,
+  courseListings = [],
   gridClass = "",
-  heading = "Featured places to stay",
-  subHeading = "Popular places to stay that we recommend for you",
+  heading = "Featured Courses",
+  subHeading = "Popular courses we recommend for you",
   headingIsCenter,
-  tabs = ["New York", "Tokyo", "Paris", "London"],
+  tabs = ["Development", "Design", "Marketing", "Photography"],
   pagination = false,
+  itemsPerPage = 8, // Default items per page
 }) => {
-  const [view, setView] = useState<"list" | "card">("card"); // State to handle the current view
+  const [view, setView] = useState<"list" | "card">("card");
+  const [currentPage, setCurrentPage] = useState(1); // State to track the current page
 
-  const renderCard = (stay: any) => {
-    let CardName = PropertyCardH;
-    switch (view) {
-      case "list":
-        CardName = PropertyCardH;
-        break;
-      case "card":
-        CardName = StayCard2;
-        break;
+  const totalItems = courseListings.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-      default:
-        CardName = StayCard2;
-    }
+  // Get the items for the current page
+  const currentItems = courseListings.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
-    return <CardName key={stay.id} data={stay} />;
+  const renderCard = (course: Course) => {
+    const CardComponent = view === "list" ? PropertyCardH : StayCard2;
+    return <CardComponent key={course.id} data={course} />;
   };
 
   return (
@@ -56,7 +57,7 @@ const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
           subHeading={subHeading}
           tabs={tabs}
           heading={heading}
-          totalItems={stayListings.length}
+          totalItems={totalItems}
           onViewChange={setView} // Pass view change handler
         />
       ) : (
@@ -71,16 +72,20 @@ const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
       <div
         className={`${
           view === "list"
-            ? "text-start grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-1 xl:grid-cols-2" // List view (vertical stacking)
-            : "grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" // Card view (grid layout)
+            ? "text-start grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-1 xl:grid-cols-2"
+            : "grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         } ${gridClass}`}
       >
-        {stayListings.map(renderCard)}
+        {currentItems.map(renderCard)}
       </div>
 
-      {pagination ? (
+      {pagination && totalPages > 1 ? (
         <div className="flex mt-16 justify-center items-center">
-          <Pagination />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(newPage) => setCurrentPage(newPage)} // Update current page
+          />
         </div>
       ) : (
         <div className="flex mt-16 justify-center items-center">
