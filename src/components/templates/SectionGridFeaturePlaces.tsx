@@ -82,7 +82,7 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
             {stayListings.map((stay) => renderCard(stay))}
           </div>
           <div className="flex mt-16 justify-center items-center">
-            <Pagination />
+            {/* <Pagination /> */}
           </div>
         </div>
       )}

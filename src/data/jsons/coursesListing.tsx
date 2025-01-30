@@ -1,6 +1,5 @@
 export const coursesListing = [
   {
-    id: 1,
     title: "Introduction to Python",
     description: "Learn the basics of Python programming.",
     featuredImage:
@@ -22,7 +21,6 @@ export const coursesListing = [
     saleOff: "10%",
   },
   {
-    id: 2,
     title: "Web Development Bootcamp",
     description: "Comprehensive course covering HTML, CSS, and JavaScript.",
     featuredImage:
@@ -44,7 +42,6 @@ export const coursesListing = [
     saleOff: "15%",
   },
   {
-    id: 3,
     title: "Data Science with R",
     description: "Master data analysis using R programming.",
     featuredImage:
@@ -65,7 +62,6 @@ export const coursesListing = [
     modifiedAt: "2024-12-25",
   },
   {
-    id: 4,
     title: "Advanced Java Programming",
     description: "Deep dive into Java for experienced programmers.",
     featuredImage:
@@ -86,7 +82,6 @@ export const coursesListing = [
     modifiedAt: "2024-12-01",
   },
   {
-    id: 5,
     title: "UI/UX Design Principles",
     description:
       "Learn the foundations of user interface and user experience design.",
@@ -108,7 +103,6 @@ export const coursesListing = [
     modifiedAt: "2024-09-30",
   },
   {
-    id: 6,
     title: "Cybersecurity Basics",
     description:
       "Protect your systems and data with essential cybersecurity skills.",
@@ -130,7 +124,6 @@ export const coursesListing = [
     modifiedAt: "2024-08-20",
   },
   {
-    id: 7,
     title: "Machine Learning with Python",
     description: "Build predictive models using Python's powerful libraries.",
     featuredImage:
@@ -152,7 +145,6 @@ export const coursesListing = [
     saleOff: "20%",
   },
   {
-    id: 8,
     title: "Digital Marketing Essentials",
     description:
       "Boost your marketing skills with practical digital strategies.",
@@ -174,7 +166,6 @@ export const coursesListing = [
     modifiedAt: "2024-06-25",
   },
   {
-    id: 9,
     title: "Cloud Computing Fundamentals",
     description: "Understand the basics of cloud services and platforms.",
     featuredImage:
@@ -196,7 +187,6 @@ export const coursesListing = [
     saleOff: "10%",
   },
   {
-    id: 10,
     title: "Creative Writing Masterclass",
     description: "Enhance your storytelling and writing skills.",
     featuredImage:
