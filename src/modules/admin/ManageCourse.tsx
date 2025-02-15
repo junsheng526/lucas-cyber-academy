@@ -1,20 +1,5 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  InputAdornment,
-  SelectChangeEvent,
-} from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Button, SelectChangeEvent } from "@mui/material";
+import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { DataTable } from "../../components/templates/DataTable";
 import { Header } from "../../components/organisms/header/Header";
@@ -24,6 +9,7 @@ import { useAuth } from "../../firebase/useAuth";
 import { useFileUpload } from "../../supabase/useFileUpload";
 import { DeleteConfirmationDialog } from "../../components/templates/DeleteCourseForm";
 import { useCourses } from "../../hooks/useCourses";
+import CourseDialog from "./CourseDialog";
 
 const ManageCourses = () => {
   const { courses, loading, error, setCourses } = useCourses();
@@ -379,206 +365,18 @@ const ManageCourses = () => {
         checkboxSelection
       />
 
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>
-          {newCourse ? "Update Course" : "Create New Course"}
-        </DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                label="Course Title"
-                variant="outlined"
-                fullWidth
-                name="title"
-                value={newCourse.title}
-                onChange={handleChange}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                label="Description"
-                variant="outlined"
-                fullWidth
-                name="description"
-                value={newCourse.description}
-                onChange={handleChange}
-                multiline
-                rows={4}
-              />
-            </Grid>
-
-            {/* Featured Image Preview */}
-            <Grid item xs={12}>
-              {currentFeaturedImageUrl && (
-                <div style={{ marginBottom: "16px" }}>
-                  <img
-                    src={currentFeaturedImageUrl}
-                    alt="Featured"
-                    style={{
-                      width: "150px",
-                      height: "auto",
-                      borderRadius: "8px",
-                      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                      marginRight: "8px",
-                    }}
-                  />
-                </div>
-              )}
-              <input
-                accept="image/*"
-                type="file"
-                onChange={handleFeaturedImageChange}
-                style={{ display: "block", marginTop: "8px" }}
-              />
-            </Grid>
-
-            {/* Gallery Images Preview */}
-            <Grid item xs={12}>
-              {currentGalleryImagesUrl.length > 0 && (
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
-                  {currentGalleryImagesUrl.map((imageUrl, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        position: "relative",
-                        width: "120px",
-                        height: "auto",
-                        borderRadius: "8px",
-                        overflow: "hidden",
-                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                        border: "1px solid #ddd",
-                      }}
-                    >
-                      <img
-                        src={imageUrl}
-                        alt={`Gallery Image ${index + 1}`}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                          borderRadius: "8px",
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-              <input
-                accept="image/*"
-                type="file"
-                multiple
-                onChange={handleGalleryImageChange}
-                style={{ display: "block", marginTop: "8px" }}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                label="Course Link"
-                variant="outlined"
-                fullWidth
-                name="href"
-                value={newCourse.href}
-                onChange={handleChange}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                label="Category"
-                variant="outlined"
-                fullWidth
-                name="category"
-                value={newCourse.category}
-                onChange={handleChange}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                label="Price"
-                variant="outlined"
-                fullWidth
-                name="price"
-                value={newCourse.price}
-                onChange={handleChange}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">$</InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                label="Duration"
-                variant="outlined"
-                fullWidth
-                name="duration"
-                value={newCourse.duration}
-                onChange={handleChange}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                label="Lessons"
-                variant="outlined"
-                fullWidth
-                name="lessons"
-                type="number"
-                value={newCourse.lessons}
-                onChange={handleChange}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormControl fullWidth>
-                <InputLabel>Level</InputLabel>
-                <Select
-                  name="level"
-                  value={newCourse.level}
-                  onChange={handleLevelChange}
-                  label="Level"
-                >
-                  <MenuItem value="Beginner">Beginner</MenuItem>
-                  <MenuItem value="Intermediate">Intermediate</MenuItem>
-                  <MenuItem value="Advanced">Advanced</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormControl fullWidth>
-                <InputLabel>Is Ads</InputLabel>
-                <Select
-                  name="isAds"
-                  value={
-                    newCourse.isAds !== null ? String(newCourse.isAds) : ""
-                  }
-                  onChange={handleIsAdsChange}
-                  label="Is Ads"
-                >
-                  <MenuItem value="true">Yes</MenuItem>
-                  <MenuItem value="false">No</MenuItem>
-                  <MenuItem value="">None</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="secondary">
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit} color="primary">
-            {newCourse ? "Update" : "Create"}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <CourseDialog
+        open={open}
+        newCourse={newCourse}
+        currentFeaturedImageUrl={currentFeaturedImageUrl}
+        currentGalleryImagesUrl={currentGalleryImagesUrl}
+        onClose={handleClose}
+        onSubmit={handleSubmit}
+        onFeaturedImageChange={handleFeaturedImageChange}
+        onGalleryImageChange={handleGalleryImageChange}
+        handleLevelChange={handleLevelChange}
+        handleIsAdsChange={handleIsAdsChange}
+      />
 
       {/* Delete confirmation dialog */}
       <DeleteConfirmationDialog

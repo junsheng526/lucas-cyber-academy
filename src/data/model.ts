@@ -4,13 +4,13 @@ export interface Person {
   age: number;
   phone: string;
   email: string;
-  access: "admin" | "lecturer" | "student" | "guest";
+  access: string;
   profileImage: string;
 }
 
 export interface Lecturer extends Person {
   // TODO: Lecturer details such as certification and course in charge
-  courses: string[]; // course id
+  assignedCourses: string[];
 }
 
 export interface Rating {

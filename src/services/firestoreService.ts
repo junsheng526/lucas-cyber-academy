@@ -21,7 +21,8 @@ export type NodeRef =
   | "attendance"
   | "payments"
   | "sessions"
-  | "user_profile";
+  | "user_profile"
+  | "lecturer";
 
 export enum Docs {
   USERS = "users",
@@ -33,6 +34,7 @@ export enum Docs {
   PAYMENTS = "payments",
   SESSION = "sessions",
   USER_PROFILE = "user_profile",
+  LECTURERS = "lecturer",
 }
 
 // Firestore Utilities
