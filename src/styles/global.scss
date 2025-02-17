@@ -15,3 +15,7 @@
 .nc-box-has-hover {
   @apply bg-white rounded-3xl border border-neutral-200 border-opacity-70 hover:bg-neutral-50 hover:shadow-lg hover:border-transparent transition-shadow;
 }
+
+.listingSection__wrap {
+  @apply w-full flex flex-col sm:rounded-2xl border-b sm:border-t sm:border-l sm:border-r border-neutral-200 space-y-6 sm:space-y-8 pb-10 px-0 sm:p-4 xl:p-8;
+}

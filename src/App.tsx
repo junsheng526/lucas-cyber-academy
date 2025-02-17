@@ -16,6 +16,7 @@ import { ProtectedRoute } from "./firebase/ProtectedRoute";
 import EditProfile from "./modules/admin/EditProfile";
 import ManageCourse from "./modules/admin/ManageCourse";
 import ManageLecturers from "./modules/admin/ManageLecturers";
+import CourseDetailsPage from "./modules/course/CourseDetailsPage";
 
 // Define route lists
 const publicRoutes = [
@@ -23,6 +24,7 @@ const publicRoutes = [
   { path: "/courses", element: <CoursePage /> },
   { path: "/login", element: <PageLogin /> },
   { path: "/register", element: <PageSignUp /> },
+  { path: "/courses-details", element: <CourseDetailsPage /> },
 ];
 
 const secureRoutes = [
