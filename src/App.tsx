@@ -24,7 +24,7 @@ const publicRoutes = [
   { path: "/courses", element: <CoursePage /> },
   { path: "/login", element: <PageLogin /> },
   { path: "/register", element: <PageSignUp /> },
-  { path: "/courses-details", element: <CourseDetailsPage /> },
+  { path: "/courses/:id", element: <CourseDetailsPage /> },
 ];
 
 const secureRoutes = [

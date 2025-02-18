@@ -20,6 +20,7 @@ import { useCourses } from "../../hooks/useCourses";
 import { useLecturers } from "../../hooks/useLecturers";
 import { Lecturer } from "../../data/model";
 import { Close } from "@mui/icons-material";
+import { Docs, firestoreService } from "../../services/firestoreService";
 
 const ManageLecturers = () => {
   const {
@@ -64,7 +65,7 @@ const ManageLecturers = () => {
                 {course?.title || "Unknown"}
               </Typography>
             );
-          }) || "None"}
+          }) || ""}
         </Box>
       ),
     },
@@ -89,12 +90,53 @@ const ManageLecturers = () => {
     if (!selectedLecturer || !selectedCourse) return;
 
     try {
+      // Fetch the course document
+      const courseDoc = await firestoreService.fetchDocById(
+        Docs.COURSES,
+        selectedCourse
+      );
+
+      if (!courseDoc) {
+        alert("Course not found");
+        return;
+      }
+
+      // Check if the course is already assigned to a lecturer
+      const existingLecturerId = courseDoc.lecturerId;
+
+      if (existingLecturerId) {
+        alert("This course is already assigned to another lecturer.");
+        return;
+      }
+
+      // Proceed with assigning the course to the lecturer
       await assignCourseToLecturer(
         selectedLecturer.id.toString(),
         selectedCourse
       );
+
+      // Update the lecturer's assignedCourses in the local state
+      const updatedLecturers = [...lecturers];
+      const lecturerIndex = updatedLecturers.findIndex(
+        (lecturer) => lecturer.id === selectedLecturer.id
+      );
+
+      if (lecturerIndex !== -1) {
+        const lecturer = updatedLecturers[lecturerIndex];
+        lecturer.assignedCourses = [
+          ...(lecturer.assignedCourses || []),
+          selectedCourse,
+        ];
+        updatedLecturers[lecturerIndex] = lecturer;
+      }
+
+      // Update the lecturers state to reflect the new assignment
+      setLecturers(updatedLecturers);
+
+      // Reset selected course and close the dialog
       setSelectedCourse("");
       setOpenAssignDialog(false);
+      window.location.reload();
     } catch (err) {
       console.error("Error assigning course:", err);
     }
@@ -110,6 +152,7 @@ const ManageLecturers = () => {
 
     try {
       await removeCourseFromLecturer(selectedLecturer.id.toString(), courseId);
+      window.location.reload();
     } catch (err) {
       console.error("Error removing course:", err);
     }
@@ -172,11 +215,13 @@ const ManageLecturers = () => {
               value={selectedCourse}
               onChange={(e) => setSelectedCourse(e.target.value)}
             >
-              {courses.map((course) => (
-                <MenuItem key={course.id} value={course.id}>
-                  {course.title}
-                </MenuItem>
-              ))}
+              {courses
+                .filter((course) => !course.lecturerId)
+                .map((course) => (
+                  <MenuItem key={course.id} value={course.id}>
+                    {course.title}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
         </DialogContent>

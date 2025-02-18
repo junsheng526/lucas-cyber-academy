@@ -1,26 +1,27 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { Amenities_demos } from "./constant";
 import ButtonClose from "../../components/molecules/button/ButtonClose";
 
 // Define props type for CourseCategoryListing
 interface CourseCategoryListingProps {
-  isOpenModalAmenities: boolean;
-  setIsOpenModalAmenities: (isOpen: boolean) => void;
+  isOpenModalSyllabus: boolean;
+  setIsOpenModalSyllabus: (isOpen: boolean) => void;
+  syllabus: string[]; // Pass syllabus as an array of strings
 }
 
 export const CourseCategoryListing: React.FC<CourseCategoryListingProps> = ({
-  isOpenModalAmenities,
-  setIsOpenModalAmenities,
+  isOpenModalSyllabus,
+  setIsOpenModalSyllabus,
+  syllabus,
 }) => {
-  const closeModalAmenities = () => setIsOpenModalAmenities(false);
+  const closeModalSyllabus = () => setIsOpenModalSyllabus(false);
 
   return (
-    <Transition appear show={isOpenModalAmenities} as={Fragment}>
+    <Transition appear show={isOpenModalSyllabus} as={Fragment}>
       <Dialog
         as="div"
         className="fixed inset-0 z-50 overflow-y-auto"
-        onClose={closeModalAmenities}
+        onClose={closeModalSyllabus}
       >
         {/* Background Overlay (Replaces Dialog.Overlay) */}
         <div
@@ -49,24 +50,22 @@ export const CourseCategoryListing: React.FC<CourseCategoryListingProps> = ({
               <div className="inline-flex pb-2 flex-col w-full text-left align-middle transition-all transform overflow-hidden rounded-2xl bg-white shadow-xl h-full">
                 <div className="relative flex-shrink-0 px-6 py-4 border-b border-neutral-200 text-center">
                   <h3 className="text-lg font-medium leading-6 text-gray-900">
-                    Amenities
+                    Course Syllabus
                   </h3>
                   <span className="absolute left-3 top-3">
-                    <ButtonClose onClick={closeModalAmenities} />
+                    <ButtonClose onClick={closeModalSyllabus} />
                   </span>
                 </div>
 
-                {/* Amenities List */}
+                {/* Syllabus List */}
                 <div className="px-8 overflow-auto text-neutral-700 divide-y divide-neutral-200">
-                  {Amenities_demos.map((item) => (
+                  {syllabus.map((topic, index) => (
                     <div
-                      key={item.name}
+                      key={index}
                       className="flex items-center py-2.5 sm:py-4 lg:py-5 space-x-5 lg:space-x-8"
                     >
-                      <i
-                        className={`text-4xl text-neutral-6000 las ${item.icon}`}
-                      ></i>
-                      <span>{item.name}</span>
+                      <i className="text-4xl text-neutral-6000 las la-book"></i>
+                      <span>{topic}</span>
                     </div>
                   ))}
                 </div>

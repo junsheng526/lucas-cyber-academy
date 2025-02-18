@@ -8,6 +8,7 @@ import HeaderList from "../organisms/header/HeaderList";
 import StayCard2 from "../organisms/card/StayCard2";
 import ButtonPrimary from "../molecules/button/ButtonPrimary";
 import { Course } from "../../data/model";
+import { Link, useNavigate } from "react-router-dom";
 
 const DEMO_DATA: StayDataType[] = DEMO_STAY_LISTINGS.filter((_, i) => i < 8);
 
@@ -44,9 +45,24 @@ const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
     currentPage * itemsPerPage
   );
 
+  const navigate = useNavigate();
+
+  const handleCardClick = (courseId: string) => {
+    navigate(`/courses/${courseId}`);
+  };
+
   const renderCard = (course: Course) => {
     const CardComponent = view === "list" ? PropertyCardH : StayCard2;
-    return <CardComponent key={course.id} data={course} />;
+
+    return (
+      <Link
+        to={`/courses/${course.id}`}
+        key={course.id}
+        className="cursor-pointer"
+      >
+        <CardComponent data={course} />
+      </Link>
+    );
   };
 
   return (

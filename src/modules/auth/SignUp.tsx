@@ -40,11 +40,12 @@ const PageSignUp: FC<PageSignUpProps> = ({}) => {
       return;
     }
 
-    const userObj: User = {
+    const userObj = {
       name: fullName,
       email: email,
       role: role,
       profileImage: "",
+      password: password,
     };
 
     try {
