@@ -13,6 +13,8 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { tokens } from "../../../styles/theme";
 import { useUser } from "../../../hooks/useUser";
+import { DEFAULT_AVATAR } from "../../../modules/course/constant";
+import Avatar from "../../molecules/Avatar";
 
 type ItemProps = {
   title: string;
@@ -57,7 +59,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSidebar }) => {
   const [selected, setSelected] = useState("Dashboard");
   const { userData } = useUser();
 
-  const profileImage = userData?.profileImage || "/assets/user.png";
+  const profileImage = userData?.profileImage || DEFAULT_AVATAR;
 
   return (
     <Box
@@ -113,12 +115,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSidebar }) => {
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
-                <img
-                  alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src={profileImage} // Dynamically use user's profile image
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
+                <Avatar
+                  hasChecked
+                  hasCheckedClass="w-6 h-6 -top-0.5 right-0.5"
+                  sizeClass="h-[100px] w-[100px]"
+                  radius="rounded-full"
+                  imgUrl={profileImage}
                 />
               </Box>
               <Box textAlign="center">
