@@ -1,6 +1,8 @@
 import { FC } from "react";
 import { Course } from "../../data/model"; // Import Course type
 import StartRating from "../../components/molecules/StartRating";
+import Avatar from "../../components/molecules/Avatar";
+import { DEFAULT_AVATAR } from "./constant";
 
 interface CourseDetailsSectionProps {
   course: Course;
@@ -18,14 +20,14 @@ export const CourseDetailsSection: FC<CourseDetailsSectionProps> = ({
         </span>
 
         {/* Like & Save Buttons */}
-        <div className="flex space-x-3">
+        {/* <div className="flex space-x-3">
           <button className="text-neutral-500 hover:text-neutral-800">
             <i className="las la-heart text-2xl"></i>
           </button>
           <button className="text-neutral-500 hover:text-neutral-800">
             <i className="las la-bookmark text-2xl"></i>
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* COURSE TITLE */}
@@ -41,12 +43,12 @@ export const CourseDetailsSection: FC<CourseDetailsSectionProps> = ({
       {/* INSTRUCTOR INFO */}
       <div className="flex items-center">
         <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
-          <img
-            src={
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh57rkabrdm5EpSAmQluN-zsZeHL8BpaJVPQ&s"
-            }
-            alt={"Instructor"}
-            className="h-full w-full object-cover rounded-full"
+          <Avatar
+            hasChecked
+            hasCheckedClass="w-4 h-4 -top-0.5 right-0.5"
+            sizeClass="h-full w-full"
+            radius="rounded-full"
+            imgUrl={DEFAULT_AVATAR}
           />
         </div>
         <span className="ml-2.5 text-neutral-500">

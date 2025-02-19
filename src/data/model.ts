@@ -1,5 +1,5 @@
 export interface Person {
-  id: string | number;
+  id: string;
   name: string;
   age: number;
   phone: string;
@@ -14,13 +14,13 @@ export interface Lecturer extends Person {
 }
 
 export interface Rating {
-  id: string | number; // course id
+  id: string; // course id
   average: number;
   count: number;
 }
 
 export interface CourseCategory {
-  id: string | number; // course id
+  id: string; // course id
   name: string;
 }
 
@@ -31,7 +31,7 @@ export interface PriceType {
 }
 
 export interface Course {
-  id: string | number;
+  id: string;
   title: string;
   description?: string;
   featuredImage: string;

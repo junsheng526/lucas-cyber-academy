@@ -17,6 +17,8 @@ import EditProfile from "./modules/admin/EditProfile";
 import ManageCourse from "./modules/admin/ManageCourse";
 import ManageLecturers from "./modules/admin/ManageLecturers";
 import CourseDetailsPage from "./modules/course/CourseDetailsPage";
+import ManageEnrollments from "./modules/lecturer/ManageEnrollments";
+import ManageSchedule from "./modules/lecturer/ManageSchedule";
 
 // Define route lists
 const publicRoutes = [
@@ -69,6 +71,28 @@ const secureRoutes = [
     ) => (
       <DashboardLayout isSidebar={isSidebar} setIsSidebar={setIsSidebar}>
         <ManageLecturers />
+      </DashboardLayout>
+    ),
+  },
+  {
+    path: "/manage-enrollments",
+    element: (
+      isSidebar: boolean,
+      setIsSidebar: React.Dispatch<React.SetStateAction<boolean>>
+    ) => (
+      <DashboardLayout isSidebar={isSidebar} setIsSidebar={setIsSidebar}>
+        <ManageEnrollments />
+      </DashboardLayout>
+    ),
+  },
+  {
+    path: "/manage-schedule",
+    element: (
+      isSidebar: boolean,
+      setIsSidebar: React.Dispatch<React.SetStateAction<boolean>>
+    ) => (
+      <DashboardLayout isSidebar={isSidebar} setIsSidebar={setIsSidebar}>
+        <ManageSchedule />
       </DashboardLayout>
     ),
   },

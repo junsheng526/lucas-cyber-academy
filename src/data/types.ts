@@ -7,7 +7,7 @@ export interface CustomLink {
 
 //  ##########  PostDataType ######## //
 export interface TaxonomyType {
-  id: string | number;
+  id: string;
   name: string;
   href: string;
   count?: number;
@@ -19,7 +19,7 @@ export interface TaxonomyType {
 }
 
 export interface AuthorType {
-  id: string | number;
+  id: string;
   firstName: string;
   lastName: string;
   displayName: string;
@@ -34,7 +34,7 @@ export interface AuthorType {
 }
 
 export interface PostDataType {
-  id: string | number;
+  id: string;
   author: AuthorType;
   date: string;
   href: string;
@@ -60,7 +60,7 @@ export type TwMainColor =
 
 //
 export interface StayDataType {
-  id: string | number;
+  id: string;
   author: AuthorType;
   date: string;
   href: string;
@@ -88,7 +88,7 @@ export interface StayDataType {
 
 //
 export interface ExperiencesDataType {
-  id: string | number;
+  id: string;
   author: AuthorType;
   date: string;
   href: string;
@@ -114,7 +114,7 @@ export interface ExperiencesDataType {
 
 //
 export interface CarDataType {
-  id: string | number;
+  id: string;
   author: AuthorType;
   date: string;
   href: string;

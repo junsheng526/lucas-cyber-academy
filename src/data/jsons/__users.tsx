@@ -1,6 +1,6 @@
 export const users = [
   {
-    id: 1,
+    id: "1",
     firstName: "Alric",
     lastName: "Truelock",
     displayName: "Truelock Alric",
@@ -15,7 +15,7 @@ export const users = [
     jobName: "Author Job",
   },
   {
-    id: 2,
+    id: "2",
     firstName: "Chariot",
     lastName: "Birrell",
     displayName: "Birrell Chariot",
@@ -30,7 +30,7 @@ export const users = [
       "https://images.pexels.com/photos/5799379/pexels-photo-5799379.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   },
   {
-    id: 3,
+    id: "3",
     firstName: "Nathanil",
     lastName: "Foulcher",
     displayName: "Foulcher Nathanil",
@@ -45,7 +45,7 @@ export const users = [
       "https://images.pexels.com/photos/1001990/pexels-photo-1001990.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   },
   {
-    id: 4,
+    id: "4",
     firstName: "Agnes",
     lastName: "Falconar",
     displayName: "Falconar Agnes",
@@ -60,7 +60,7 @@ export const users = [
       "https://images.pexels.com/photos/2394446/pexels-photo-2394446.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   },
   {
-    id: 5,
+    id: "5",
     firstName: "Vita",
     lastName: "Tousy",
     displayName: "Tousy Vita",
@@ -75,7 +75,7 @@ export const users = [
       "https://images.pexels.com/photos/3082150/pexels-photo-3082150.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   },
   {
-    id: 6,
+    id: "6",
     firstName: "Donna",
     lastName: "Friar",
     displayName: "Friar Donna",
@@ -90,7 +90,7 @@ export const users = [
       "https://images.pexels.com/photos/5333590/pexels-photo-5333590.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   },
   {
-    id: 7,
+    id: "7",
     firstName: "Sergei",
     lastName: "Royal",
     displayName: "Royal Sergei",
@@ -105,7 +105,7 @@ export const users = [
       "https://images.pexels.com/photos/4492596/pexels-photo-4492596.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   },
   {
-    id: 8,
+    id: "8",
     firstName: "Claudetta",
     lastName: "Sleite",
     displayName: "Sleite Claudetta",
@@ -120,7 +120,7 @@ export const users = [
       "https://images.pexels.com/photos/5083491/pexels-photo-5083491.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   },
   {
-    id: 9,
+    id: "9",
     firstName: "Vern",
     lastName: "Pillifant",
     displayName: "Pillifant Vern",
@@ -135,7 +135,7 @@ export const users = [
       "https://images.pexels.com/photos/3965509/pexels-photo-3965509.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   },
   {
-    id: 10,
+    id: "10",
     firstName: "Mimi",
     lastName: "Fones",
     displayName: "Fones Mimi",

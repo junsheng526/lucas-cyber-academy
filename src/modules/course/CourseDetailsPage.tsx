@@ -140,7 +140,9 @@ const CourseDetailsPage: FC<CourseDetailsProps> = () => {
                     }
                   />
                   <CourseCategorySection category={category} />
-                  {/* <LecturerInfoSection lecturer={course.lecturer} /> */}
+                  <LecturerInfoSection
+                    lecturerId={course.lecturerId ? course.lecturerId : null}
+                  />
                 </div>
 
                 {/* SIDEBAR */}

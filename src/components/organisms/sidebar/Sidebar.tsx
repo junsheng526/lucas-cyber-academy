@@ -168,6 +168,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ isSidebar }) => {
               setSelected={setSelected}
             />
 
+            <Item
+              title="Manage Enrollments"
+              to="/manage-enrollments"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title="Manage Schedule"
+              to="/manage-schedule"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
             <Typography
               variant="h6"
               color={colors.grey[300]}

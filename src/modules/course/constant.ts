@@ -58,3 +58,6 @@ export const Amenities_demos = [
   { name: "la-hot-tub", icon: "la-hot-tub" },
   { name: "la-infinity", icon: "la-infinity" },
 ];
+
+export const DEFAULT_AVATAR =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh57rkabrdm5EpSAmQluN-zsZeHL8BpaJVPQ&s";

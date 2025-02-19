@@ -1,6 +1,6 @@
 export const taxonomies = [
   {
-    id: 1,
+    id: "1",
     name: "Garden",
     href: "/",
     thumbnail:
@@ -9,7 +9,7 @@ export const taxonomies = [
     color: "indigo",
   },
   {
-    id: 2,
+    id: "2",
     name: "Jewelry",
     href: "/",
     thumbnail:
@@ -18,7 +18,7 @@ export const taxonomies = [
     color: "red",
   },
   {
-    id: 3,
+    id: "3",
     name: "Industrial",
     href: "/",
     thumbnail:
@@ -27,7 +27,7 @@ export const taxonomies = [
     color: "yellow",
   },
   {
-    id: 4,
+    id: "4",
     name: "Tools",
     href: "/",
     thumbnail:
@@ -36,7 +36,7 @@ export const taxonomies = [
     color: "pink",
   },
   {
-    id: 5,
+    id: "5",
     name: "Automotive",
     href: "/",
     thumbnail:
@@ -45,7 +45,7 @@ export const taxonomies = [
     color: "pink",
   },
   {
-    id: 6,
+    id: "6",
     name: "Toys",
     href: "/",
     thumbnail:
@@ -54,7 +54,7 @@ export const taxonomies = [
     color: "blue",
   },
   {
-    id: 7,
+    id: "7",
     name: "Outdoors",
     href: "/",
     thumbnail:
@@ -63,7 +63,7 @@ export const taxonomies = [
     color: "gray",
   },
   {
-    id: 8,
+    id: "8",
     name: "Health",
     href: "/",
     thumbnail:
@@ -72,7 +72,7 @@ export const taxonomies = [
     color: "purple",
   },
   {
-    id: 9,
+    id: "9",
     name: "Electronics",
     href: "/",
     thumbnail:
@@ -81,7 +81,7 @@ export const taxonomies = [
     color: "red",
   },
   {
-    id: 10,
+    id: "10",
     name: "Industrial",
     href: "/",
     thumbnail: "x",
@@ -89,7 +89,7 @@ export const taxonomies = [
     color: "blue",
   },
   {
-    id: 11,
+    id: "11",
     name: "Health",
     href: "/",
     thumbnail: "x",
@@ -97,7 +97,7 @@ export const taxonomies = [
     color: "indigo",
   },
   {
-    id: 12,
+    id: "12",
     name: "Toys",
     href: "/",
     thumbnail: "x",
@@ -105,14 +105,14 @@ export const taxonomies = [
     color: "indigo",
   },
   {
-    id: 13,
+    id: "13",
     name: "Sports",
     href: "/",
     thumbnail: "x",
     color: "green",
   },
   {
-    id: 14,
+    id: "14",
     name: "Automotive",
     href: "/",
     thumbnail: "x",
@@ -120,7 +120,7 @@ export const taxonomies = [
     color: "green",
   },
   {
-    id: 15,
+    id: "15",
     name: "Computers",
     href: "/",
     thumbnail: "x",
@@ -128,7 +128,7 @@ export const taxonomies = [
     color: "blue",
   },
   {
-    id: 16,
+    id: "16",
     name: "Design",
     href: "/",
     thumbnail: "x",
@@ -136,7 +136,7 @@ export const taxonomies = [
     color: "indigo",
   },
   {
-    id: 17,
+    id: "17",
     name: "Beauty",
     href: "/",
     thumbnail: "x",
@@ -144,7 +144,7 @@ export const taxonomies = [
     color: "red",
   },
   {
-    id: 18,
+    id: "18",
     name: "Books",
     href: "/",
     thumbnail: "x",
@@ -152,7 +152,7 @@ export const taxonomies = [
     color: "pink",
   },
   {
-    id: 19,
+    id: "19",
     name: "life Style",
     href: "/",
     thumbnail: "x",
@@ -161,7 +161,7 @@ export const taxonomies = [
   },
 
   {
-    id: 20,
+    id: "20",
     name: "Graphic Design",
     href: "/",
     thumbnail: "x",

@@ -1,6 +1,8 @@
 import ButtonPrimary from "../../components/molecules/button/ButtonPrimary";
 import StartRating from "../../components/molecules/StartRating";
 import { Course } from "../../data/model"; // Import Course type
+import { useAuth } from "../../firebase/useAuth";
+import useEnrollments from "../../hooks/useEnrollments";
 
 interface CourseDetailsSidebarProps {
   course: Course;
@@ -12,6 +14,9 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
   // Extract number from "10 weeks", fallback to 4 weeks if invalid
   const weeks = parseInt(course.duration) || 4;
   const totalPrice = course.price * weeks;
+
+  const user = useAuth();
+  const { enrollStudent } = useEnrollments(user?.uid);
 
   return (
     <div className="listingSectionSidebar__wrap shadow-xl p-6 rounded-2xl bg-white">
@@ -46,7 +51,10 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
       </div>
 
       {/* ENROLL BUTTON */}
-      <ButtonPrimary className="w-full py-3 bg-blue-600 text-white rounded-xl text-lg font-semibold hover:bg-blue-700 transition duration-200">
+      <ButtonPrimary
+        onClick={() => enrollStudent(course.id, course.lecturerId)}
+        className="w-full py-3 bg-blue-600 text-white rounded-xl text-lg font-semibold hover:bg-blue-700 transition duration-200"
+      >
         Enroll Now
       </ButtonPrimary>
     </div>

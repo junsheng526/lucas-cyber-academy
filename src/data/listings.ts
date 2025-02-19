@@ -45,7 +45,7 @@ const carsImgs = [
 const DEMO_STAY_LISTINGS = stayListing.map((post, index): StayDataType => {
   //  ##########  GET CATEGORY BY CAT ID ######## //
   const category = DEMO_STAY_CATEGORIES.filter(
-    (taxonomy) => taxonomy.id === post.listingCategoryId
+    (taxonomy) => taxonomy.id === post.listingCategoryId.toString()
   )[0];
 
   return {
@@ -53,7 +53,9 @@ const DEMO_STAY_LISTINGS = stayListing.map((post, index): StayDataType => {
     id: `stayListing_${index}_`,
     saleOff: !index ? "-20% today" : post.saleOff,
     isAds: !index ? true : post.isAds,
-    author: DEMO_AUTHORS.filter((user) => user.id === post.authorId)[0],
+    author: DEMO_AUTHORS.filter(
+      (user) => user.id === post.authorId.toString()
+    )[0],
     listingCategory: category,
     href: post.href,
   };
@@ -63,7 +65,7 @@ const DEMO_EXPERIENCES_LISTINGS = experiencesListing.map(
   (post, index): ExperiencesDataType => {
     //  ##########  GET CATEGORY BY CAT ID ######## //
     const category = DEMO_EXPERIENCES_CATEGORIES.filter(
-      (taxonomy) => taxonomy.id === post.listingCategoryId
+      (taxonomy) => taxonomy.id === post.listingCategoryId.toString()
     )[0];
 
     return {
@@ -71,7 +73,9 @@ const DEMO_EXPERIENCES_LISTINGS = experiencesListing.map(
       id: `experiencesListing_${index}_`,
       saleOff: !index ? "-20% today" : post.saleOff,
       isAds: !index ? true : post.isAds,
-      author: DEMO_AUTHORS.filter((user) => user.id === post.authorId)[0],
+      author: DEMO_AUTHORS.filter(
+        (user) => user.id === post.authorId.toString()
+      )[0],
       listingCategory: category,
       href: post.href,
     };
@@ -81,7 +85,7 @@ const DEMO_EXPERIENCES_LISTINGS = experiencesListing.map(
 const DEMO_CAR_LISTINGS = carsListing.map((post, index): CarDataType => {
   //  ##########  GET CATEGORY BY CAT ID ######## //
   const category = DEMO_EXPERIENCES_CATEGORIES.filter(
-    (taxonomy) => taxonomy.id === post.listingCategoryId
+    (taxonomy) => taxonomy.id === post.listingCategoryId.toString()
   )[0];
 
   return {
@@ -89,7 +93,9 @@ const DEMO_CAR_LISTINGS = carsListing.map((post, index): CarDataType => {
     id: `carsListing_${index}_`,
     saleOff: !index ? "-20% today" : post.saleOff,
     isAds: !index ? true : post.isAds,
-    author: DEMO_AUTHORS.filter((user) => user.id === post.authorId)[0],
+    author: DEMO_AUTHORS.filter(
+      (user) => user.id === post.authorId.toString()
+    )[0],
     listingCategory: category,
     featuredImage: carsImgs[index],
     href: post.href,
