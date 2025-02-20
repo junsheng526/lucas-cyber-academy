@@ -3,7 +3,7 @@ import { firestoreService } from "../services/firestoreService";
 import { useAuth } from "../firebase/useAuth";
 
 interface User {
-  fullName: string;
+  name: string;
   email: string;
   role: string;
   profileImage: string;

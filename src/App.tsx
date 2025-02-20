@@ -2,101 +2,16 @@ import "./App.css";
 import "./index.css";
 import "./styles/global.scss";
 import { Route, Routes } from "react-router-dom";
-import Home from "./modules/home/home";
-import CoursePage from "./modules/course/Course";
-import PageLogin from "./modules/auth/SignIn";
-import PageSignUp from "./modules/auth/SignUp";
-import NotFound from "./modules/not-found";
-import Dashboard from "./modules/admin/Dashboard";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./styles/theme";
 import { useState } from "react";
-import DashboardLayout from "./components/templates/layout/DashboardLayout";
-import { ProtectedRoute } from "./firebase/ProtectedRoute";
-import EditProfile from "./modules/admin/EditProfile";
-import ManageCourse from "./modules/admin/ManageCourse";
-import ManageLecturers from "./modules/admin/ManageLecturers";
-import CourseDetailsPage from "./modules/course/CourseDetailsPage";
-import ManageEnrollments from "./modules/lecturer/ManageEnrollments";
-import ManageSchedule from "./modules/lecturer/ManageSchedule";
+import NotFound from "./routes/NotFound";
+import { publicRoutes } from "./routes/PublicRoutes";
+import { adminRoutes } from "./routes/AdminRoutes";
+import { lecturerRoutes } from "./routes/LecturerRoutes";
+import { studentRoutes } from "./routes/StudentRoutes";
 
-// Define route lists
-const publicRoutes = [
-  { path: "/", element: <Home /> },
-  { path: "/courses", element: <CoursePage /> },
-  { path: "/login", element: <PageLogin /> },
-  { path: "/register", element: <PageSignUp /> },
-  { path: "/courses/:id", element: <CourseDetailsPage /> },
-];
-
-const secureRoutes = [
-  {
-    path: "/dashboard",
-    element: (
-      isSidebar: boolean,
-      setIsSidebar: React.Dispatch<React.SetStateAction<boolean>>
-    ) => (
-      <DashboardLayout isSidebar={isSidebar} setIsSidebar={setIsSidebar}>
-        <Dashboard />
-      </DashboardLayout>
-    ),
-  },
-  {
-    path: "/edit-profile",
-    element: (
-      isSidebar: boolean,
-      setIsSidebar: React.Dispatch<React.SetStateAction<boolean>>
-    ) => (
-      <DashboardLayout isSidebar={isSidebar} setIsSidebar={setIsSidebar}>
-        <EditProfile />
-      </DashboardLayout>
-    ),
-  },
-  {
-    path: "/manage-course",
-    element: (
-      isSidebar: boolean,
-      setIsSidebar: React.Dispatch<React.SetStateAction<boolean>>
-    ) => (
-      <DashboardLayout isSidebar={isSidebar} setIsSidebar={setIsSidebar}>
-        <ManageCourse />
-      </DashboardLayout>
-    ),
-  },
-  {
-    path: "/manage-lecturers",
-    element: (
-      isSidebar: boolean,
-      setIsSidebar: React.Dispatch<React.SetStateAction<boolean>>
-    ) => (
-      <DashboardLayout isSidebar={isSidebar} setIsSidebar={setIsSidebar}>
-        <ManageLecturers />
-      </DashboardLayout>
-    ),
-  },
-  {
-    path: "/manage-enrollments",
-    element: (
-      isSidebar: boolean,
-      setIsSidebar: React.Dispatch<React.SetStateAction<boolean>>
-    ) => (
-      <DashboardLayout isSidebar={isSidebar} setIsSidebar={setIsSidebar}>
-        <ManageEnrollments />
-      </DashboardLayout>
-    ),
-  },
-  {
-    path: "/manage-schedule",
-    element: (
-      isSidebar: boolean,
-      setIsSidebar: React.Dispatch<React.SetStateAction<boolean>>
-    ) => (
-      <DashboardLayout isSidebar={isSidebar} setIsSidebar={setIsSidebar}>
-        <ManageSchedule />
-      </DashboardLayout>
-    ),
-  },
-];
+const secureRoutes = [...adminRoutes, ...lecturerRoutes, ...studentRoutes];
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -113,15 +28,11 @@ function App() {
           ))}
 
           {/* Map secure routes with ProtectedRoute */}
-          {secureRoutes.map((route) => (
+          {secureRoutes.map(({ path, element }) => (
             <Route
-              key={route.path}
-              path={route.path}
-              element={
-                <ProtectedRoute
-                  element={route.element(isSidebar, setIsSidebar)}
-                />
-              }
+              key={path}
+              path={path}
+              element={element(isSidebar, setIsSidebar)}
             />
           ))}
 
