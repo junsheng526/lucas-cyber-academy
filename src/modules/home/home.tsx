@@ -11,10 +11,6 @@ import SectionBecomeAnAuthor from "../../components/templates/SectionBecomeAnAut
 import SectionVideos from "../../components/templates/SectionVideos";
 import Layout from "../../components/templates/layout/Layout";
 import BgGlassmorphism from "../../components/atoms/background/BgGlassmorphism";
-import { useEffect, useRef } from "react";
-import { coursesListing } from "../../data/jsons/coursesListing";
-import { Docs, firestoreService } from "../../services/firestoreService";
-import { uploadLecturersToFirestore } from "../../utils/dummy";
 
 const DEMO_CATS: TaxonomyType[] = [
   {
@@ -83,22 +79,6 @@ const DEMO_CATS: TaxonomyType[] = [
 ];
 
 const Home: React.FC = () => {
-  // const hasInserted = useRef(false); // Track whether insert has run
-
-  // useEffect(() => {
-  //   if (hasInserted.current) return; // Prevent second execution
-  //   hasInserted.current = true;
-
-  //   // let data = coursesListing;
-  //   // const insert = async () => {
-  //   //   for (let i = 0; i < data.length; i++) {
-  //   //     console.log(i + ". Inserting data -> " + data[i].title);
-  //   //     await firestoreService.insertDoc(Docs.COURSES, data[i]);
-  //   //   }
-  //   // };
-  //   // insert();
-  //   // uploadLecturersToFirestore();
-  // }, []);
   return (
     <Layout>
       <BgGlassmorphism />

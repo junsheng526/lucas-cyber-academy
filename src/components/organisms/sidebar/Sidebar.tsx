@@ -94,6 +94,18 @@ const menuItems = {
       to: "/edit-profile",
       icon: <PersonOutlinedIcon />,
     },
+    {
+      key: "viewSchedule",
+      title: "View Schedule",
+      to: "/view-schedule",
+      icon: <PersonOutlinedIcon />,
+    },
+    {
+      key: "manageGrayscale",
+      title: "Manage Grayscale",
+      to: "/manage-grayscale",
+      icon: <PersonOutlinedIcon />,
+    },
   ],
 };
 
@@ -103,7 +115,9 @@ export const Sidebar: React.FC<{ isSidebar: boolean }> = ({ isSidebar }) => {
   const [isCollapsed, setIsCollapsed] = useState(isSidebar);
   const [selected, setSelected] = useState("Dashboard");
   const { userData } = useUser();
-  const grayscaleConfig = useGrayscale(); // Get grayscale settings
+  const grayscaleConfig: any = useGrayscale();
+
+  console.log("Check grayscale config -> " + JSON.stringify(grayscaleConfig));
 
   const role: UserRole =
     (userData?.role?.toLowerCase() as UserRole) || "student";
@@ -174,27 +188,20 @@ export const Sidebar: React.FC<{ isSidebar: boolean }> = ({ isSidebar }) => {
 
           {/* Sidebar Menu */}
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            {filteredMenuItems.map((item) => {
-              const isDisabled = grayscaleConfig[item.key] ?? false;
-              return (
+            {filteredMenuItems
+              // .filter((item) => !grayscaleConfig[item.key])
+              .map((item) => (
                 <MenuItem
                   key={item.to}
                   active={selected === item.title}
-                  onClick={() => !isDisabled && setSelected(item.title)}
+                  onClick={() => setSelected(item.title)}
                   icon={item.icon}
-                  style={{
-                    color: isDisabled ? "gray" : colors.grey[100],
-                    filter: isDisabled
-                      ? "grayscale(100%) opacity(0.5)"
-                      : "none",
-                    pointerEvents: isDisabled ? "none" : "auto", // Prevents clicking on disabled items
-                  }}
+                  style={{ color: colors.grey[100] }}
                 >
                   <Typography>{item.title}</Typography>
-                  <Link to={isDisabled ? "#" : item.to} />
+                  <Link to={item.to} />
                 </MenuItem>
-              );
-            })}
+              ))}
           </Box>
         </Menu>
       </ProSidebar>

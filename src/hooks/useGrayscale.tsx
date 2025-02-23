@@ -1,14 +1,5 @@
 import { useState, useEffect } from "react";
-
-// Dummy grayscale settings (replace with API call in future)
-const dummyGrayscaleConfig = {
-  dashboard: true,
-  manageCourses: false,
-  manageLecturers: true,
-  manageEnrollments: true,
-  manageSchedule: false,
-  editProfile: true,
-};
+import { firestoreService, Docs } from "../services/firestoreService";
 
 export const useGrayscale = () => {
   const [grayscaleConfig, setGrayscaleConfig] = useState<{
@@ -16,11 +7,32 @@ export const useGrayscale = () => {
   }>({});
 
   useEffect(() => {
-    // Simulating a fetch call
-    setTimeout(() => {
-      setGrayscaleConfig(dummyGrayscaleConfig);
-    }, 500);
+    fetchGrayscaleConfig();
   }, []);
 
-  return grayscaleConfig;
+  const fetchGrayscaleConfig = async () => {
+    try {
+      const config = await firestoreService.fetchDocs(Docs.GRAYSCALE);
+      if (config.length > 0) {
+        setGrayscaleConfig(config[0].settings || {});
+      }
+    } catch (error) {
+      console.error("Error fetching grayscale settings:", error);
+    }
+  };
+
+  const updateGrayscaleConfig = async (newConfig: {
+    [key: string]: boolean;
+  }) => {
+    try {
+      await firestoreService.updateDoc(Docs.GRAYSCALE, "6WnrX6rUuwUzOBkwLX1J", {
+        settings: newConfig,
+      });
+      setGrayscaleConfig(newConfig);
+    } catch (error) {
+      console.error("Error updating grayscale settings:", error);
+    }
+  };
+
+  return { grayscaleConfig, updateGrayscaleConfig };
 };

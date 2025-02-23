@@ -23,7 +23,8 @@ export type NodeRef =
   | "sessions"
   | "user_profile"
   | "lecturer"
-  | "course_schedules";
+  | "course_schedules"
+  | "grayscale";
 
 export enum Docs {
   USERS = "users",
@@ -37,6 +38,7 @@ export enum Docs {
   USER_PROFILE = "user_profile",
   LECTURERS = "lecturer",
   COURSE_SCHEDULES = "course_schedules",
+  GRAYSCALE = "grayscale",
 }
 
 // Firestore Utilities
