@@ -54,15 +54,7 @@ const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
   const renderCard = (course: Course) => {
     const CardComponent = view === "list" ? PropertyCardH : StayCard2;
 
-    return (
-      <Link
-        to={`/courses/${course.id}`}
-        key={course.id}
-        className="cursor-pointer"
-      >
-        <CardComponent data={course} />
-      </Link>
-    );
+    return <CardComponent data={course} />;
   };
 
   return (

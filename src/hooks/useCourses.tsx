@@ -13,7 +13,7 @@ export const useCourses = () => {
         setLoading(true);
         const data = await firestoreService.fetchDocs(Docs.COURSES);
         setCourses(data);
-        console.log("Re-rendering");
+        console.log("Courses fetched -> " + JSON.stringify(data));
       } catch (err) {
         setError("Failed to load courses.");
         console.error(err);

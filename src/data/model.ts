@@ -47,6 +47,7 @@ export interface Course {
   createdAt: string;
   modifiedAt: string;
   saleOff?: string;
-
   lecturerId?: string;
+  maxSeats: number;
+  currentEnrollments: number;
 }

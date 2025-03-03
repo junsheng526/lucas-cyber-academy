@@ -1,8 +1,9 @@
-import { FC } from "react";
-import { Course } from "../../data/model"; // Import Course type
+import { FC, useEffect, useState } from "react";
+import { Course, Lecturer } from "../../data/model"; // Import Course type
 import StartRating from "../../components/molecules/StartRating";
 import Avatar from "../../components/molecules/Avatar";
 import { DEFAULT_AVATAR } from "./constant";
+import { Docs, firestoreService } from "../../services/firestoreService";
 
 interface CourseDetailsSectionProps {
   course: Course;
@@ -11,6 +12,28 @@ interface CourseDetailsSectionProps {
 export const CourseDetailsSection: FC<CourseDetailsSectionProps> = ({
   course,
 }) => {
+  const [lecturer, setLecturer] = useState<Lecturer | null>(null);
+
+  // Fetch lecturer info when component mounts
+  useEffect(() => {
+    const fetchLecturer = async () => {
+      if (!course.lecturerId) return;
+
+      try {
+        const userDoc = await firestoreService.fetchDocById(
+          Docs.USERS,
+          course.lecturerId
+        );
+        if (userDoc) {
+          setLecturer(userDoc);
+        }
+      } catch (error) {
+        console.error("Error fetching lecturer:", error);
+      }
+    };
+
+    fetchLecturer();
+  }, [course.lecturerId]);
   return (
     <div className="listingSection__wrap space-y-6">
       {/* CATEGORY BADGE */}
@@ -48,12 +71,16 @@ export const CourseDetailsSection: FC<CourseDetailsSectionProps> = ({
             hasCheckedClass="w-4 h-4 -top-0.5 right-0.5"
             sizeClass="h-full w-full"
             radius="rounded-full"
-            imgUrl={DEFAULT_AVATAR}
+            imgUrl={
+              lecturer?.profileImage ? lecturer?.profileImage : DEFAULT_AVATAR
+            }
           />
         </div>
         <span className="ml-2.5 text-neutral-500">
           Taught by{" "}
-          <span className="text-neutral-900 font-medium">{"Jackson Wang"}</span>
+          <span className="text-neutral-900 font-medium">
+            {lecturer?.name ? lecturer?.name : "Jackson Wang"}
+          </span>
         </span>
       </div>
 
@@ -64,7 +91,11 @@ export const CourseDetailsSection: FC<CourseDetailsSectionProps> = ({
       <div className="flex items-center justify-between xl:justify-start space-x-8 xl:space-x-12 text-sm text-neutral-700">
         <div className="flex items-center space-x-3">
           <i className="las la-user text-2xl"></i>
-          <span>{"20"} students</span>
+          <span>{course.maxSeats || 30} max seats</span>
+        </div>
+        <div className="flex items-center space-x-3">
+          <i className="las la-user text-2xl"></i>
+          <span>{course.currentEnrollments || 0} students enrolled</span>
         </div>
         <div className="flex items-center space-x-3">
           <i className="las la-clock text-2xl"></i>

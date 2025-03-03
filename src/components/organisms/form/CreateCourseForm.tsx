@@ -34,6 +34,8 @@ const CreateCourseForm = ({
     isAds: false,
     createdAt: new Date().toISOString(),
     modifiedAt: new Date().toISOString(),
+    maxSeat: 30,
+    currentEnrollments: 0,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

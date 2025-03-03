@@ -85,13 +85,13 @@ const CourseDetailsPage: FC<CourseDetailsProps> = () => {
                   >
                     <img
                       className="object-cover rounded-md sm:rounded-xl w-full h-full"
-                      src={course.featuredImage || PHOTOS[0]}
+                      src={course.featuredImage}
                       alt={course.title}
                     />
                     <div className="absolute inset-0 bg-neutral-900 bg-opacity-20 opacity-0 hover:opacity-100 transition-opacity"></div>
                   </div>
 
-                  {PHOTOS.slice(1, 5).map((item, index) => (
+                  {course.galleryImgs.slice(1, 5).map((item, index) => (
                     <div
                       key={index}
                       className={`relative rounded-md sm:rounded-xl overflow-hidden ${
@@ -118,7 +118,7 @@ const CourseDetailsPage: FC<CourseDetailsProps> = () => {
                     </div>
                   ))}
 
-                  <button
+                  {/* <button
                     className="absolute hidden md:flex md:items-center md:justify-center left-3 bottom-3 px-4 py-2 rounded-xl bg-neutral-100 text-neutral-500 hover:bg-neutral-200 z-10"
                     onClick={handleOpenModalImageGallery}
                   >
@@ -126,7 +126,7 @@ const CourseDetailsPage: FC<CourseDetailsProps> = () => {
                     <span className="ml-2 text-neutral-800 text-sm font-medium">
                       Show all photos
                     </span>
-                  </button>
+                  </button> */}
                 </div>
               </header>
 

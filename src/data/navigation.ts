@@ -197,13 +197,6 @@ export const NAVIGATION_DEMO: NavItemType[] = [
   {
     id: ncNanoId(),
     href: "/",
-    name: "Blog",
-    type: "dropdown",
-    children: [],
-  },
-  {
-    id: ncNanoId(),
-    href: "/",
     name: "About Us",
     type: "dropdown",
     children: templatesChildrenMenus,

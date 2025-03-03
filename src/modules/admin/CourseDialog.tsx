@@ -22,6 +22,7 @@ type CourseDialogProps = {
   currentGalleryImagesUrl: string[];
   onClose: () => void;
   onSubmit: (course: Course) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFeaturedImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onGalleryImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleLevelChange: (
@@ -37,6 +38,7 @@ const CourseDialog: React.FC<CourseDialogProps> = ({
   currentGalleryImagesUrl,
   onClose,
   onSubmit,
+  handleChange,
   onFeaturedImageChange,
   onGalleryImageChange,
   handleLevelChange,
@@ -56,9 +58,7 @@ const CourseDialog: React.FC<CourseDialogProps> = ({
               fullWidth
               name="title"
               value={newCourse.title}
-              onChange={(e) =>
-                onSubmit({ ...newCourse, title: e.target.value })
-              }
+              onChange={handleChange}
             />
           </Grid>
 
@@ -69,11 +69,22 @@ const CourseDialog: React.FC<CourseDialogProps> = ({
               fullWidth
               name="description"
               value={newCourse.description}
-              onChange={(e) =>
-                onSubmit({ ...newCourse, description: e.target.value })
-              }
+              onChange={handleChange}
               multiline
               rows={4}
+            />
+          </Grid>
+
+          {/* Seats Management */}
+          <Grid item xs={12}>
+            <TextField
+              label="Max Seats"
+              variant="outlined"
+              fullWidth
+              name="maxSeats"
+              type="number"
+              value={newCourse.maxSeats || 0}
+              onChange={handleChange}
             />
           </Grid>
 
@@ -150,7 +161,7 @@ const CourseDialog: React.FC<CourseDialogProps> = ({
               fullWidth
               name="href"
               value={newCourse.href}
-              onChange={(e) => onSubmit({ ...newCourse, href: e.target.value })}
+              onChange={handleChange}
             />
           </Grid>
 
@@ -161,9 +172,7 @@ const CourseDialog: React.FC<CourseDialogProps> = ({
               fullWidth
               name="category"
               value={newCourse.category}
-              onChange={(e) =>
-                onSubmit({ ...newCourse, category: e.target.value })
-              }
+              onChange={handleChange}
             />
           </Grid>
 
@@ -174,9 +183,7 @@ const CourseDialog: React.FC<CourseDialogProps> = ({
               fullWidth
               name="price"
               value={newCourse.price}
-              onChange={(e) =>
-                onSubmit({ ...newCourse, price: parseFloat(e.target.value) })
-              }
+              onChange={handleChange}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">$</InputAdornment>
@@ -192,9 +199,7 @@ const CourseDialog: React.FC<CourseDialogProps> = ({
               fullWidth
               name="duration"
               value={newCourse.duration}
-              onChange={(e) =>
-                onSubmit({ ...newCourse, duration: e.target.value })
-              }
+              onChange={handleChange}
             />
           </Grid>
 
@@ -206,9 +211,7 @@ const CourseDialog: React.FC<CourseDialogProps> = ({
               name="lessons"
               type="number"
               value={newCourse.lessons}
-              onChange={(e) =>
-                onSubmit({ ...newCourse, lessons: parseInt(e.target.value) })
-              }
+              onChange={handleChange}
             />
           </Grid>
 

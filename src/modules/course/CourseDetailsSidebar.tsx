@@ -52,10 +52,24 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
 
       {/* ENROLL BUTTON */}
       <ButtonPrimary
-        onClick={() => enrollStudent(course.id, course.lecturerId)}
-        className="w-full py-3 bg-blue-600 text-white rounded-xl text-lg font-semibold hover:bg-blue-700 transition duration-200"
+        onClick={() =>
+          enrollStudent(
+            course.id,
+            course.lecturerId,
+            course.currentEnrollments || 0,
+            course.maxSeats || 30
+          )
+        }
+        className={`w-full py-3 rounded-xl text-lg font-semibold transition duration-200 ${
+          course.currentEnrollments >= course.maxSeats
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-600 text-white hover:bg-blue-700"
+        }`}
+        disabled={course.currentEnrollments >= course.maxSeats}
       >
-        Enroll Now
+        {course.currentEnrollments >= course.maxSeats
+          ? "Course Full"
+          : "Enroll Now"}
       </ButtonPrimary>
     </div>
   );

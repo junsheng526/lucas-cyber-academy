@@ -31,6 +31,8 @@ const ManageCourses = () => {
     isAds: null,
     createdAt: new Date().toISOString(),
     modifiedAt: new Date().toISOString(),
+    maxSeats: 30,
+    currentEnrollments: 0,
   });
   const [courseToDelete, setCourseToDelete] = useState<Course | null>(null);
   const [featuredImageFile, setFeaturedImageFile] = useState<File | null>();
@@ -170,6 +172,8 @@ const ManageCourses = () => {
       isAds: null,
       createdAt: new Date().toISOString(),
       modifiedAt: new Date().toISOString(),
+      maxSeats: 30,
+      currentEnrollments: 0,
     });
   };
 
@@ -289,11 +293,14 @@ const ManageCourses = () => {
         newCourse.featuredImage = imageUrl;
       }
 
-      if (galleryImageFiles) {
+      if (galleryImageFiles.length > 0) {
         const galleryUrls = await Promise.all(
           Array.from(galleryImageFiles).map((file) => handleFileUpload(file))
         );
-        newCourse.galleryImgs = galleryUrls;
+        newCourse.galleryImgs = [
+          ...(newCourse.galleryImgs || []),
+          ...galleryUrls,
+        ]; // Preserve existing images
       }
 
       const { id, ...courseData } = newCourse;
@@ -372,6 +379,7 @@ const ManageCourses = () => {
         currentGalleryImagesUrl={currentGalleryImagesUrl}
         onClose={handleClose}
         onSubmit={handleSubmit}
+        handleChange={handleChange}
         onFeaturedImageChange={handleFeaturedImageChange}
         onGalleryImageChange={handleGalleryImageChange}
         handleLevelChange={handleLevelChange}

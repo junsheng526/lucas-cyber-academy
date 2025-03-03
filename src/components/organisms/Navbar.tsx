@@ -83,11 +83,6 @@ const Navbar: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/blog" className={getLinkClass()}>
-                  <Text as="span">Blog</Text>
-                </Link>
-              </li>
-              <li>
                 <Link to="/about" className={getLinkClass()}>
                   <Text as="span">About Us</Text>
                 </Link>

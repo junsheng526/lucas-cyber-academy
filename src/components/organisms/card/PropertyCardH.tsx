@@ -5,6 +5,7 @@ import SaleOffBadge from "../../molecules/SaleOffBadge";
 import Badge from "../../molecules/Badge";
 import GallerySlider from "../slider/GallerySlider";
 import { Course } from "../../../data/model";
+import { Link } from "react-router-dom";
 
 export interface PropertyCardHProps {
   className?: string;
@@ -25,19 +26,6 @@ const DEMO_DATA = {
 };
 
 const PropertyCardH: FC<PropertyCardHProps> = ({ className = "", data }) => {
-  // const {
-  //   galleryImgs,
-  //   title,
-  //   href,
-  //   like,
-  //   saleOff,
-  //   isAds,
-  //   price,
-  //   reviewStart,
-  //   reviewCount,
-  //   id,
-  // } = data;
-
   const {
     id,
     galleryImgs = ["placeholder.jpg"],
@@ -154,10 +142,11 @@ const PropertyCardH: FC<PropertyCardHProps> = ({ className = "", data }) => {
     <div
       className={`nc-PropertyCardH group relative bg-white border-neutral-200/80 rounded-3xl overflow-hidden ${className}`}
     >
-      <a href={href} className="absolute inset-0"></a>
       <div className="h-full w-full flex flex-col sm:flex-row sm:items-center">
         {renderSliderGallery()}
-        {renderContent()}
+        <Link to={`/courses/${id}`} className="cursor-pointer block">
+          {renderContent()}
+        </Link>
       </div>
       <BtnLikeIcon
         colorClass={`bg-neutral-100 hover:bg-neutral-200 hover:bg-opacity-70 text-neutral-600`}

@@ -6,6 +6,7 @@ import StartRating from "../../molecules/StartRating";
 import BtnLikeIcon from "../../molecules/button/BtnLikeIcon";
 import SaleOffBadge from "../../molecules/SaleOffBadge";
 import { Course } from "../../../data/model";
+import { Link } from "react-router-dom";
 
 export interface StayCard2Props {
   className?: string;
@@ -20,22 +21,6 @@ const StayCard2: FC<StayCard2Props> = ({
   className = "",
   data,
 }) => {
-  // const {
-  //   galleryImgs,
-  //   listingCategory,
-  //   address,
-  //   title,
-  //   bedrooms,
-  //   href,
-  //   like,
-  //   saleOff,
-  //   isAds,
-  //   price,
-  //   reviewStart,
-  //   reviewCount,
-  //   id,
-  // } = data;
-
   const {
     id,
     galleryImgs = ["placeholder.jpg"],
@@ -144,9 +129,9 @@ const StayCard2: FC<StayCard2Props> = ({
   return (
     <div className={`group relative ${className}`}>
       {renderSliderGallery()}
-      <a href={href} className="block">
+      <Link to={`/courses/${id}`} className="cursor-pointer block">
         {renderContent()}
-      </a>
+      </Link>
     </div>
   );
 };

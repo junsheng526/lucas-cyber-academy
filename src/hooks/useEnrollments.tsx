@@ -38,7 +38,9 @@ const useEnrollments = (studentId: string | null) => {
   // Function to enroll a student in a course
   const enrollStudent = async (
     courseId: string,
-    lecturerId: string | null | undefined
+    lecturerId: string | null | undefined,
+    currentEnrollments: number,
+    maxSeats: number
   ) => {
     if (!studentId) {
       alert("You must be logged in to enroll.");
@@ -46,11 +48,17 @@ const useEnrollments = (studentId: string | null) => {
     }
 
     if (!lecturerId) {
-      alert("Invalid Lecture Id.");
+      alert("Invalid Lecturer Id.");
+      return;
+    }
+
+    if (currentEnrollments >= maxSeats) {
+      alert("This course is already full.");
       return;
     }
 
     try {
+      // 1. Enroll the student
       const newEnrollment: Enrollment = {
         studentId,
         courseId,
@@ -66,7 +74,15 @@ const useEnrollments = (studentId: string | null) => {
         newEnrollment
       );
       setEnrollments([...enrollments, { ...newEnrollment, id: docId }]);
+
+      // 2. Update the course's currentEnrollments count
+      await firestoreService.updateDoc(Docs.COURSES, courseId, {
+        currentEnrollments: currentEnrollments + 1,
+      });
+
+      // 3. Show success alert
       alert("Enrollment successful!");
+      window.location.reload();
     } catch (error) {
       console.error("Error enrolling student:", error);
       alert("Failed to enroll. Please try again.");
