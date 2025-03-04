@@ -92,6 +92,11 @@ const Navbar: React.FC = () => {
                   <Text as="span">Career</Text>
                 </Link>
               </li>
+              <li>
+                <Link to="/contact-us" className={getLinkClass()}>
+                  <Text as="span">Contact Us</Text>
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="flex items-center space-x-4">
