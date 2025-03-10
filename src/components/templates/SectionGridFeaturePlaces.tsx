@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useState } from "react";
 import StayCard2 from "../organisms/card/StayCard2";
 import { DEMO_STAY_LISTINGS } from "../../data/listings";
 import HeaderFilter from "../organisms/header/HeaderFilter";
@@ -7,6 +7,7 @@ import Heading from "../molecules/text/Heading";
 import StayCard from "../organisms/card/StayCard";
 import { useNavigate } from "react-router-dom";
 import ButtonPrimary from "../molecules/button/ButtonPrimary";
+import { useCourses } from "../../hooks/useCourses";
 
 const DEMO_DATA: any[] = DEMO_STAY_LISTINGS.slice(0, 8);
 
@@ -49,6 +50,10 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
     return <CardName key={stay.id} data={stay} />;
   };
 
+  const [activeTab, setActiveTab] = useState("All");
+  const { filteredCourses, categories, loading, error, filterCourses } =
+    useCourses();
+
   return (
     <>
       {!pagination ? (
@@ -56,13 +61,17 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
           <HeaderFilter
             tabActive="All"
             subHeading={subHeading}
-            tabs={tabs}
+            tabs={categories}
             heading={heading}
+            onClickTab={(tab) => {
+              setActiveTab(tab);
+              filterCourses(tab);
+            }}
           />
           <div
             className={`grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${gridClass}`}
           >
-            {stayListings.map((stay) => renderCard(stay))}
+            {filteredCourses.map((stay) => renderCard(stay))}
           </div>
           <div className="flex mt-16 justify-center items-center">
             <ButtonPrimary onClick={() => navigate("/courses")}>
@@ -79,7 +88,7 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
           <div
             className={`grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${gridClass}`}
           >
-            {stayListings.map((stay) => renderCard(stay))}
+            {filteredCourses.map((stay) => renderCard(stay))}
           </div>
           <div className="flex mt-16 justify-center items-center">
             {/* <Pagination /> */}

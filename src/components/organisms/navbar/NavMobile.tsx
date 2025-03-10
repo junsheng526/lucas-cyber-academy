@@ -10,11 +10,13 @@ import { NAVIGATION_DEMO, NavItemType } from "../../../data/navigation";
 export interface NavMobileProps {
   data?: NavItemType[];
   onClickClose?: () => void;
+  logoUrl?: string;
 }
 
 const NavMobile: React.FC<NavMobileProps> = ({
   data = NAVIGATION_DEMO,
   onClickClose,
+  logoUrl,
 }) => {
   const _renderMenuChild = (item: NavItemType) => {
     return (
@@ -77,7 +79,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
   return (
     <div className="overflow-y-auto w-full h-screen py-2 transition transform shadow-lg ring-1 bg-white divide-y-2 divide-neutral-100">
       <div className="py-6 px-5">
-        <Logo />
+        <Logo img={logoUrl} />
         <div className="flex flex-col mt-5 text-neutral-700 text-sm">
           <span>
             Discover the most outstanding articles on all topics of life. Write

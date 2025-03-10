@@ -25,6 +25,7 @@ interface HomeContent {
   subtitle: string;
   buttonText: string;
   imageUrl: string;
+  logo: string; // ✅ Added logo field
   videos: VideoType[];
 }
 
@@ -34,16 +35,12 @@ const ManageHomeContent = () => {
     subtitle: "",
     buttonText: "",
     imageUrl: "",
+    logo: "",
     videos: [],
   });
+
   const [loading, setLoading] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [openVideoDialog, setOpenVideoDialog] = useState(false);
-  const [newVideo, setNewVideo] = useState<VideoType>({
-    id: "",
-    title: "",
-    thumbnail: "",
-  });
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -59,7 +56,8 @@ const ManageHomeContent = () => {
             subtitle: doc.subtitle || "",
             buttonText: doc.buttonText || "",
             imageUrl: doc.imageUrl || "",
-            videos: doc.videos || [], // Ensure videos is always an array
+            logo: doc.logo || "", // ✅ Fetch logo
+            videos: doc.videos || [],
           });
         }
       } catch (err) {
@@ -70,7 +68,6 @@ const ManageHomeContent = () => {
     fetchContent();
   }, []);
 
-  // Save Hero Section & Video Data
   const handleSaveContent = async () => {
     setLoading(true);
     try {
@@ -80,24 +77,10 @@ const ManageHomeContent = () => {
         content
       );
       setOpenEditDialog(false);
-      setOpenVideoDialog(false);
     } catch (err) {
       console.error("Error updating home content:", err);
     }
     setLoading(false);
-  };
-
-  // Add New Video
-  const handleAddVideo = () => {
-    if (!newVideo.id || !newVideo.title || !newVideo.thumbnail) return;
-    setContent({ ...content, videos: [...content.videos, newVideo] });
-    setNewVideo({ id: "", title: "", thumbnail: "" });
-  };
-
-  // Delete Video
-  const handleDeleteVideo = (index: number) => {
-    const updatedVideos = content.videos.filter((_, i) => i !== index);
-    setContent({ ...content, videos: updatedVideos });
   };
 
   return (
@@ -118,12 +101,22 @@ const ManageHomeContent = () => {
         <strong>Button Text:</strong> {content.buttonText}
       </Typography>
       <Typography>
-        <strong>Image:</strong>
+        <strong>Hero Image:</strong>
       </Typography>
       <img
         src={content.imageUrl}
         alt="Hero"
         style={{ width: "100%", maxWidth: "400px", marginTop: "10px" }}
+      />
+
+      {/* ✅ Logo Section */}
+      <Typography variant="h6" sx={{ mt: 5 }}>
+        Logo
+      </Typography>
+      <img
+        src={content.logo}
+        alt="Logo"
+        style={{ width: "150px", marginTop: "10px", borderRadius: "5px" }}
       />
 
       <Button
@@ -132,44 +125,12 @@ const ManageHomeContent = () => {
         sx={{ mt: 3 }}
         onClick={() => setOpenEditDialog(true)}
       >
-        Edit Hero Section
+        Edit Content
       </Button>
 
-      {/* Video Section */}
-      <Typography variant="h6" sx={{ mt: 5 }}>
-        Video Section
-      </Typography>
-      {content.videos.map((video, index) => (
-        <Box
-          key={index}
-          display="flex"
-          alignItems="center"
-          gap={2}
-          sx={{ my: 1 }}
-        >
-          <img
-            src={video.thumbnail}
-            alt={video.title}
-            style={{ width: "80px", borderRadius: "5px" }}
-          />
-          <Typography>{video.title}</Typography>
-          <IconButton onClick={() => handleDeleteVideo(index)}>
-            <DeleteIcon color="error" />
-          </IconButton>
-        </Box>
-      ))}
-
-      <Button
-        variant="contained"
-        sx={{ mt: 2 }}
-        onClick={() => setOpenVideoDialog(true)}
-      >
-        Edit Videos
-      </Button>
-
-      {/* Edit Hero Section Dialog */}
+      {/* Edit Content Dialog */}
       <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
-        <DialogTitle>Edit Hero Section</DialogTitle>
+        <DialogTitle>Edit Home Content</DialogTitle>
         <DialogContent
           sx={{ display: "flex", flexDirection: "column", gap: 2 }}
         >
@@ -196,80 +157,23 @@ const ManageHomeContent = () => {
             fullWidth
           />
           <TextField
-            label="Image URL"
+            label="Hero Image URL"
             value={content.imageUrl}
             onChange={(e) =>
               setContent({ ...content, imageUrl: e.target.value })
             }
             fullWidth
           />
+          {/* ✅ Logo Input */}
+          <TextField
+            label="Logo URL"
+            value={content.logo}
+            onChange={(e) => setContent({ ...content, logo: e.target.value })}
+            fullWidth
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSaveContent}
-            disabled={loading}
-          >
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Edit Video Section Dialog */}
-      <Dialog open={openVideoDialog} onClose={() => setOpenVideoDialog(false)}>
-        <DialogTitle>Edit Videos</DialogTitle>
-        <DialogContent
-          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
-        >
-          {content.videos.map((video, index) => (
-            <Box key={index} display="flex" alignItems="center" gap={2}>
-              <TextField
-                label="Title"
-                value={video.title}
-                onChange={(e) => {
-                  const updatedVideos = [...content.videos];
-                  updatedVideos[index].title = e.target.value;
-                  setContent({ ...content, videos: updatedVideos });
-                }}
-                fullWidth
-              />
-              <IconButton onClick={() => handleDeleteVideo(index)}>
-                <DeleteIcon color="error" />
-              </IconButton>
-            </Box>
-          ))}
-
-          <Typography>Add New Video</Typography>
-          <TextField
-            label="YouTube Video ID"
-            value={newVideo.id}
-            onChange={(e) => setNewVideo({ ...newVideo, id: e.target.value })}
-            fullWidth
-          />
-          <TextField
-            label="Title"
-            value={newVideo.title}
-            onChange={(e) =>
-              setNewVideo({ ...newVideo, title: e.target.value })
-            }
-            fullWidth
-          />
-          <TextField
-            label="Thumbnail URL"
-            value={newVideo.thumbnail}
-            onChange={(e) =>
-              setNewVideo({ ...newVideo, thumbnail: e.target.value })
-            }
-            fullWidth
-          />
-          <Button onClick={handleAddVideo} variant="outlined">
-            Add Video
-          </Button>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenVideoDialog(false)}>Cancel</Button>
           <Button
             variant="contained"
             color="primary"
