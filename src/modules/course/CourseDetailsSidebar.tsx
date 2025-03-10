@@ -6,6 +6,7 @@ import { Course } from "../../data/model";
 import { useAuth } from "../../firebase/useAuth";
 import useEnrollments from "../../hooks/useEnrollments";
 import useEnrollmentStatus from "../../hooks/useEnrollmentStatus"; // Import the hook
+import { PAYPAL_CONFIG } from "../../constant";
 
 interface CourseDetailsSidebarProps {
   course: Course;
@@ -72,8 +73,7 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
       {isPaying ? (
         <PayPalScriptProvider
           options={{
-            clientId:
-              "AR1OKrUTMXVBfUjK7sLEBEfA7PdN5pCcQqU7rAa-Seoc8roPSZIaO4YWVGrvm1GeOUePwCGDTXYDazMU",
+            clientId: PAYPAL_CONFIG.CLIENT_ID,
           }}
         >
           <PayPalButtons
