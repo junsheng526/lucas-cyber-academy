@@ -89,6 +89,12 @@ const menuItems = {
       icon: <HomeOutlinedIcon />,
     },
     {
+      key: "studentDashboard",
+      title: "Student Dashboard",
+      to: "/student-dashboard",
+      icon: <HomeOutlinedIcon />,
+    },
+    {
       key: "editProfile",
       title: "Edit Profile",
       to: "/edit-profile",
