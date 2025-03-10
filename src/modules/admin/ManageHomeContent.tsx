@@ -7,12 +7,10 @@ import {
   DialogContent,
   DialogActions,
   Typography,
-  IconButton,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { firestoreService, Docs } from "../../services/firestoreService";
 import { Header } from "../../components/organisms/header/Header";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 interface VideoType {
   id: string;
@@ -25,7 +23,10 @@ interface HomeContent {
   subtitle: string;
   buttonText: string;
   imageUrl: string;
-  logo: string; // ✅ Added logo field
+  logo: string;
+  address: string; // ✅ NEW FIELD
+  email: string; // ✅ NEW FIELD
+  phone: string; // ✅ NEW FIELD
   videos: VideoType[];
 }
 
@@ -36,6 +37,9 @@ const ManageHomeContent = () => {
     buttonText: "",
     imageUrl: "",
     logo: "",
+    address: "", // ✅ Default Empty
+    email: "", // ✅ Default Empty
+    phone: "", // ✅ Default Empty
     videos: [],
   });
 
@@ -56,7 +60,10 @@ const ManageHomeContent = () => {
             subtitle: doc.subtitle || "",
             buttonText: doc.buttonText || "",
             imageUrl: doc.imageUrl || "",
-            logo: doc.logo || "", // ✅ Fetch logo
+            logo: doc.logo || "",
+            address: doc.address || "", // ✅ Fetch Address
+            email: doc.email || "", // ✅ Fetch Email
+            phone: doc.phone || "", // ✅ Fetch Phone
             videos: doc.videos || [],
           });
         }
@@ -85,7 +92,7 @@ const ManageHomeContent = () => {
 
   return (
     <Box m="20px" maxWidth="100wh">
-      <Header title="HOME CONTENT" subtitle="Manage Home Page Content" />
+      <Header title="CONTENT MANAGEMENT" subtitle="Manage Website Content" />
 
       {/* Hero Section */}
       <Typography variant="h6" sx={{ mt: 3 }}>
@@ -118,6 +125,20 @@ const ManageHomeContent = () => {
         alt="Logo"
         style={{ width: "150px", marginTop: "10px", borderRadius: "5px" }}
       />
+
+      {/* ✅ New Contact Info Section */}
+      <Typography variant="h6" sx={{ mt: 5 }}>
+        Contact Information
+      </Typography>
+      <Typography>
+        <strong>Address:</strong> {content.address}
+      </Typography>
+      <Typography>
+        <strong>Email:</strong> {content.email}
+      </Typography>
+      <Typography>
+        <strong>Phone:</strong> {content.phone}
+      </Typography>
 
       <Button
         variant="contained"
@@ -164,11 +185,32 @@ const ManageHomeContent = () => {
             }
             fullWidth
           />
-          {/* ✅ Logo Input */}
           <TextField
             label="Logo URL"
             value={content.logo}
             onChange={(e) => setContent({ ...content, logo: e.target.value })}
+            fullWidth
+          />
+
+          {/* ✅ New Contact Fields */}
+          <TextField
+            label="Address"
+            value={content.address}
+            onChange={(e) =>
+              setContent({ ...content, address: e.target.value })
+            }
+            fullWidth
+          />
+          <TextField
+            label="Email"
+            value={content.email}
+            onChange={(e) => setContent({ ...content, email: e.target.value })}
+            fullWidth
+          />
+          <TextField
+            label="Phone"
+            value={content.phone}
+            onChange={(e) => setContent({ ...content, phone: e.target.value })}
             fullWidth
           />
         </DialogContent>

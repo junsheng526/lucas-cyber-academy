@@ -6,9 +6,13 @@ import ManageLecturers from "../modules/admin/ManageLecturers";
 import { createSecureRoute } from "./routeUtils";
 
 export const adminRoutes = [
-  createSecureRoute("/dashboard", Dashboard),
-  createSecureRoute("/edit-profile", EditProfile),
-  createSecureRoute("/manage-course", ManageCourse),
-  createSecureRoute("/manage-lecturers", ManageLecturers),
-  createSecureRoute("/manage-home", ManageHomeContent),
+  createSecureRoute("/dashboard", ["admin", "lecturer"], Dashboard),
+  createSecureRoute(
+    "/edit-profile",
+    ["admin", "lecturer", "student"],
+    EditProfile
+  ),
+  createSecureRoute("/manage-course", ["admin"], ManageCourse),
+  createSecureRoute("/manage-lecturers", ["admin"], ManageLecturers),
+  createSecureRoute("/manage-home", ["admin"], ManageHomeContent),
 ];

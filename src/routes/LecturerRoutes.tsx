@@ -5,8 +5,6 @@ import ManageSchedule from "../modules/lecturer/ManageSchedule";
 import { createSecureRoute } from "./routeUtils";
 
 export const lecturerRoutes = [
-  createSecureRoute("/dashboard", Dashboard),
-  createSecureRoute("/manage-enrollments", ManageEnrollments),
-  createSecureRoute("/manage-schedule", ManageSchedule),
-  createSecureRoute("/edit-profile", EditProfile),
+  createSecureRoute("/manage-enrollments", ["lecturer"], ManageEnrollments),
+  createSecureRoute("/manage-schedule", ["lecturer"], ManageSchedule),
 ];

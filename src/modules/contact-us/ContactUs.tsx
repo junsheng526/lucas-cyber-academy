@@ -1,23 +1,26 @@
 import SocialsList from "../../components/molecules/SocialsList";
 import Layout from "../../components/templates/layout/Layout";
+import useHomeContent from "../../hooks/useHomeContent";
 import ContactForm from "./ContactForm";
 
-const info = [
-  {
-    title: "🗺 ADDRESS",
-    desc: "Photo booth tattooed prism, portland taiyaki hoodie neutra typewriter",
-  },
-  {
-    title: "💌 EMAIL",
-    desc: "nc.example@example.com",
-  },
-  {
-    title: "☎ PHONE",
-    desc: "000-123-456-7890",
-  },
-];
-
 const ContactUs: React.FC = () => {
+  const { data, loading, error } = useHomeContent("CtFtz97Oedq4TQKFcCFm"); // Use Firestore doc ID
+
+  // Default fallback data
+  const info = [
+    {
+      title: "🗺 ADDRESS",
+      desc: data?.address || "Address not available",
+    },
+    {
+      title: "💌 EMAIL",
+      desc: data?.email || "Email not available",
+    },
+    {
+      title: "☎ PHONE",
+      desc: data?.phone || "Phone number not available",
+    },
+  ];
   return (
     <Layout>
       <div className="container px-4 sm:px-6 lg:px-8">

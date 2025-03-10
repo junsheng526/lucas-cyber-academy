@@ -16,6 +16,7 @@ export const useGrayscale = () => {
       if (config.length > 0) {
         setGrayscaleConfig(config[0].settings || {});
       }
+      console.log("Check grayscaleConfig -> " + JSON.stringify(config));
     } catch (error) {
       console.error("Error fetching grayscale settings:", error);
     }

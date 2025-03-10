@@ -3,72 +3,95 @@ import { useEffect, useState } from "react";
 import { auth } from "../firebase/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { Docs, firestoreService } from "../services/firestoreService";
+import { useUser } from "../hooks/useUser";
+import { useGrayscale } from "../hooks/useGrayscale";
 
 interface ProtectedRouteProps {
   element: JSX.Element;
+  allowedRoles: string[];
 }
 
-export const ProtectedRoute = ({ element }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({
+  element,
+  allowedRoles,
+}: ProtectedRouteProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const { userData, loading } = useUser();
+  const { grayscaleConfig } = useGrayscale();
+
+  // Check if grayscale mode is enabled for the current route
+  const currentPath = location.pathname.replace(/^\//, ""); // Remove leading slash
+  const isGrayscaleEnabled = grayscaleConfig[currentPath] || false;
+
+  console.log(
+    "Check grayscaleConfig in route -> " + JSON.stringify(grayscaleConfig)
+  );
 
   useEffect(() => {
-    const checkSession = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        const localSessionId = localStorage.getItem("sessionId");
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      setIsAuthenticated(!!user);
+    });
 
-        // Real-time session listener
-        const unsubscribe = firestoreService.listenToDoc(
-          Docs.SESSION,
-          user.uid,
-          (sessionData) => {
-            if (sessionData && sessionData.sessionId !== localSessionId) {
-              // Session mismatch detected - force logout
-              handleForceLogout();
-            }
+    return () => unsubscribeAuth();
+  }, []);
+
+  useEffect(() => {
+    if (!userData || !isAuthenticated) return;
+
+    if (!allowedRoles.includes(userData.role)) {
+      navigate("/not-found", { replace: true });
+      return;
+    }
+
+    const user = auth.currentUser;
+    if (user) {
+      const localSessionId = localStorage.getItem("sessionId");
+
+      const unsubscribeSession = firestoreService.listenToDoc(
+        Docs.SESSION,
+        user.uid,
+        (sessionData) => {
+          if (sessionData && sessionData.sessionId !== localSessionId) {
+            handleForceLogout();
           }
-        );
+        }
+      );
 
-        return () => unsubscribe(); // Cleanup listener on unmount
-      }
-    };
-
-    checkSession();
-  }, [navigate]);
+      return () => unsubscribeSession();
+    }
+  }, [userData, isAuthenticated, allowedRoles, navigate]);
 
   const handleForceLogout = async () => {
     console.warn("Session mismatch detected. Logging out...");
     localStorage.removeItem("sessionId");
     await signOut(auth);
-    navigate("/login"); // Redirect to login page
+    navigate("/login", { replace: true });
   };
 
-  // Listen to the authentication state changes
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
-      }
-    });
+  // if (loading || isAuthenticated === null) {
+  //   return <div>Loading...</div>;
+  // }
 
-    // Cleanup listener when component unmounts
-    return () => unsubscribe();
-  }, []);
-
-  if (isAuthenticated === null) {
-    // You can show a loading spinner or placeholder here
+  if (
+    loading ||
+    isAuthenticated === null ||
+    Object.keys(grayscaleConfig).length === 0
+  ) {
+    console.log("Waiting for user auth or grayscale settings...");
     return <div>Loading...</div>;
   }
 
   if (!isAuthenticated) {
-    // Redirect to login page if not authenticated
-    return <Navigate to="/login" state={{ from: location }} />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // If authenticated, render the protected component
+  // 🚨 Cut off access if grayscale is OFF
+  console.log("Check isGrayscaleEnabled -> " + isGrayscaleEnabled);
+  if (isGrayscaleEnabled) {
+    return <Navigate to="/not-found" replace />;
+  }
+
   return element;
 };

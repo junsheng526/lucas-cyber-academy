@@ -5,8 +5,7 @@ import ViewSchedule from "../modules/student/ViewSchedule";
 import { createSecureRoute } from "./routeUtils";
 
 export const studentRoutes = [
-  createSecureRoute("/student-dashboard", StudentDashboard),
-  createSecureRoute("/edit-profile", EditProfile),
-  createSecureRoute("/view-schedule", ViewSchedule),
-  createSecureRoute("/manage-grayscale", ManageGrayscale),
+  createSecureRoute("/student-dashboard", ["student"], StudentDashboard),
+  createSecureRoute("/view-schedule", ["student"], ViewSchedule),
+  createSecureRoute("/manage-grayscale", ["admin"], ManageGrayscale),
 ];

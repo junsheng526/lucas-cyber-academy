@@ -60,6 +60,12 @@ const menuItems = {
       to: "/manage-home",
       icon: <PersonOutlinedIcon />,
     },
+    {
+      key: "manageGrayscale",
+      title: "Manage Grayscale",
+      to: "/manage-grayscale",
+      icon: <PersonOutlinedIcon />,
+    },
   ],
   lecturer: [
     {
@@ -110,12 +116,6 @@ const menuItems = {
       key: "viewSchedule",
       title: "View Schedule",
       to: "/view-schedule",
-      icon: <PersonOutlinedIcon />,
-    },
-    {
-      key: "manageGrayscale",
-      title: "Manage Grayscale",
-      to: "/manage-grayscale",
       icon: <PersonOutlinedIcon />,
     },
   ],
