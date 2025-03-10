@@ -1,8 +1,11 @@
+import { useState } from "react";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import ButtonPrimary from "../../components/molecules/button/ButtonPrimary";
 import StartRating from "../../components/molecules/StartRating";
-import { Course } from "../../data/model"; // Import Course type
+import { Course } from "../../data/model";
 import { useAuth } from "../../firebase/useAuth";
 import useEnrollments from "../../hooks/useEnrollments";
+import useEnrollmentStatus from "../../hooks/useEnrollmentStatus"; // Import the hook
 
 interface CourseDetailsSidebarProps {
   course: Course;
@@ -11,12 +14,26 @@ interface CourseDetailsSidebarProps {
 export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
   course,
 }) => {
-  // Extract number from "10 weeks", fallback to 4 weeks if invalid
-  const weeks = parseInt(course.duration) || 4;
-  const totalPrice = course.price * weeks;
+  const [isPaying, setIsPaying] = useState<boolean>(false);
+  const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
+
+  const weeks: number = parseInt(course.duration) || 4;
+  const totalPrice: number = course.price * weeks;
 
   const user = useAuth();
-  const { enrollStudent } = useEnrollments(user?.uid);
+  const { enrollStudent } = useEnrollments(user?.uid || "");
+  const { isEnrolled, loading } = useEnrollmentStatus({
+    userId: user?.uid || "",
+    courseId: course.id,
+  });
+
+  const handleEnroll = () => {
+    if (!user?.uid) {
+      alert("You need to log in to enroll.");
+      return;
+    }
+    setIsPaying(true);
+  };
 
   return (
     <div className="listingSectionSidebar__wrap shadow-xl p-6 rounded-2xl bg-white">
@@ -25,6 +42,7 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
         <span className="text-3xl font-semibold">
           ${course.price}
           <span className="ml-1 text-base font-normal text-neutral-500">
+            {" "}
             /week
           </span>
         </span>
@@ -50,27 +68,78 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
         </div>
       </div>
 
-      {/* ENROLL BUTTON */}
-      <ButtonPrimary
-        onClick={() =>
-          enrollStudent(
-            course.id,
-            course.lecturerId,
-            course.currentEnrollments || 0,
-            course.maxSeats || 30
-          )
-        }
-        className={`w-full py-3 rounded-xl text-lg font-semibold transition duration-200 ${
-          course.currentEnrollments >= course.maxSeats
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-blue-600 text-white hover:bg-blue-700"
-        }`}
-        disabled={course.currentEnrollments >= course.maxSeats}
-      >
-        {course.currentEnrollments >= course.maxSeats
-          ? "Course Full"
-          : "Enroll Now"}
-      </ButtonPrimary>
+      {/* PAYPAL PAYMENT FLOW */}
+      {isPaying ? (
+        <PayPalScriptProvider
+          options={{
+            clientId:
+              "AR1OKrUTMXVBfUjK7sLEBEfA7PdN5pCcQqU7rAa-Seoc8roPSZIaO4YWVGrvm1GeOUePwCGDTXYDazMU",
+          }}
+        >
+          <PayPalButtons
+            style={{ layout: "vertical" }}
+            createOrder={(_data, actions) => {
+              return actions.order.create({
+                intent: "CAPTURE",
+                purchase_units: [
+                  {
+                    amount: {
+                      value: totalPrice.toFixed(2),
+                      currency_code: "USD",
+                    },
+                    description: `Enrollment for ${course.title}`,
+                  },
+                ],
+              });
+            }}
+            onApprove={async (_data, actions) => {
+              try {
+                const details = await actions.order?.capture();
+                if (details?.status === "COMPLETED") {
+                  setPaymentSuccess(true);
+                  enrollStudent(
+                    course.id,
+                    course.lecturerId,
+                    course.currentEnrollments || 0,
+                    course.maxSeats || 30
+                  );
+                  alert("Payment successful! You are now enrolled.");
+                }
+              } catch (error) {
+                console.error("Error capturing PayPal payment:", error);
+                alert("Payment verification failed.");
+              }
+            }}
+            onCancel={() => {
+              alert("Payment was canceled.");
+              setIsPaying(false);
+            }}
+            onError={(err) => {
+              console.error("PayPal Checkout Error:", err);
+              alert("Something went wrong with the payment.");
+              setIsPaying(false);
+            }}
+          />
+        </PayPalScriptProvider>
+      ) : (
+        <ButtonPrimary
+          onClick={handleEnroll}
+          className={`w-full py-3 rounded-xl text-lg font-semibold transition duration-200 ${
+            isEnrolled || course.currentEnrollments >= course.maxSeats
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700"
+          }`}
+          disabled={isEnrolled || course.currentEnrollments >= course.maxSeats}
+        >
+          {loading
+            ? "Checking..."
+            : isEnrolled
+            ? "Enrolled"
+            : course.currentEnrollments >= course.maxSeats
+            ? "Course Full"
+            : "Enroll Now"}
+        </ButtonPrimary>
+      )}
     </div>
   );
 };
