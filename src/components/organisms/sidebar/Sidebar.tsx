@@ -54,6 +54,12 @@ const menuItems = {
       to: "/edit-profile",
       icon: <PersonOutlinedIcon />,
     },
+    {
+      key: "manageHome",
+      title: "Manage Home",
+      to: "/manage-home",
+      icon: <PersonOutlinedIcon />,
+    },
   ],
   lecturer: [
     {

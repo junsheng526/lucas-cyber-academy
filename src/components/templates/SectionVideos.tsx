@@ -10,49 +10,18 @@ export interface VideoType {
 }
 
 export interface SectionVideosProps {
-  videos?: VideoType[];
+  videos: VideoType[]; // Make videos a required prop
   className?: string;
 }
 
-const VIDEOS_DEMO: VideoType[] = [
-  {
-    id: "MSq_DCRxOxw",
-    title: "This is the Only Right Way to Write React clean-code - SOLID",
-    thumbnail:
-      "https://knackforge.com/wp-content/uploads/2022/11/Benefits-of-ReactJS.jpg",
-  },
-  {
-    id: "a5V6gdu5ih8",
-    title: "Magical Scotland - 4K Scenic Relaxation Film with Calming Music",
-    thumbnail:
-      "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-  },
-  {
-    id: "MuB7HHeuNbc",
-    title: "Magical Scotland - 4K Scenic Relaxation Film with Calming Music",
-    thumbnail:
-      "https://images.pexels.com/photos/1660995/pexels-photo-1660995.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-  },
-  {
-    id: "eEaZvEZye84",
-    title: "Magical Scotland - 4K Scenic Relaxation Film with Calming Music",
-    thumbnail:
-      "https://images.pexels.com/photos/4983184/pexels-photo-4983184.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-  },
-  {
-    id: "EuDJZDaSP0Q",
-    title: "Magical Scotland - 4K Scenic Relaxation Film with Calming Music",
-    thumbnail:
-      "https://images.pexels.com/photos/2549018/pexels-photo-2549018.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-  },
-];
-
-const SectionVideos: FC<SectionVideosProps> = ({
-  videos = VIDEOS_DEMO,
-  className = "",
-}) => {
+const SectionVideos: FC<SectionVideosProps> = ({ videos, className = "" }) => {
   const [isPlay, setIsPlay] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(0);
+
+  // Ensure videos array is valid
+  if (!videos || videos.length === 0) {
+    return <p className="text-center text-gray-500">No videos available.</p>;
+  }
 
   const renderMainVideo = () => {
     const video: VideoType = videos[currentVideo];

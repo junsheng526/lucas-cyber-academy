@@ -5,12 +5,16 @@ import SectionGridAuthorBox from "../../components/templates/SectionGridAuthorBo
 import BackgroundSection from "../../components/atoms/background/BackgroundSection";
 import SectionGridCategoryBox from "../../components/templates/SectionGridCategoryBox";
 import SectionBecomeAnAuthor from "../../components/templates/SectionBecomeAnAuthor";
-import SectionVideos from "../../components/templates/SectionVideos";
+import SectionVideos, {
+  VideoType,
+} from "../../components/templates/SectionVideos";
 import Layout from "../../components/templates/layout/Layout";
 import BgGlassmorphism from "../../components/atoms/background/BgGlassmorphism";
 import SectionSliderNewCategories from "../../components/templates/SectionSliderNewCategories";
+import useHomeContent from "../../hooks/useHomeContent";
 
 const Home: React.FC = () => {
+  const { data, loading, error } = useHomeContent("CtFtz97Oedq4TQKFcCFm");
   return (
     <Layout>
       <BgGlassmorphism />
@@ -34,7 +38,16 @@ const Home: React.FC = () => {
           <SectionBecomeAnAuthor />
         </div>
 
-        <SectionVideos className="py-16" />
+        {loading ? (
+          <p>Loading home content...</p>
+        ) : error ? (
+          <p>Error loading content: {error}</p>
+        ) : (
+          <SectionVideos
+            videos={data?.videos as VideoType[]}
+            className="py-16"
+          />
+        )}
       </div>
     </Layout>
   );
