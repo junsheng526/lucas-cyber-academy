@@ -1,12 +1,11 @@
-import React, { FC } from "react";
+import { FC, useEffect } from "react";
 import { StarIcon } from "@heroicons/react/24/solid";
 import Badge from "../../molecules/Badge";
-import { AuthorType } from "../../../data/types";
 import Avatar from "../../molecules/Avatar";
 
 export interface CardAuthorBoxProps {
   className?: string;
-  author: AuthorType;
+  author: any;
   index?: number;
 }
 
@@ -15,7 +14,7 @@ const CardAuthorBox: FC<CardAuthorBoxProps> = ({
   author,
   index,
 }) => {
-  const { displayName, href = "/", avatar, starRating } = author;
+  const { name, href = "/", profileImage, avgRating } = author;
 
   return (
     <a
@@ -33,18 +32,18 @@ const CardAuthorBox: FC<CardAuthorBoxProps> = ({
       <Avatar
         sizeClass="w-20 h-20 text-2xl"
         radius="rounded-full"
-        imgUrl={avatar}
-        userName={displayName}
+        imgUrl={profileImage}
+        userName={name}
       />
       <div className="mt-3">
         <h2 className="text-base font-medium">
-          <span className="line-clamp-1">{displayName}</span>
+          <span className="line-clamp-1">{name}</span>
         </h2>
         <span className="block mt-1.5 text-sm text-neutral-500">New York</span>
       </div>
       <div className="py-2 px-5 mt-4 bg-neutral-100 rounded-full flex items-center justify-center">
         <span className="text-xs font-medium pt-[1px]">
-          {starRating || 4.9}
+          {avgRating.toFixed(1)}
         </span>
         <StarIcon className="w-5 h-5 text-amber-500 ml-2" />
       </div>
