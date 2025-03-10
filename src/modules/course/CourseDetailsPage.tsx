@@ -10,6 +10,8 @@ import { LecturerInfoSection } from "./LecturerInfoSection";
 import { PHOTOS } from "./constant";
 import { Course } from "../../data/model"; // Import your Course type
 import { Docs, firestoreService } from "../../services/firestoreService";
+import RatingSection from "./RatingSection";
+import { useAuth } from "../../firebase/useAuth";
 
 export interface CourseDetailsProps {}
 
@@ -35,6 +37,7 @@ const CourseDetailsPage: FC<CourseDetailsProps> = () => {
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const user = useAuth();
 
   useEffect(() => {
     if (!id) {
@@ -143,6 +146,7 @@ const CourseDetailsPage: FC<CourseDetailsProps> = () => {
                   <LecturerInfoSection
                     lecturerId={course.lecturerId ? course.lecturerId : null}
                   />
+                  <RatingSection courseId={course.id} studentId={user?.uid} />
                 </div>
 
                 {/* SIDEBAR */}
