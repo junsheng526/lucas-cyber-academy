@@ -6,128 +6,55 @@ import CardCategory3 from "../organisms/card/CardCategory3";
 import PrevBtn from "../molecules/button/PrevBtn";
 import NextBtn from "../molecules/button/NextBtn";
 import Heading from "../molecules/text/Heading";
+import { useCourses } from "../../hooks/useCourses";
+import { Course } from "../../data/model";
 
-export interface TaxonomyType {
-  id: string;
-  href: string;
-  title: string;
-  taxonomy: string;
-  count: number;
-  thumbnail: string;
-}
-
-export interface SectionSliderNewCategoriesProps {
-  className?: string;
-  itemClassName?: string;
-  heading?: string;
-  subHeading?: string;
-  categories?: TaxonomyType[];
-  categoryCardType?: "card3" | "card4" | "card5";
-  itemPerRow?: 4 | 5;
-  sliderStyle?: "style1" | "style2";
-}
-
-const DEMO_CATS: TaxonomyType[] = [
-  {
-    id: "1",
-    href: "#",
-    title: "Nature House",
-    taxonomy: "category",
-    count: 17288,
-    thumbnail:
-      "https://images.pexels.com/photos/2581922/pexels-photo-2581922.jpeg",
-  },
-  {
-    id: "2",
-    href: "#",
-    title: "Wooden house",
-    taxonomy: "category",
-    count: 2118,
-    thumbnail:
-      "https://images.pexels.com/photos/2351649/pexels-photo-2351649.jpeg",
-  },
-  {
-    id: "3",
-    href: "#",
-    title: "Houseboat",
-    taxonomy: "category",
-    count: 36612,
-    thumbnail:
-      "https://images.pexels.com/photos/962464/pexels-photo-962464.jpeg",
-  },
-  {
-    id: "4",
-    href: "#",
-    title: "Farm House",
-    taxonomy: "category",
-    count: 18188,
-    thumbnail:
-      "https://images.pexels.com/photos/248837/pexels-photo-248837.jpeg",
-  },
-];
-
-const SectionSliderNewCategories: FC<SectionSliderNewCategoriesProps> = ({
-  heading = "Popular Courses",
-  subHeading = "Enhance your skills with our top-rated courses designed by industry experts.",
-  className = "",
-  itemClassName = "",
-  categories = DEMO_CATS,
-  itemPerRow = 5,
-  categoryCardType = "card3",
-  sliderStyle = "style1",
-}) => {
+const SectionSliderNewCategories: FC = () => {
+  const { courses, loading, error } = useCourses(); // Fetch courses
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [numberOfItems, setNumberOfItems] = useState(0);
-
   const windowWidth = useWindowSize().width;
 
+  // Responsive logic for number of items per row
   useEffect(() => {
-    if (windowWidth < 320) {
-      setNumberOfItems(1);
-    } else if (windowWidth < 500) {
+    if (windowWidth < 500) {
       setNumberOfItems(1);
     } else if (windowWidth < 720) {
-      setNumberOfItems(itemPerRow - 3);
+      setNumberOfItems(2);
     } else if (windowWidth < 1024) {
-      setNumberOfItems(itemPerRow - 2);
+      setNumberOfItems(3);
     } else if (windowWidth < 1280) {
-      setNumberOfItems(itemPerRow - 1);
+      setNumberOfItems(4);
     } else {
-      setNumberOfItems(itemPerRow);
+      setNumberOfItems(5);
     }
-  }, [itemPerRow, windowWidth]);
+  }, [windowWidth]);
 
+  // Change index on swipe/click
   function changeItemId(newVal: number) {
     setDirection(newVal > currentIndex ? 1 : -1);
     setCurrentIndex(newVal);
   }
 
+  // Handle swipe gestures
   const handlers = useSwipeable({
     onSwipedLeft: () =>
-      currentIndex < categories.length - 1 && changeItemId(currentIndex + 1),
+      currentIndex < courses.length - 1 && changeItemId(currentIndex + 1),
     onSwipedRight: () => currentIndex > 0 && changeItemId(currentIndex - 1),
     trackMouse: true,
   });
 
-  const renderCard = (item: TaxonomyType) => {
-    switch (categoryCardType) {
-      // case "card4":
-      //   return <CardCategory4 taxonomy={item} />;
-      // case "card5":
-      //   return <CardCategory5 taxonomy={item} />;
-      default:
-        return <CardCategory3 taxonomy={item} />;
-    }
-  };
+  // Render course cards
+  const renderCard = (course: Course) => <CardCategory3 course={course} />;
 
-  if (!numberOfItems) return null;
+  if (loading) return <p>Loading courses...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+  if (!courses.length) return <p>No courses available.</p>;
 
   return (
-    <div className={`nc-SectionSliderNewCategories ${className}`}>
-      <Heading desc={subHeading} isCenter={sliderStyle === "style2"}>
-        {heading}
-      </Heading>
+    <div className="nc-SectionSliderNewCategories">
+      <Heading desc="Explore our top-rated courses">Popular Courses</Heading>
       <MotionConfig
         transition={{
           x: { type: "spring", stiffness: 300, damping: 30 },
@@ -140,18 +67,16 @@ const SectionSliderNewCategories: FC<SectionSliderNewCategoriesProps> = ({
             initial={false}
           >
             <AnimatePresence initial={false} custom={direction}>
-              {categories.map((item, index) => (
+              {courses.map((course, index) => (
                 <motion.li
                   key={index}
-                  className={`inline-block px-4 ${itemClassName}`}
+                  className="inline-block px-4"
                   custom={direction}
                   initial={{ x: `${(currentIndex - 1) * -100}%` }}
                   animate={{ x: `${currentIndex * -100}%` }}
-                  style={{
-                    width: `calc(1 / ${numberOfItems} * 100%)`,
-                  }}
+                  style={{ width: `calc(1 / ${numberOfItems} * 100%)` }}
                 >
-                  {renderCard(item)}
+                  {renderCard(course)}
                 </motion.li>
               ))}
             </AnimatePresence>
@@ -164,7 +89,7 @@ const SectionSliderNewCategories: FC<SectionSliderNewCategoriesProps> = ({
             />
           )}
 
-          {categories.length > currentIndex + numberOfItems && (
+          {courses.length > currentIndex + numberOfItems && (
             <NextBtn
               onClick={() => changeItemId(currentIndex + 1)}
               className="w-12 h-12 text-lg absolute right-3 top-1/3 translate-y-1/5"
