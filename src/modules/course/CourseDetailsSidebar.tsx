@@ -7,6 +7,7 @@ import { useAuth } from "../../firebase/useAuth";
 import useEnrollments from "../../hooks/useEnrollments";
 import useEnrollmentStatus from "../../hooks/useEnrollmentStatus"; // Import the hook
 import { PAYPAL_CONFIG } from "../../constant";
+import { useUser } from "../../hooks/useUser";
 
 interface CourseDetailsSidebarProps {
   course: Course;
@@ -27,6 +28,7 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
     userId: user?.uid || "",
     courseId: course.id,
   });
+  const { userData } = useUser();
 
   const handleEnroll = () => {
     if (!user?.uid) {
@@ -68,77 +70,82 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
           <span>${totalPrice}</span>
         </div>
       </div>
-
-      {/* PAYPAL PAYMENT FLOW */}
-      {isPaying ? (
-        <PayPalScriptProvider
-          options={{
-            clientId: PAYPAL_CONFIG.CLIENT_ID,
-          }}
-        >
-          <PayPalButtons
-            style={{ layout: "vertical" }}
-            createOrder={(_data, actions) => {
-              return actions.order.create({
-                intent: "CAPTURE",
-                purchase_units: [
-                  {
-                    amount: {
-                      value: totalPrice.toFixed(2),
-                      currency_code: "USD",
-                    },
-                    description: `Enrollment for ${course.title}`,
-                  },
-                ],
-              });
-            }}
-            onApprove={async (_data, actions) => {
-              try {
-                const details = await actions.order?.capture();
-                if (details?.status === "COMPLETED") {
-                  setPaymentSuccess(true);
-                  enrollStudent(
-                    course.id,
-                    course.lecturerId,
-                    course.currentEnrollments || 0,
-                    course.maxSeats || 30
-                  );
-                  alert("Payment successful! You are now enrolled.");
-                }
-              } catch (error) {
-                console.error("Error capturing PayPal payment:", error);
-                alert("Payment verification failed.");
+      {userData?.role.toLowerCase() === "student" && (
+        <div>
+          {/* PAYPAL PAYMENT FLOW */}
+          {isPaying ? (
+            <PayPalScriptProvider
+              options={{
+                clientId: PAYPAL_CONFIG.CLIENT_ID,
+              }}
+            >
+              <PayPalButtons
+                style={{ layout: "vertical" }}
+                createOrder={(_data, actions) => {
+                  return actions.order.create({
+                    intent: "CAPTURE",
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: totalPrice.toFixed(2),
+                          currency_code: "USD",
+                        },
+                        description: `Enrollment for ${course.title}`,
+                      },
+                    ],
+                  });
+                }}
+                onApprove={async (_data, actions) => {
+                  try {
+                    const details = await actions.order?.capture();
+                    if (details?.status === "COMPLETED") {
+                      setPaymentSuccess(true);
+                      enrollStudent(
+                        course.id,
+                        course.lecturerId,
+                        course.currentEnrollments || 0,
+                        course.maxSeats || 30
+                      );
+                      alert("Payment successful! You are now enrolled.");
+                    }
+                  } catch (error) {
+                    console.error("Error capturing PayPal payment:", error);
+                    alert("Payment verification failed.");
+                  }
+                }}
+                onCancel={() => {
+                  alert("Payment was canceled.");
+                  setIsPaying(false);
+                }}
+                onError={(err) => {
+                  console.error("PayPal Checkout Error:", err);
+                  alert("Something went wrong with the payment.");
+                  setIsPaying(false);
+                }}
+              />
+            </PayPalScriptProvider>
+          ) : (
+            <ButtonPrimary
+              onClick={handleEnroll}
+              className={`w-full py-3 rounded-xl text-lg font-semibold transition duration-200 ${
+                isEnrolled || course.currentEnrollments >= course.maxSeats
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 text-white hover:bg-blue-700"
+              }`}
+              disabled={
+                isEnrolled || course.currentEnrollments >= course.maxSeats
               }
-            }}
-            onCancel={() => {
-              alert("Payment was canceled.");
-              setIsPaying(false);
-            }}
-            onError={(err) => {
-              console.error("PayPal Checkout Error:", err);
-              alert("Something went wrong with the payment.");
-              setIsPaying(false);
-            }}
-          />
-        </PayPalScriptProvider>
-      ) : (
-        <ButtonPrimary
-          onClick={handleEnroll}
-          className={`w-full py-3 rounded-xl text-lg font-semibold transition duration-200 ${
-            isEnrolled || course.currentEnrollments >= course.maxSeats
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-600 text-white hover:bg-blue-700"
-          }`}
-          disabled={isEnrolled || course.currentEnrollments >= course.maxSeats}
-        >
-          {loading
-            ? "Checking..."
-            : isEnrolled
-            ? "Enrolled"
-            : course.currentEnrollments >= course.maxSeats
-            ? "Course Full"
-            : "Enroll Now"}
-        </ButtonPrimary>
+            >
+              {loading
+                ? "Checking..."
+                : isEnrolled
+                ? "Enrolled"
+                : course.currentEnrollments >= course.maxSeats
+                ? "Course Full"
+                : "Enroll Now"}
+            </ButtonPrimary>
+          )}
+        </div>
       )}
     </div>
   );

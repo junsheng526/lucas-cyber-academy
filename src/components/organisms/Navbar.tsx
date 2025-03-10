@@ -7,6 +7,11 @@ import { Dialog, Transition } from "@headlessui/react";
 import NavMobile from "./navbar/NavMobile";
 import ButtonPrimary from "../molecules/button/ButtonPrimary";
 import { Docs, firestoreService } from "../../services/firestoreService";
+import { useUser } from "../../hooks/useUser";
+import { signOut } from "@firebase/auth";
+import { auth } from "../../firebase/firebase";
+import { IconButton } from "@mui/material";
+import { LogoutOutlined } from "@mui/icons-material";
 
 const Navbar: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -19,6 +24,7 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
   const [logoUrl, setLogoUrl] = useState<string>("");
+  const { userData } = useUser();
 
   useEffect(() => {
     const fetchLogo = async () => {
@@ -36,7 +42,8 @@ const Navbar: React.FC = () => {
     };
 
     fetchLogo();
-  }, []);
+    console.log("Current user -> " + JSON.stringify(userData));
+  }, [userData]);
 
   const renderContent = () => {
     return (
@@ -82,6 +89,15 @@ const Navbar: React.FC = () => {
     );
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   return (
     <>
       {" "}
@@ -123,12 +139,24 @@ const Navbar: React.FC = () => {
               <i className="w-7 h-7 las la-search text-2xl text-gray-500"></i>
             </div>
             <div className="hidden md:block">
-              <ButtonPrimary
-                className="self-center"
-                onClick={() => navigate("/login")}
-              >
-                Sign up
-              </ButtonPrimary>
+              {userData ? (
+                // Logged-in state: Show user profile & logout
+                <div className="flex items-center space-x-4">
+                  <IconButton onClick={handleLogout}>
+                    <LogoutOutlined />
+                  </IconButton>
+                  <img
+                    src={userData.profileImage}
+                    alt="User Avatar"
+                    className="w-10 h-10 rounded-full border"
+                  />
+                </div>
+              ) : (
+                // Logged-out state: Show Sign Up button
+                <ButtonPrimary onClick={() => navigate("/login")}>
+                  Sign up
+                </ButtonPrimary>
+              )}
             </div>
 
             {/* Hamburger Icon for Mobile */}

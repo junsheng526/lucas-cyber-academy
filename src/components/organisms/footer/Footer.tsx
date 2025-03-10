@@ -5,6 +5,7 @@ import FooterNav from "./FooterNav";
 import { CustomLink } from "../../../data/types";
 import Logo from "../../molecules/Logo";
 import SocialsList1 from "../../molecules/SocialsList1";
+import useHomeContent from "../../../hooks/useHomeContent";
 
 export interface WidgetFooterMenu {
   id: string;
@@ -77,6 +78,7 @@ const Footer: React.FC = () => {
     );
   };
 
+  const { data, loading, error } = useHomeContent("CtFtz97Oedq4TQKFcCFm");
   return (
     <>
       {/* <FooterNav /> */}
@@ -86,7 +88,7 @@ const Footer: React.FC = () => {
           {/* Left Section - Logo and Socials */}
           <div className="grid grid-cols-4 gap-5 col-span-2 md:col-span-4 lg:col-span-1 lg:flex lg:flex-col">
             <div className="col-span-2 md:col-span-1">
-              <Logo />
+              <Logo img={data?.logo} />
             </div>
             <div className="col-span-2 flex items-center md:col-span-3">
               <SocialsList1 className="flex items-center space-x-3 lg:space-x-0 lg:flex-col lg:space-y-2.5 lg:items-start" />
