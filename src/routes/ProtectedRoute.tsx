@@ -22,12 +22,19 @@ export const ProtectedRoute = ({
   const { grayscaleConfig } = useGrayscale();
 
   // Check if grayscale mode is enabled for the current route
+  console.log("location.pathname -> " + location.pathname);
+  console.log("grayscaleConfig -> " + JSON.stringify(grayscaleConfig));
   const currentPath = location.pathname.replace(/^\//, ""); // Remove leading slash
+  console.log("currentPath -> " + currentPath);
   const isGrayscaleEnabled = grayscaleConfig[currentPath] || false;
+  console.log("isGrayscaleEnabled -> " + isGrayscaleEnabled);
 
-  console.log(
-    "Check grayscaleConfig in route -> " + JSON.stringify(grayscaleConfig)
-  );
+  useEffect(() => {
+    console.log(
+      "Updated grayscaleConfig in ProtectedRoute -> ",
+      grayscaleConfig
+    );
+  }, [grayscaleConfig]);
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
@@ -40,7 +47,8 @@ export const ProtectedRoute = ({
   useEffect(() => {
     if (!userData || !isAuthenticated) return;
 
-    if (!allowedRoles.includes(userData.role)) {
+    // check is the role allow to access the route
+    if (!allowedRoles.includes(userData.role.toLowerCase())) {
       navigate("/not-found", { replace: true });
       return;
     }
@@ -69,10 +77,6 @@ export const ProtectedRoute = ({
     await signOut(auth);
     navigate("/login", { replace: true });
   };
-
-  // if (loading || isAuthenticated === null) {
-  //   return <div>Loading...</div>;
-  // }
 
   if (
     loading ||

@@ -11,7 +11,6 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import { useGrayscale } from "../../../hooks/useGrayscale"; // Import useGrayscale hook
 
 type UserRole = "admin" | "lecturer" | "student";
 
@@ -34,18 +33,6 @@ const menuItems = {
       key: "manageLecturers",
       title: "Manage Lecturers",
       to: "/manage-lecturers",
-      icon: <PeopleOutlinedIcon />,
-    },
-    {
-      key: "manageEnrollments",
-      title: "Manage Enrollments",
-      to: "/manage-enrollments",
-      icon: <PeopleOutlinedIcon />,
-    },
-    {
-      key: "manageSchedule",
-      title: "Manage Schedule",
-      to: "/manage-schedule",
       icon: <PeopleOutlinedIcon />,
     },
     {
@@ -127,9 +114,6 @@ export const Sidebar: React.FC<{ isSidebar: boolean }> = ({ isSidebar }) => {
   const [isCollapsed, setIsCollapsed] = useState(isSidebar);
   const [selected, setSelected] = useState("Dashboard");
   const { userData } = useUser();
-  const grayscaleConfig: any = useGrayscale();
-
-  console.log("Check grayscale config -> " + JSON.stringify(grayscaleConfig));
 
   const role: UserRole =
     (userData?.role?.toLowerCase() as UserRole) || "student";
