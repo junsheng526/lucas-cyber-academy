@@ -22,18 +22,11 @@ export const ProtectedRoute = ({
   const { grayscaleConfig } = useGrayscale();
 
   // Check if grayscale mode is enabled for the current route
-  console.log("location.pathname -> " + location.pathname);
-  console.log("grayscaleConfig -> " + JSON.stringify(grayscaleConfig));
   const currentPath = location.pathname.replace(/^\//, ""); // Remove leading slash
-  console.log("currentPath -> " + currentPath);
   const isGrayscaleEnabled = grayscaleConfig[currentPath] || false;
-  console.log("isGrayscaleEnabled -> " + isGrayscaleEnabled);
 
   useEffect(() => {
-    console.log(
-      "Updated grayscaleConfig in ProtectedRoute -> ",
-      grayscaleConfig
-    );
+    console.log("ProtectedRoute Grayscale -> ", grayscaleConfig);
   }, [grayscaleConfig]);
 
   useEffect(() => {
@@ -72,7 +65,6 @@ export const ProtectedRoute = ({
   }, [userData, isAuthenticated, allowedRoles, navigate]);
 
   const handleForceLogout = async () => {
-    console.warn("Session mismatch detected. Logging out...");
     localStorage.removeItem("sessionId");
     await signOut(auth);
     navigate("/login", { replace: true });
@@ -83,7 +75,6 @@ export const ProtectedRoute = ({
     isAuthenticated === null ||
     Object.keys(grayscaleConfig).length === 0
   ) {
-    console.log("Waiting for user auth or grayscale settings...");
     return <div>Loading...</div>;
   }
 
@@ -92,7 +83,6 @@ export const ProtectedRoute = ({
   }
 
   // 🚨 Cut off access if grayscale is OFF
-  console.log("Check isGrayscaleEnabled -> " + isGrayscaleEnabled);
   if (isGrayscaleEnabled) {
     return <Navigate to="/not-found" replace />;
   }

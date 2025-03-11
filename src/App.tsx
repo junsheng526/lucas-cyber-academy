@@ -7,11 +7,7 @@ import { ColorModeContext, useMode } from "./styles/theme";
 import { useState } from "react";
 import NotFound from "./routes/NotFound";
 import { publicRoutes } from "./routes/PublicRoutes";
-import { adminRoutes } from "./routes/AdminRoutes";
-import { lecturerRoutes } from "./routes/LecturerRoutes";
-import { studentRoutes } from "./routes/StudentRoutes";
-
-const secureRoutes = [...adminRoutes, ...lecturerRoutes, ...studentRoutes];
+import { secureRoutes } from "./routes/SecureRoutes";
 
 function App() {
   const [theme, colorMode] = useMode();

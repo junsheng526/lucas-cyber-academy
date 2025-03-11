@@ -170,7 +170,7 @@ export const firestoreService = {
         if (docSnapshot.exists()) {
           onUpdate({ id: docSnapshot.id, ...docSnapshot.data() });
         } else {
-          console.warn(`Document ${docId} in ${nodeRef} does not exist.`);
+          console.log(`Document ${docId} in ${nodeRef} does not exist.`);
           onUpdate(null); // Return null if the document doesn't exist
         }
       });

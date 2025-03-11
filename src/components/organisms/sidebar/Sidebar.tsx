@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../../styles/theme";
 import { useUser } from "../../../hooks/useUser";
@@ -82,12 +82,6 @@ const menuItems = {
   ],
   student: [
     {
-      key: "dashboard",
-      title: "Dashboard",
-      to: "/dashboard",
-      icon: <HomeOutlinedIcon />,
-    },
-    {
       key: "studentDashboard",
       title: "Student Dashboard",
       to: "/student-dashboard",
@@ -118,6 +112,15 @@ export const Sidebar: React.FC<{ isSidebar: boolean }> = ({ isSidebar }) => {
   const role: UserRole =
     (userData?.role?.toLowerCase() as UserRole) || "student";
   const filteredMenuItems = menuItems[role] || [];
+  const location = useLocation();
+  useEffect(() => {
+    const currentItem = filteredMenuItems.find(
+      (item) => item.to === location.pathname
+    );
+    if (currentItem) {
+      setSelected(currentItem.title);
+    }
+  }, [location.pathname, filteredMenuItems]);
 
   return (
     <Box
