@@ -5,7 +5,7 @@ import {
   useStudentProgress,
 } from "../../hooks/useStudentProgress";
 import ProgressCircle from "../../components/organisms/ProgressCircle";
-import { useAuth } from "../../firebase/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 
 const StudentDashboard = () => {
   const theme = useTheme();

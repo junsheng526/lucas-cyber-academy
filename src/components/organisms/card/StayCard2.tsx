@@ -1,8 +1,6 @@
 import { FC } from "react";
 import GallerySlider from "../slider/GallerySlider";
-import { DEMO_STAY_LISTINGS } from "../../../data/listings";
 import Badge from "../../molecules/Badge";
-import StartRating from "../../molecules/StartRating";
 import BtnLikeIcon from "../../molecules/button/BtnLikeIcon";
 import SaleOffBadge from "../../molecules/SaleOffBadge";
 import { Course } from "../../../data/model";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SupabaseStorageService } from "./supabaseStorageService";
+import { SupabaseStorageService } from "../services/supabaseStorageService";
 
 const storageService = new SupabaseStorageService("lucas-cyber-academy");
 

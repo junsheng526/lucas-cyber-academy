@@ -9,7 +9,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../firebase/firebase";
+import { db } from "../config/firebase";
 
 // Firestore Node References
 export type NodeRef =

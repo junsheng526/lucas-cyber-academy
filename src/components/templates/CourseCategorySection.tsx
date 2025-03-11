@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ButtonSecondary from "../../components/molecules/button/ButtonSecondary";
+import ButtonSecondary from "../molecules/button/ButtonSecondary";
 import { CourseCategoryListing } from "./CourseCategoryListing";
 
 interface CourseCategorySectionProps {

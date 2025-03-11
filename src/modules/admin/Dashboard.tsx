@@ -5,7 +5,6 @@ import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import { tokens } from "../../styles/theme";
-import { mockTransactions } from "../../data/mockData";
 import LineChart from "../../components/organisms/chart/LineChart";
 import BarChart from "../../components/organisms/chart/BarChart";
 import GeographyChart from "../../components/organisms/chart/GeographyChart";
@@ -194,7 +193,7 @@ const Dashboard = () => {
               Recent Transactions
             </Typography>
           </Box>
-          {mockTransactions.map((transaction, i) => (
+          {/* {mockTransactions.map((transaction, i) => (
             <Box
               key={`${transaction.txId}-${i}`}
               display="flex"
@@ -224,7 +223,7 @@ const Dashboard = () => {
                 ${transaction.cost}
               </Box>
             </Box>
-          ))}
+          ))} */}
         </Box>
 
         {/* ROW 3 */}

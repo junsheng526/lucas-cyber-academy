@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { EMAILJS_CONFIG } from "../../constant";
 import emailjs from "@emailjs/browser";
+import { EMAILJS_CONFIG } from "../../config/email";
 
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({

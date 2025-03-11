@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Docs, firestoreService } from "../services/firestoreService";
-import { AuthorType } from "../data/types";
+import { AuthorType } from "../types/types";
 
 const useTopLecturers = (limit: number = 10) => {
   const [lecturers, setLecturers] = useState<AuthorType[]>([]);

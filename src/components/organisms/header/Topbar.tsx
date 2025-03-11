@@ -11,7 +11,7 @@ import LogoutOutlined from "@mui/icons-material/LogoutOutlined";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { ColorModeContext, tokens } from "../../../styles/theme";
-import { auth } from "../../../firebase/firebase";
+import { auth } from "../../../config/firebase";
 
 type TopbarProps = {
   setIsSidebar: React.Dispatch<React.SetStateAction<boolean>>;

@@ -1,16 +1,11 @@
 import { FC, ReactNode, useState } from "react";
 import StayCard2 from "../organisms/card/StayCard2";
-import { DEMO_STAY_LISTINGS } from "../../data/listings";
 import HeaderFilter from "../organisms/header/HeaderFilter";
-import Pagination from "../molecules/button/Pagination";
 import Heading from "../molecules/text/Heading";
 import StayCard from "../organisms/card/StayCard";
 import { useNavigate } from "react-router-dom";
 import ButtonPrimary from "../molecules/button/ButtonPrimary";
 import { useCourses } from "../../hooks/useCourses";
-
-const DEMO_DATA: any[] = DEMO_STAY_LISTINGS.slice(0, 8);
-
 export interface SectionGridFeaturePlacesProps {
   stayListings?: any[];
   gridClass?: string;
@@ -23,7 +18,6 @@ export interface SectionGridFeaturePlacesProps {
 }
 
 const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
-  stayListings = DEMO_DATA,
   gridClass = "",
   heading = "Featured Classes to learn",
   subHeading = "Popular classes to learn that Chisfis recommends for you",

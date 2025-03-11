@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import ButtonPrimary from "../../components/molecules/button/ButtonPrimary";
-import StartRating from "../../components/molecules/StartRating";
+import ButtonPrimary from "../molecules/button/ButtonPrimary";
+import StartRating from "../molecules/StartRating";
 import { Course } from "../../data/model";
-import { useAuth } from "../../firebase/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import useEnrollments from "../../hooks/useEnrollments";
-import useEnrollmentStatus from "../../hooks/useEnrollmentStatus"; // Import the hook
-import { PAYPAL_CONFIG } from "../../constant";
+import useEnrollmentStatus from "../../hooks/useEnrollmentStatus";
 import { useUser } from "../../hooks/useUser";
+import { PAYPAL_CONFIG } from "../../config/paypal";
 
 interface CourseDetailsSidebarProps {
   course: Course;

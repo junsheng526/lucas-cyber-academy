@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { firestoreService } from "../services/firestoreService";
-import { useAuth } from "../firebase/useAuth";
+import { useAuth } from "./useAuth";
 
 interface User {
   name: string;

@@ -9,7 +9,7 @@ import ButtonPrimary from "../molecules/button/ButtonPrimary";
 import { Docs, firestoreService } from "../../services/firestoreService";
 import { useUser } from "../../hooks/useUser";
 import { signOut } from "@firebase/auth";
-import { auth } from "../../firebase/firebase";
+import { auth } from "../../config/firebase";
 import { IconButton } from "@mui/material";
 import { LogoutOutlined } from "@mui/icons-material";
 

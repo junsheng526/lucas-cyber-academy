@@ -1,16 +1,12 @@
 import { FC, useState } from "react";
-import { StayDataType } from "../../data/types";
 import HeaderFilter from "../organisms/header/HeaderFilter";
-import { DEMO_STAY_LISTINGS } from "../../data/listings";
 import PropertyCardH from "../organisms/card/PropertyCardH";
 import Pagination from "../molecules/button/Pagination";
 import HeaderList from "../organisms/header/HeaderList";
 import StayCard2 from "../organisms/card/StayCard2";
 import ButtonPrimary from "../molecules/button/ButtonPrimary";
 import { Course } from "../../data/model";
-import { Link, useNavigate } from "react-router-dom";
-
-const DEMO_DATA: StayDataType[] = DEMO_STAY_LISTINGS.filter((_, i) => i < 8);
+import { useNavigate } from "react-router-dom";
 
 export interface SectionGridFeaturePropertyProps {
   courseListings?: Course[];

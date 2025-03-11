@@ -1,17 +1,15 @@
 import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Squares2X2Icon } from "@heroicons/react/24/outline";
 import Layout from "../../components/templates/layout/Layout";
-import { CourseDetailsSection } from "./CourseDetailsSection";
-import { CourseDescSection } from "./CourseDescSection";
-import { CourseCategorySection } from "./CourseCategorySection";
-import { CourseDetailsSidebar } from "./CourseDetailsSidebar";
-import { LecturerInfoSection } from "./LecturerInfoSection";
-import { PHOTOS } from "./constant";
-import { Course } from "../../data/model"; // Import your Course type
+import { CourseDetailsSection } from "../../components/templates/CourseDetailsSection";
+import { CourseDescSection } from "../../components/templates/CourseDescSection";
+import { CourseCategorySection } from "../../components/templates/CourseCategorySection";
+import { CourseDetailsSidebar } from "../../components/templates/CourseDetailsSidebar";
+import { LecturerInfoSection } from "../../components/templates/LecturerInfoSection";
+import { Course } from "../../data/model";
 import { Docs, firestoreService } from "../../services/firestoreService";
-import RatingSection from "./RatingSection";
-import { useAuth } from "../../firebase/useAuth";
+import RatingSection from "../../components/templates/RatingSection";
+import { useAuth } from "../../hooks/useAuth";
 
 export interface CourseDetailsProps {}
 

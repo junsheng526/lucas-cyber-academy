@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { firestoreService, Docs } from "../../services/firestoreService";
 import { useCourses } from "../../hooks/useCourses";
-import { useAuth } from "../../firebase/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { Header } from "../../components/organisms/header/Header";
 import FullCalendar from "@fullcalendar/react";
 import { formatDate } from "@fullcalendar/core";

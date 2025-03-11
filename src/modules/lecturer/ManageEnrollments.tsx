@@ -11,7 +11,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import { DataTable } from "../../components/templates/DataTable";
 import { useCourses } from "../../hooks/useCourses";
 import { firestoreService, Docs } from "../../services/firestoreService";
-import { useAuth } from "../../firebase/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { User } from "../../types/user";
 
 const ManageEnrollments = () => {

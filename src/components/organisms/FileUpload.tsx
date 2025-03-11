@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useFileUpload } from "../../supabase/useFileUpload";
+import { useFileUpload } from "../../hooks/useFileUpload";
 import { firestoreService } from "../../services/firestoreService";
 
 const FileUpload: React.FC = () => {

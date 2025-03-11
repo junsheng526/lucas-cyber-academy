@@ -9,8 +9,8 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { firestoreService } from "../../services/firestoreService";
-import { useAuth } from "../../firebase/useAuth";
-import { useFileUpload } from "../../supabase/useFileUpload";
+import { useAuth } from "../../hooks/useAuth";
+import { useFileUpload } from "../../hooks/useFileUpload";
 import { User } from "../../types/user";
 
 const EditProfile: React.FC = () => {

@@ -1,7 +1,6 @@
 import { FC } from "react";
 import CardAuthorBox2 from "../organisms/card/CardAuthorBox2";
-import { AuthorType } from "../../data/types";
-import { DEMO_AUTHORS } from "../../data/authors";
+import { AuthorType } from "../../types/types";
 import Heading from "../molecules/text/Heading";
 import CardAuthorBox from "../organisms/card/CardAuthorBox";
 import ButtonSecondary from "../molecules/button/ButtonSecondary";
@@ -15,11 +14,8 @@ export interface SectionGridAuthorBoxProps {
   gridClassName?: string;
 }
 
-const DEMO_DATA = DEMO_AUTHORS.slice(0, 10);
-
 const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
   className = "",
-  authors = DEMO_DATA,
   boxCard = "box1",
   gridClassName = "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
 }) => {

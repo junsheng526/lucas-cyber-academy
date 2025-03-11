@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ArrowRightIcon, StarIcon } from "@heroicons/react/24/outline";
-import CommentListing from "./CommentListing";
+import CommentListing from "../../modules/course/CommentListing";
 import { useCourseRating } from "../../hooks/useCourseRating";
 
 const RatingSection = ({

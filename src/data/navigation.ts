@@ -1,5 +1,4 @@
 import ncNanoId from "../utils/ncNanoId";
-import { megamenu } from "./jsons/__megamenu";
 
 export interface MegamenuItem {
   id: string;
@@ -17,64 +16,6 @@ export interface NavItemType {
   megaMenu?: MegamenuItem[];
   type?: "dropdown" | "megaMenu" | "none";
 }
-
-const megaMenuDemo: MegamenuItem[] = [
-  {
-    id: ncNanoId(),
-    image:
-      "https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    title: "Company",
-    items: megamenu.map((i) => ({
-      id: ncNanoId(),
-      href: "/",
-      name: i.Company,
-    })),
-  },
-  {
-    id: ncNanoId(),
-    image:
-      "https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    title: "App Name",
-    items: megamenu.map((i) => ({
-      id: ncNanoId(),
-      href: "/",
-      name: i.AppName,
-    })),
-  },
-  {
-    id: ncNanoId(),
-    image:
-      "https://images.pexels.com/photos/5059013/pexels-photo-5059013.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    title: "City",
-    items: megamenu.map((i) => ({
-      id: ncNanoId(),
-      href: "/",
-      name: i.City,
-    })),
-  },
-  {
-    id: ncNanoId(),
-    image:
-      "https://images.pexels.com/photos/5159141/pexels-photo-5159141.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    title: "Contruction",
-    items: megamenu.map((i) => ({
-      id: ncNanoId(),
-      href: "/",
-      name: i.Contruction,
-    })),
-  },
-  {
-    id: ncNanoId(),
-    image:
-      "https://images.pexels.com/photos/7473041/pexels-photo-7473041.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    title: "Country",
-    items: megamenu.map((i) => ({
-      id: ncNanoId(),
-      href: "/",
-      name: i.Country,
-    })),
-  },
-];
 
 const demoChildMenus: NavItemType[] = [
   {
@@ -192,7 +133,6 @@ export const NAVIGATION_DEMO: NavItemType[] = [
     href: "/",
     name: "Courses",
     type: "megaMenu",
-    megaMenu: megaMenuDemo,
   },
   {
     id: ncNanoId(),

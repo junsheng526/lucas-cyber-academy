@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Avatar from "../../components/molecules/Avatar";
-import ButtonSecondary from "../../components/molecules/button/ButtonSecondary";
-import StartRating from "../../components/molecules/StartRating";
+import Avatar from "../molecules/Avatar";
+import ButtonSecondary from "../molecules/button/ButtonSecondary";
+import StartRating from "../molecules/StartRating";
 import { firestoreService, Docs } from "../../services/firestoreService";
-import { DEFAULT_AVATAR } from "./constant";
+import { DEFAULT_AVATAR } from "../../data/constant";
 
 interface Lecturer {
   id: string;

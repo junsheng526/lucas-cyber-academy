@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { firestoreService, Docs } from "../services/firestoreService";
-import { useAuth } from "../firebase/useAuth";
+import { useAuth } from "./useAuth";
 
 export interface ScheduleEvent {
   id: string;

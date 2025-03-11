@@ -1,9 +1,13 @@
 import { ResponsivePie } from "@nivo/pie";
 import { useTheme } from "@mui/material";
-import { mockPieData as data } from "../../../data/mockData";
 import { tokens } from "../../../styles/theme";
+import { FC } from "react";
 
-const PieChart = () => {
+export interface PieChartProps {
+  data?: any[];
+}
+
+const PieChart: FC<PieChartProps> = ({ data = [] }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (

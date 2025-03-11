@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import { Course, Lecturer } from "../../data/model"; // Import Course type
-import StartRating from "../../components/molecules/StartRating";
-import Avatar from "../../components/molecules/Avatar";
-import { DEFAULT_AVATAR } from "./constant";
+import StartRating from "../molecules/StartRating";
+import Avatar from "../molecules/Avatar";
+import { DEFAULT_AVATAR } from "../../data/constant";
 import { Docs, firestoreService } from "../../services/firestoreService";
 
 interface CourseDetailsSectionProps {

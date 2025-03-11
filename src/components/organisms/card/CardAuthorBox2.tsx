@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import Avatar from "../../molecules/Avatar";
 import convertNumbThousand from "../../../utils/convertNumbThousand";
-import { AuthorType } from "../../../data/types";
+import { AuthorType } from "../../../types/types";
 
 export interface CardAuthorBox2Props {
   className?: string;

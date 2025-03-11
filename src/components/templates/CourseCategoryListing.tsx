@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import ButtonClose from "../../components/molecules/button/ButtonClose";
+import ButtonClose from "../molecules/button/ButtonClose";
 
 // Define props type for CourseCategoryListing
 interface CourseCategoryListingProps {

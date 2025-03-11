@@ -3,7 +3,7 @@ import { UserPlusIcon } from "@heroicons/react/24/outline";
 import { Popover, Transition } from "@headlessui/react";
 import ClearDataButton from "../../components/molecules/button/ClearDataButton";
 import NcInputNumber from "./NcInputNumber";
-import { GuestsObject } from "./type";
+import { GuestsObject } from "../../modules/course/type";
 
 export interface GuestsInputProps {
   className?: string;

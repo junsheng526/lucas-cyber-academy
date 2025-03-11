@@ -2,7 +2,7 @@
 
 import React from "react";
 import FooterNav from "./FooterNav";
-import { CustomLink } from "../../../data/types";
+import { CustomLink } from "../../../types/types";
 import Logo from "../../molecules/Logo";
 import SocialsList1 from "../../molecules/SocialsList1";
 import useHomeContent from "../../../hooks/useHomeContent";

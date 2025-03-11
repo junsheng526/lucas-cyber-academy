@@ -1,13 +1,17 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../firebase/firebase";
-import {firestoreService as db, Docs} from "./firestoreService";
+import { auth } from "../config/firebase";
+import { firestoreService as db, Docs } from "./firestoreService";
 
 export const registerUser = async (params: any) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, params.email, params.password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      params.email,
+      params.password
+    );
 
     await updateProfile(userCredential.user, {
-      displayName: params.name
+      displayName: params.name,
     });
 
     const userDoc = {
@@ -15,12 +19,11 @@ export const registerUser = async (params: any) => {
       createdAt: new Date(),
     };
 
-    const userId = userCredential.user.uid
+    const userId = userCredential.user.uid;
 
     const docId = await db.setDoc(Docs.USERS, userId, userDoc);
 
     return { uid: userCredential.user.uid, docId };
-
   } catch (error) {
     console.error("Error registering user: ", error);
     throw error;
@@ -29,7 +32,7 @@ export const registerUser = async (params: any) => {
 
 export const getAllUsers = async () => {
   try {
-    const users = await db.fetchDocs(Docs.USERS)
+    const users = await db.fetchDocs(Docs.USERS);
     return users;
   } catch (error) {
     console.error("Error fetching users: ", error);

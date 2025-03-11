@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../../styles/theme";
 import { useUser } from "../../../hooks/useUser";
-import { DEFAULT_AVATAR } from "../../../modules/course/constant";
+import { DEFAULT_AVATAR } from "../../../data/constant";
 import Avatar from "../../molecules/Avatar";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";

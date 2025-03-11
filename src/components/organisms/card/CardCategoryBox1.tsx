@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { TaxonomyType } from "../../../data/types";
+import { TaxonomyType } from "../../../types/types";
 import Badge from "../../molecules/Badge";
 import convertNumbThousand from "../../../utils/convertNumbThousand";
 
