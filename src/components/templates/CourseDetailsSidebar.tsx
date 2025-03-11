@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import ButtonPrimary from "../molecules/button/ButtonPrimary";
 import StartRating from "../molecules/StartRating";
-import { Course } from "../../data/model";
+import { Course } from "../../types/model";
 import { useAuth } from "../../hooks/useAuth";
 import useEnrollments from "../../hooks/useEnrollments";
 import useEnrollmentStatus from "../../hooks/useEnrollmentStatus";

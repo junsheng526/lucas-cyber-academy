@@ -1,6 +1,6 @@
 import { FC } from "react";
 import convertNumbThousand from "../../../utils/convertNumbThousand";
-import { Course } from "../../../data/model"; // Import Course type
+import { Course } from "../../../types/model"; // Import Course type
 
 export interface CardCategory3Props {
   className?: string;

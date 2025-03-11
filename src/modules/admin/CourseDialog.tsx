@@ -13,7 +13,7 @@ import {
   InputAdornment,
   SelectChangeEvent,
 } from "@mui/material";
-import { Course } from "../../data/model";
+import { Course } from "../../types/model";
 
 type CourseDialogProps = {
   open: boolean;

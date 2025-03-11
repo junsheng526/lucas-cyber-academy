@@ -5,7 +5,7 @@ import Pagination from "../molecules/button/Pagination";
 import HeaderList from "../organisms/header/HeaderList";
 import StayCard2 from "../organisms/card/StayCard2";
 import ButtonPrimary from "../molecules/button/ButtonPrimary";
-import { Course } from "../../data/model";
+import { Course } from "../../types/model";
 import { useNavigate } from "react-router-dom";
 
 export interface SectionGridFeaturePropertyProps {

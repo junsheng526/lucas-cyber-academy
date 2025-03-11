@@ -18,7 +18,7 @@ import { DataTable } from "../../components/templates/DataTable";
 import { Header } from "../../components/organisms/header/Header";
 import { useCourses } from "../../hooks/useCourses";
 import { useLecturers } from "../../hooks/useLecturers";
-import { Lecturer } from "../../data/model";
+import { Lecturer } from "../../types/model";
 import { Close } from "@mui/icons-material";
 import { Docs, firestoreService } from "../../services/firestoreService";
 

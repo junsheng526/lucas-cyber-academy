@@ -7,7 +7,7 @@ import PrevBtn from "../molecules/button/PrevBtn";
 import NextBtn from "../molecules/button/NextBtn";
 import Heading from "../molecules/text/Heading";
 import { useCourses } from "../../hooks/useCourses";
-import { Course } from "../../data/model";
+import { Course } from "../../types/model";
 
 const SectionSliderNewCategories: FC = () => {
   const { courses, loading, error } = useCourses(); // Fetch courses

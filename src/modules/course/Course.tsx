@@ -3,7 +3,7 @@ import Layout from "../../components/templates/layout/Layout";
 import SectionGridFeatureProperty from "../../components/templates/SectionGridFeatureProperty";
 import BgGlassmorphism from "../../components/atoms/background/BgGlassmorphism";
 import { Docs, firestoreService } from "../../services/firestoreService"; // Update the path as needed
-import { Course } from "../../data/model";
+import { Course } from "../../types/model";
 
 export interface ListingCoursePageProps {}
 

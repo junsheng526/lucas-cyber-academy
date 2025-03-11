@@ -3,7 +3,7 @@ import GallerySlider from "../slider/GallerySlider";
 import Badge from "../../molecules/Badge";
 import BtnLikeIcon from "../../molecules/button/BtnLikeIcon";
 import SaleOffBadge from "../../molecules/SaleOffBadge";
-import { Course } from "../../../data/model";
+import { Course } from "../../../types/model";
 import { Link } from "react-router-dom";
 
 export interface StayCard2Props {

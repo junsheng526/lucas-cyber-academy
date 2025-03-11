@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Course, Lecturer } from "../../data/model"; // Import Course type
+import { Course, Lecturer } from "../../types/model"; // Import Course type
 import StartRating from "../molecules/StartRating";
 import Avatar from "../molecules/Avatar";
 import { DEFAULT_AVATAR } from "../../data/constant";

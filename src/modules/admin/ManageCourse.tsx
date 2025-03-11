@@ -4,7 +4,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import { DataTable } from "../../components/templates/DataTable";
 import { Header } from "../../components/organisms/header/Header";
 import { Docs, firestoreService } from "../../services/firestoreService";
-import { Course } from "../../data/model";
+import { Course } from "../../types/model";
 import { useAuth } from "../../hooks/useAuth";
 import { useFileUpload } from "../../hooks/useFileUpload";
 import { DeleteConfirmationDialog } from "../../components/templates/DeleteCourseForm";

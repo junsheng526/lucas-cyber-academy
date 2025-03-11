@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Course } from "../data/model";
+import { Course } from "../types/model";
 import { Docs, firestoreService } from "../services/firestoreService";
 
 export const useCourses = () => {

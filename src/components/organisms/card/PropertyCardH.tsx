@@ -4,7 +4,7 @@ import BtnLikeIcon from "../../molecules/button/BtnLikeIcon";
 import SaleOffBadge from "../../molecules/SaleOffBadge";
 import Badge from "../../molecules/Badge";
 import GallerySlider from "../slider/GallerySlider";
-import { Course } from "../../../data/model";
+import { Course } from "../../../types/model";
 import { Link } from "react-router-dom";
 
 export interface PropertyCardHProps {

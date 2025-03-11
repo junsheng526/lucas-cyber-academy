@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { firestoreService, Docs } from "../services/firestoreService";
-import { Lecturer } from "../data/model";
+import { Lecturer } from "../types/model";
 
 export const useLecturers = () => {
   const [lecturers, setLecturers] = useState<Lecturer[]>([]);

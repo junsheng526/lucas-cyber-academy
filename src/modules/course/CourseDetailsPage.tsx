@@ -6,7 +6,7 @@ import { CourseDescSection } from "../../components/templates/CourseDescSection"
 import { CourseCategorySection } from "../../components/templates/CourseCategorySection";
 import { CourseDetailsSidebar } from "../../components/templates/CourseDetailsSidebar";
 import { LecturerInfoSection } from "../../components/templates/LecturerInfoSection";
-import { Course } from "../../data/model";
+import { Course } from "../../types/model";
 import { Docs, firestoreService } from "../../services/firestoreService";
 import RatingSection from "../../components/templates/RatingSection";
 import { useAuth } from "../../hooks/useAuth";
