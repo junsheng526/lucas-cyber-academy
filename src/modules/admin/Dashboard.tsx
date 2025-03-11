@@ -11,10 +11,17 @@ import GeographyChart from "../../components/organisms/chart/GeographyChart";
 import StatBox from "../../components/organisms/StatBox";
 import ProgressCircle from "../../components/organisms/ProgressCircle";
 import { Header } from "../../components/organisms/header/Header";
+import { useAnalyticsData } from "../../hooks/useAnalyticsData";
+import { useEffect, useState } from "react";
+import { useCourses } from "../../hooks/useCourses";
+import { useUser } from "../../hooks/useUser";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { emailCount, targetCount } = useAnalyticsData();
+  const { courses } = useCourses();
+  const { userCount } = useUser();
 
   return (
     <Box m="20px">
@@ -56,9 +63,9 @@ const Dashboard = () => {
           }}
         >
           <StatBox
-            title="12,361"
-            subtitle="Emails Sent"
-            progress={0.75}
+            title={emailCount.toLocaleString()}
+            subtitle="Emails Received"
+            progress={emailCount / targetCount}
             increase="+14%"
             icon={
               <EmailIcon
@@ -77,8 +84,8 @@ const Dashboard = () => {
           }}
         >
           <StatBox
-            title="431,225"
-            subtitle="Sales Obtained"
+            title={courses.length.toString()}
+            subtitle="Courses"
             progress={0.5}
             increase="+21%"
             icon={
@@ -98,8 +105,8 @@ const Dashboard = () => {
           }}
         >
           <StatBox
-            title="32,441"
-            subtitle="New Clients"
+            title={userCount.toString()}
+            subtitle="Students and Lecturers"
             progress={0.3}
             increase="+5%"
             icon={

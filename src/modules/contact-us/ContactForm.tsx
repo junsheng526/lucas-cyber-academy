@@ -1,6 +1,7 @@
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { EMAILJS_CONFIG } from "../../config/email";
+import { useAnalyticsData } from "../../hooks/useAnalyticsData";
 
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +9,8 @@ const ContactForm: React.FC = () => {
     email: "",
     message: "",
   });
+
+  const { incrementEmailCount, loading } = useAnalyticsData();
 
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
@@ -33,6 +36,7 @@ const ContactForm: React.FC = () => {
       if (response.status === 200) {
         setStatusMessage("✅ Message sent successfully!");
         setFormData({ fullName: "", email: "", message: "" }); // Clear form
+        incrementEmailCount();
       }
     } catch (error) {
       setStatusMessage("❌ Failed to send message. Please try again.");
