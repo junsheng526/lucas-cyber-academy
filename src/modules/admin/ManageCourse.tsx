@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useFileUpload } from "../../hooks/useFileUpload";
 import { DeleteConfirmationDialog } from "../../components/templates/DeleteCourseForm";
 import { useCourses } from "../../hooks/useCourses";
-import CourseDialog from "./CourseDialog";
+import CourseDialog from "../../components/organisms/CourseDialog";
 
 const ManageCourses = () => {
   const { courses, loading, error, setCourses } = useCourses();
