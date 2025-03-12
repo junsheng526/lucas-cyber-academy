@@ -12,9 +12,9 @@ import StatBox from "../../components/organisms/StatBox";
 import ProgressCircle from "../../components/organisms/ProgressCircle";
 import { Header } from "../../components/organisms/header/Header";
 import { useAnalyticsData } from "../../hooks/useAnalyticsData";
-import { useEffect, useState } from "react";
 import { useCourses } from "../../hooks/useCourses";
 import { useUser } from "../../hooks/useUser";
+import useRevenue from "../../hooks/useRevenue";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -22,6 +22,7 @@ const Dashboard = () => {
   const { emailCount, targetCount } = useAnalyticsData();
   const { courses } = useCourses();
   const { userCount } = useUser();
+  const { revenueData, totalRevenue } = useRevenue();
 
   return (
     <Box m="20px">
@@ -166,7 +167,7 @@ const Dashboard = () => {
                 fontWeight="bold"
                 color={colors.greenAccent[500]}
               >
-                $59,342.32
+                {"$" + totalRevenue.toFixed(2)}
               </Typography>
             </Box>
             <Box>
@@ -178,7 +179,7 @@ const Dashboard = () => {
             </Box>
           </Box>
           <Box height="250px" m="-20px 0 0 0">
-            <LineChart isDashboard={true} />
+            <LineChart isDashboard={true} data={revenueData} />
           </Box>
         </Box>
         <Box

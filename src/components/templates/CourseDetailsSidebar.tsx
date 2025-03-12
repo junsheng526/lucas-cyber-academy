@@ -104,7 +104,8 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
                         course.id,
                         course.lecturerId,
                         course.currentEnrollments || 0,
-                        course.maxSeats || 30
+                        course.maxSeats || 30,
+                        totalPrice
                       );
                       alert("Payment successful! You are now enrolled.");
                     }

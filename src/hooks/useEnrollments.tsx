@@ -11,6 +11,7 @@ interface Enrollment {
   status: "active" | "completed" | "canceled";
   progress: number;
   paymentStatus: "pending" | "paid" | "failed";
+  totalPrice: number;
 }
 
 const useEnrollments = (studentId: string | null) => {
@@ -40,7 +41,8 @@ const useEnrollments = (studentId: string | null) => {
     courseId: string,
     lecturerId: string | null | undefined,
     currentEnrollments: number,
-    maxSeats: number
+    maxSeats: number,
+    totalPrice: number
   ) => {
     if (!studentId) {
       alert("You must be logged in to enroll.");
@@ -66,7 +68,8 @@ const useEnrollments = (studentId: string | null) => {
         enrolledAt: serverTimestamp(),
         status: "active",
         progress: 0,
-        paymentStatus: "pending",
+        paymentStatus: "paid",
+        totalPrice: totalPrice,
       };
 
       const docId = await firestoreService.insertDoc(
