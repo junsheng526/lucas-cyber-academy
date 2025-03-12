@@ -11,6 +11,13 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import {
+  AddHomeOutlined,
+  AppsOutageOutlined,
+  ConstructionOutlined,
+  EventAvailableOutlined,
+  ManageAccountsOutlined,
+} from "@mui/icons-material";
 
 type UserRole = "admin" | "lecturer" | "student";
 
@@ -27,31 +34,31 @@ const menuItems = {
       key: "manageCourses",
       title: "Manage Courses",
       to: "/manage-course",
-      icon: <PeopleOutlinedIcon />,
+      icon: <ConstructionOutlined />,
     },
     {
       key: "manageLecturers",
       title: "Manage Lecturers",
       to: "/manage-lecturers",
-      icon: <PeopleOutlinedIcon />,
+      icon: <ManageAccountsOutlined />,
     },
     {
       key: "editProfile",
       title: "Edit Profile",
       to: "/edit-profile",
-      icon: <PersonOutlinedIcon />,
+      icon: <ManageAccountsOutlined />,
     },
     {
       key: "manageHome",
       title: "Manage Home",
       to: "/manage-home",
-      icon: <PersonOutlinedIcon />,
+      icon: <AddHomeOutlined />,
     },
     {
       key: "manageGrayscale",
       title: "Manage Grayscale",
       to: "/manage-grayscale",
-      icon: <PersonOutlinedIcon />,
+      icon: <AppsOutageOutlined />,
     },
   ],
   lecturer: [
@@ -65,19 +72,19 @@ const menuItems = {
       key: "manageEnrollments",
       title: "Manage Enrollments",
       to: "/manage-enrollments",
-      icon: <PeopleOutlinedIcon />,
+      icon: <ConstructionOutlined />,
     },
     {
       key: "manageSchedule",
       title: "Manage Schedule",
       to: "/manage-schedule",
-      icon: <PeopleOutlinedIcon />,
+      icon: <EventAvailableOutlined />,
     },
     {
       key: "editProfile",
       title: "Edit Profile",
       to: "/edit-profile",
-      icon: <PersonOutlinedIcon />,
+      icon: <ManageAccountsOutlined />,
     },
   ],
   student: [
@@ -91,13 +98,13 @@ const menuItems = {
       key: "editProfile",
       title: "Edit Profile",
       to: "/edit-profile",
-      icon: <PersonOutlinedIcon />,
+      icon: <ManageAccountsOutlined />,
     },
     {
       key: "viewSchedule",
       title: "View Schedule",
       to: "/view-schedule",
-      icon: <PersonOutlinedIcon />,
+      icon: <EventAvailableOutlined />,
     },
   ],
 };

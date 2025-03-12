@@ -7,10 +7,12 @@ import {
   DialogContent,
   DialogActions,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { firestoreService, Docs } from "../../services/firestoreService";
 import { Header } from "../../components/organisms/header/Header";
+import { tokens } from "../../styles/theme";
 
 interface VideoType {
   id: string;
@@ -90,64 +92,81 @@ const ManageHomeContent = () => {
     setLoading(false);
   };
 
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   return (
     <Box m="20px" maxWidth="100wh">
-      <Header title="CONTENT MANAGEMENT" subtitle="Manage Website Content" />
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header title="CONTENT MANAGEMENT" subtitle="Manage Website Content" />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setOpenEditDialog(true)}
+        >
+          Edit Content
+        </Button>
+      </Box>
 
-      {/* Hero Section */}
-      <Typography variant="h6" sx={{ mt: 3 }}>
-        Hero Section
-      </Typography>
-      <Typography>
-        <strong>Title:</strong> {content.title}
-      </Typography>
-      <Typography>
-        <strong>Subtitle:</strong> {content.subtitle}
-      </Typography>
-      <Typography>
-        <strong>Button Text:</strong> {content.buttonText}
-      </Typography>
-      <Typography>
-        <strong>Hero Image:</strong>
-      </Typography>
-      <img
-        src={content.imageUrl}
-        alt="Hero"
-        style={{ width: "100%", maxWidth: "400px", marginTop: "10px" }}
-      />
+      <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap="20px">
+        <Box
+          gridColumn="span 6"
+          sx={{ backgroundColor: colors.primary[400] }}
+          p="20px"
+        >
+          {/* Hero Section */}
+          <Typography variant="h6" sx={{ mt: 3 }}>
+            Hero Section
+          </Typography>
+          <Typography>
+            <strong>Title:</strong> {content.title}
+          </Typography>
+          <Typography>
+            <strong>Subtitle:</strong> {content.subtitle}
+          </Typography>
+          <Typography>
+            <strong>Button Text:</strong> {content.buttonText}
+          </Typography>
+          <Typography>
+            <strong>Hero Image:</strong>
+          </Typography>
+          <img
+            src={content.imageUrl}
+            alt="Hero"
+            style={{ width: "100%", maxWidth: "400px", marginTop: "10px" }}
+          />
+        </Box>
 
-      {/* ✅ Logo Section */}
-      <Typography variant="h6" sx={{ mt: 5 }}>
-        Logo
-      </Typography>
-      <img
-        src={content.logo}
-        alt="Logo"
-        style={{ width: "150px", marginTop: "10px", borderRadius: "5px" }}
-      />
+        <Box
+          gridColumn="span 6"
+          sx={{ backgroundColor: colors.primary[400] }}
+          p="20px"
+        >
+          {/* ✅ Logo Section */}
+          <Typography variant="h6" sx={{ mt: 5 }}>
+            Logo
+          </Typography>
+          <img
+            src={content.logo}
+            alt="Logo"
+            style={{ width: "150px", marginTop: "10px", borderRadius: "5px" }}
+          />
 
-      {/* ✅ New Contact Info Section */}
-      <Typography variant="h6" sx={{ mt: 5 }}>
-        Contact Information
-      </Typography>
-      <Typography>
-        <strong>Address:</strong> {content.address}
-      </Typography>
-      <Typography>
-        <strong>Email:</strong> {content.email}
-      </Typography>
-      <Typography>
-        <strong>Phone:</strong> {content.phone}
-      </Typography>
-
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{ mt: 3 }}
-        onClick={() => setOpenEditDialog(true)}
-      >
-        Edit Content
-      </Button>
+          {/* ✅ New Contact Info Section */}
+          <Typography variant="h6" sx={{ mt: 5 }}>
+            Contact Information
+          </Typography>
+          <Typography>
+            <strong>Address:</strong> {content.address}
+          </Typography>
+          <Typography>
+            <strong>Email:</strong> {content.email}
+          </Typography>
+          <Typography>
+            <strong>Phone:</strong> {content.phone}
+          </Typography>
+        </Box>
+      </Box>
 
       {/* Edit Content Dialog */}
       <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
