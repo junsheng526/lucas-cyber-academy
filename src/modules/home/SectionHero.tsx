@@ -12,10 +12,11 @@ interface HomeContent {
 }
 
 export interface SectionHeroProps {
+  homeContentId: string; //  Register home content in Firestore
   className?: string;
 }
 
-const SectionHero: FC<SectionHeroProps> = ({ className }) => {
+const SectionHero: FC<SectionHeroProps> = ({ className, homeContentId }) => {
   const navigate = useNavigate();
   const [content, setContent] = useState<HomeContent>({
     title: "",
@@ -29,7 +30,7 @@ const SectionHero: FC<SectionHeroProps> = ({ className }) => {
       try {
         const doc = await firestoreService.fetchDocById(
           Docs.HOME_CONTENT,
-          "CtFtz97Oedq4TQKFcCFm"
+          homeContentId
         );
         if (doc) setContent(doc as HomeContent);
       } catch (err) {
