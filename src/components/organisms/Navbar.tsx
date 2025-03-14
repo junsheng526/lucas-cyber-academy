@@ -13,19 +13,23 @@ import { auth } from "../../config/firebase";
 import { IconButton } from "@mui/material";
 import { LogoutOutlined } from "@mui/icons-material";
 import WidgetsIcon from "@mui/icons-material/Widgets";
+import { useGrayscale } from "../../hooks/useGrayscale";
+
+const navItems = [
+  { name: "Home", to: "/", key: "home" },
+  { name: "Courses", to: "/courses", key: "courses" },
+  { name: "About Us", to: "/about-us", key: "about-us" },
+  { name: "Contact Us", to: "/contact-us", key: "contact-us" },
+];
 
 const Navbar: React.FC = () => {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-
-  const getLinkClass = () => {
-    return `block hover:bg-gray-200 hover:text-gray-900 text-gray-500 py-2 px-4 rounded-full items-center flex`;
-  };
-
-  const handleCloseMenu = () => setIsVisible(false);
-  const navigate = useNavigate();
-
-  const [logoUrl, setLogoUrl] = useState<string>("");
   const { userData } = useUser();
+  const navigate = useNavigate();
+  const { grayscaleConfig } = useGrayscale();
+
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [logoUrl, setLogoUrl] = useState<string>("");
+  const handleCloseMenu = () => setIsVisible(false);
 
   useEffect(() => {
     const fetchLogo = async () => {
@@ -117,68 +121,59 @@ const Navbar: React.FC = () => {
     }
   };
 
+  const filteredMenuItems = navItems.filter(
+    (item) => !grayscaleConfig[item.to.replace("/", "")]
+  );
+
   return (
     <>
-      {" "}
       <nav className="bg-light-800 py-2 px-5 md:p-4 md:px-12 nc-Header sticky top-0 w-full left-0 right-0 z-40 nc-header-bg">
         <div className="container mx-auto flex justify-between items-center lg:px-28">
           <div className="flex items-center">
             <Logo className="w-24 self-center mr-4" img={logoUrl} />
-            {/* Desktop Menu */}
             <ul className="hidden md:flex md:items-center md:space-x-6">
-              <li>
-                <Link to="/">
-                  <Text as="span" className={getLinkClass()}>
-                    Home
-                  </Text>
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses" className={getLinkClass()}>
-                  <Text as="span">Courses</Text>
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className={getLinkClass()}>
-                  <Text as="span">About Us</Text>
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact-us" className={getLinkClass()}>
-                  <Text as="span">Contact Us</Text>
-                </Link>
-              </li>
+              {filteredMenuItems.map((item) => {
+                const isHidden = grayscaleConfig[item.key];
+                return (
+                  !isHidden && (
+                    <li key={item.to}>
+                      <Link to={item.to}>
+                        <Text
+                          as="span"
+                          className="block hover:bg-gray-200 hover:text-gray-900 text-gray-500 py-2 px-4 rounded-full items-center flex"
+                        >
+                          {item.name}
+                        </Text>
+                      </Link>
+                    </li>
+                  )
+                );
+              })}
             </ul>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="hidden md:block">
-              {userData ? (
-                // Logged-in state: Show user profile & logout
-                <div className="flex items-center space-x-4">
-                  <IconButton onClick={handleDashboard}>
-                    <WidgetsIcon />
-                  </IconButton>
-                  <IconButton onClick={handleLogout}>
-                    <LogoutOutlined />
-                  </IconButton>
-                  <img
-                    src={userData.profileImage}
-                    alt="User Avatar"
-                    className="w-10 h-10 rounded-full border"
-                  />
-                </div>
-              ) : (
-                // Logged-out state: Show Sign Up button
-                <ButtonPrimary onClick={() => navigate("/login")}>
-                  Sign up
-                </ButtonPrimary>
-              )}
-            </div>
-
-            {/* Hamburger Icon for Mobile */}
-            <div className="block md:hidden" onClick={() => setIsVisible(true)}>
-              <i className="fas fa-bars text-black"></i>
-            </div>
+            {userData ? (
+              <div className="flex items-center space-x-4">
+                <IconButton onClick={handleDashboard}>
+                  <WidgetsIcon />
+                </IconButton>
+                <IconButton onClick={handleLogout}>
+                  <LogoutOutlined />
+                </IconButton>
+                <img
+                  src={userData?.profileImage}
+                  alt="User Avatar"
+                  className="w-10 h-10 rounded-full border"
+                />
+              </div>
+            ) : (
+              <button
+                onClick={() => navigate("/login")}
+                className="btn-primary"
+              >
+                Sign up
+              </button>
+            )}
           </div>
         </div>
       </nav>

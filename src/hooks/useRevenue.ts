@@ -59,10 +59,14 @@ const useRevenue = () => {
           {
             id: "Revenue",
             color: "hsl(220, 90%, 50%)",
-            data: Object.entries(revenueByMonth).map(([month, revenue]) => ({
-              x: month,
-              y: revenue,
-            })),
+            data: Object.entries(revenueByMonth)
+              .map(([month, revenue]) => ({
+                x: month,
+                y: revenue,
+              }))
+              .sort(
+                (a, b) => new Date(a.x).getTime() - new Date(b.x).getTime()
+              ),
           },
         ];
 

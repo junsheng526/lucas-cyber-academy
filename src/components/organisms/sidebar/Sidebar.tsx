@@ -9,8 +9,6 @@ import { DEFAULT_AVATAR } from "../../../data/constant";
 import Avatar from "../../molecules/Avatar";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import {
   AddHomeOutlined,
   AppsOutageOutlined,
@@ -18,6 +16,7 @@ import {
   EventAvailableOutlined,
   ManageAccountsOutlined,
 } from "@mui/icons-material";
+import { useGrayscale } from "../../../hooks/useGrayscale";
 
 type UserRole = "admin" | "lecturer" | "student";
 
@@ -115,19 +114,25 @@ export const Sidebar: React.FC<{ isSidebar: boolean }> = ({ isSidebar }) => {
   const [isCollapsed, setIsCollapsed] = useState(isSidebar);
   const [selected, setSelected] = useState("Dashboard");
   const { userData } = useUser();
+  const { grayscaleConfig } = useGrayscale();
 
   const role: UserRole =
     (userData?.role?.toLowerCase() as UserRole) || "student";
-  const filteredMenuItems = menuItems[role] || [];
+
+  const filteredMenuItems = menuItems[role]?.filter(
+    (item) => !grayscaleConfig[item.to.replace("/", "")]
+  );
+
   const location = useLocation();
   useEffect(() => {
+    console.log("filteredMenuItems -> " + JSON.stringify(filteredMenuItems));
     const currentItem = filteredMenuItems.find(
       (item) => item.to === location.pathname
     );
     if (currentItem) {
       setSelected(currentItem.title);
     }
-  }, [location.pathname, filteredMenuItems]);
+  }, [location.pathname, filteredMenuItems, grayscaleConfig]);
 
   return (
     <Box
