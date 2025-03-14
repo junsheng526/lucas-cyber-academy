@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { StarIcon } from "@heroicons/react/24/solid";
 import Badge from "../../molecules/Badge";
 import Avatar from "../../molecules/Avatar";

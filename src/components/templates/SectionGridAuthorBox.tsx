@@ -19,7 +19,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
   boxCard = "box1",
   gridClassName = "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
 }) => {
-  const { lecturers, loading } = useTopLecturers(10);
+  const { lecturers } = useTopLecturers(10);
 
   return (
     <div className={`relative ${className}`} data-id="SectionGridAuthorBox">

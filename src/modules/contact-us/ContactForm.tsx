@@ -10,7 +10,7 @@ const ContactForm: React.FC = () => {
     message: "",
   });
 
-  const { incrementEmailCount, loading } = useAnalyticsData();
+  const { incrementEmailCount } = useAnalyticsData();
 
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
 

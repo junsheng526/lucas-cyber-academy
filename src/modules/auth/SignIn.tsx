@@ -24,6 +24,7 @@ const PageLogin: FC<PageLoginProps> = ({}) => {
       navigate("/");
     } catch (err: any) {
       setError(err.message);
+      alert("Wrong Password or Email");
     }
   };
 

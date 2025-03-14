@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import Input from "../../components/atoms/input/Input";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../../components/templates/layout/Layout";
-import { User } from "../../types/user";
 import { registerUser } from "../../services/userService";
 import BgGlassmorphism from "../../components/atoms/background/BgGlassmorphism";
 import ButtonPrimary from "../../components/molecules/button/ButtonPrimary";
@@ -46,7 +45,8 @@ const PageSignUp: FC<PageSignUpProps> = ({}) => {
       name: fullName,
       email: email,
       role: role,
-      profileImage: "",
+      profileImage:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLXuM2b4djVbMt63hftHrWFFMeQmccyytKlQ&s",
       password: password,
     };
 

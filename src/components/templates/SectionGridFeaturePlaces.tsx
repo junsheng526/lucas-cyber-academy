@@ -21,8 +21,6 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
   gridClass = "",
   heading = "Featured Classes to learn",
   subHeading = "Popular classes to learn that Chisfis recommends for you",
-  headingIsCenter,
-  tabs = ["All", "Web Development", "Data Science", "Design"],
   cardType = "card2",
   pagination = false,
 }) => {

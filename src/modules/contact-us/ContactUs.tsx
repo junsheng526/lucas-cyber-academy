@@ -4,7 +4,7 @@ import useHomeContent from "../../hooks/useHomeContent";
 import ContactForm from "./ContactForm";
 
 const ContactUs: React.FC = () => {
-  const { data, loading, error } = useHomeContent("CtFtz97Oedq4TQKFcCFm"); // Use Firestore doc ID
+  const { data } = useHomeContent("CtFtz97Oedq4TQKFcCFm"); // Use Firestore doc ID
 
   // Default fallback data
   const info = [

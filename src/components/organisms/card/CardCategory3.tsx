@@ -8,7 +8,7 @@ export interface CardCategory3Props {
 }
 
 const CardCategory3: FC<CardCategory3Props> = ({ className = "", course }) => {
-  const { title, currentEnrollments, featuredImage, href } = course; // Adjust to course data fields
+  const { title, currentEnrollments, featuredImage } = course; // Adjust to course data fields
 
   return (
     <a

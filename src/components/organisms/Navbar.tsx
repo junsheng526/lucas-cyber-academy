@@ -12,6 +12,7 @@ import { IconButton } from "@mui/material";
 import { LogoutOutlined } from "@mui/icons-material";
 import WidgetsIcon from "@mui/icons-material/Widgets";
 import { useGrayscale } from "../../hooks/useGrayscale";
+import ButtonPrimary from "../molecules/button/ButtonPrimary";
 
 const navItems = [
   { name: "Home", to: "/", key: "home" },
@@ -165,12 +166,14 @@ const Navbar: React.FC = () => {
                 />
               </div>
             ) : (
-              <button
-                onClick={() => navigate("/login")}
-                className="btn-primary"
-              >
-                Sign up
-              </button>
+              <div className="hidden md:block">
+                <ButtonPrimary
+                  className="self-center"
+                  onClick={() => navigate("/login")}
+                >
+                  Sign up
+                </ButtonPrimary>
+              </div>
             )}
           </div>
         </div>
