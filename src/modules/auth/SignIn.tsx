@@ -21,6 +21,7 @@ const PageLogin: FC<PageLoginProps> = ({}) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert("Login successful!");
+      navigate("/");
     } catch (err: any) {
       setError(err.message);
     }
