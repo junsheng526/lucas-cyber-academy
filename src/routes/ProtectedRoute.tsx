@@ -42,7 +42,7 @@ export const ProtectedRoute = ({
 
     // check is the role allow to access the route
     if (!allowedRoles.includes(userData.role.toLowerCase())) {
-      navigate("/not-found", { replace: true });
+      navigate("/access-denied", { replace: true });
       return;
     }
 
@@ -84,7 +84,7 @@ export const ProtectedRoute = ({
 
   // 🚨 Cut off access if grayscale is OFF
   if (isGrayscaleEnabled) {
-    return <Navigate to="/not-found" replace />;
+    return <Navigate to="/access-denied" replace />;
   }
 
   return element;

@@ -8,6 +8,8 @@ import { useState } from "react";
 import NotFound from "./routes/NotFound";
 import { publicRoutes } from "./routes/PublicRoutes";
 import { secureRoutes } from "./routes/SecureRoutes";
+import AccessDenied from "./routes/AccessDenied";
+import { GrayscaleRoute } from "./routes/GrayscaleRoute";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -20,7 +22,11 @@ function App() {
         <Routes>
           {/* Map public routes */}
           {publicRoutes.map((route) => (
-            <Route key={route.path} path={route.path} element={route.element} />
+            <Route
+              key={route.path}
+              path={route.path}
+              element={<GrayscaleRoute element={route.element} />}
+            />
           ))}
 
           {/* Map secure routes with ProtectedRoute */}
@@ -32,6 +38,7 @@ function App() {
             />
           ))}
 
+          <Route path="/access-denied" element={<AccessDenied />} />
           {/* Fallback to NotFound */}
           <Route path="*" element={<NotFound />} />
         </Routes>

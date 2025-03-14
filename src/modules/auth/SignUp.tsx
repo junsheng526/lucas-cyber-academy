@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import Input from "../../components/atoms/input/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../../components/templates/layout/Layout";
 import { User } from "../../types/user";
 import { registerUser } from "../../services/userService";
@@ -24,6 +24,8 @@ const PageSignUp: FC<PageSignUpProps> = ({}) => {
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,8 +54,11 @@ const PageSignUp: FC<PageSignUpProps> = ({}) => {
       // Call the user service to register the user
       await registerUser(userObj);
       console.log("User registered successfully", userObj);
+      alert("Registered successful!");
+      navigate("/login");
     } catch (error) {
       console.error("Registration error", error);
+      alert(`${"Registration error: " + error}`);
     }
   };
 

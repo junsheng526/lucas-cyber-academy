@@ -12,6 +12,7 @@ import { signOut } from "@firebase/auth";
 import { auth } from "../../config/firebase";
 import { IconButton } from "@mui/material";
 import { LogoutOutlined } from "@mui/icons-material";
+import WidgetsIcon from "@mui/icons-material/Widgets";
 
 const Navbar: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -98,6 +99,24 @@ const Navbar: React.FC = () => {
     }
   };
 
+  const handleDashboard = () => {
+    if (!userData?.role) {
+      alert("Something wents wrong!");
+      return;
+    }
+    const role = userData.role.toLowerCase();
+
+    if (role === "student") {
+      navigate("/student-dashboard");
+    } else if (role === "lecturer") {
+      navigate("/lecturer-dashboard");
+    } else if (role === "admin") {
+      navigate("/dashboard");
+    } else {
+      navigate("/not-found");
+    }
+  };
+
   return (
     <>
       {" "}
@@ -132,16 +151,13 @@ const Navbar: React.FC = () => {
             </ul>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="hidden md:block hover:bg-gray-200 hover:text-gray-900 text-gray-500 py-2 px-2 rounded-full items-center flex">
-              <SunIcon className="w-7 h-7 text-gray-500" aria-hidden="true" />
-            </div>
-            <div className="hidden md:block hover:bg-gray-200 hover:text-gray-900 text-gray-500 py-2 px-3 rounded-full items-center flex">
-              <i className="w-7 h-7 las la-search text-2xl text-gray-500"></i>
-            </div>
             <div className="hidden md:block">
               {userData ? (
                 // Logged-in state: Show user profile & logout
                 <div className="flex items-center space-x-4">
+                  <IconButton onClick={handleDashboard}>
+                    <WidgetsIcon />
+                  </IconButton>
                   <IconButton onClick={handleLogout}>
                     <LogoutOutlined />
                   </IconButton>

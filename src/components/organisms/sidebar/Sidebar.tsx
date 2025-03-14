@@ -65,7 +65,7 @@ const menuItems = {
     {
       key: "dashboard",
       title: "Dashboard",
-      to: "/dashboard",
+      to: "/lecturer-dashboard",
       icon: <HomeOutlinedIcon />,
     },
     {
