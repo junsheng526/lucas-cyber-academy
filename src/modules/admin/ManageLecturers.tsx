@@ -174,6 +174,7 @@ const ManageLecturers = () => {
         rows={lecturers}
         loading={loading}
         error={error}
+        getRowHeight={() => "auto"}
       />
 
       {/* Assign Course Dialog */}

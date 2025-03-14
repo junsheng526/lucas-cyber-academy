@@ -111,6 +111,7 @@ const EditProfile: React.FC = () => {
           variant="outlined"
           margin="normal"
           value={role}
+          disabled
           onChange={(e) => setRole(e.target.value)}
         />
         <Button

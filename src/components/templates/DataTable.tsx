@@ -9,6 +9,7 @@ interface DataTableProps {
   error?: string | null;
   checkboxSelection?: boolean;
   height?: string;
+  getRowHeight?: () => number | "auto";
 }
 
 export const DataTable = ({
@@ -18,6 +19,7 @@ export const DataTable = ({
   error,
   checkboxSelection = false,
   height = "75vh",
+  getRowHeight,
 }: DataTableProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -56,6 +58,7 @@ export const DataTable = ({
         checkboxSelection={checkboxSelection}
         rows={rows}
         columns={columns}
+        getRowHeight={getRowHeight}
       />
     </Box>
   );
