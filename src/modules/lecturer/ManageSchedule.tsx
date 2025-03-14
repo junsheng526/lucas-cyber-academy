@@ -26,18 +26,26 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
+import { ScheduleEvent } from "../../hooks/useStudentSchedule";
+import ButtonPrimary from "../../components/molecules/button/ButtonPrimary";
 
 const ManageSchedule = () => {
   const user = useAuth();
   const { courses } = useCourses();
-  const [currentEvents, setCurrentEvents] = useState<
-    {
-      id: string;
-      title: string;
-      start: string | Date;
-      end: string | Date;
-    }[]
-  >([]);
+  const [currentEvents, setCurrentEvents] = useState<ScheduleEvent[]>([]);
+
+  const [selectedEvent, setSelectedEvent] = useState<ScheduleEvent>();
+  const [open, setOpen] = useState(false);
+
+  const handleOpenDialog = (event: ScheduleEvent) => {
+    setSelectedEvent(event);
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+    setSelectedEvent(undefined);
+  };
 
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState("");
@@ -157,6 +165,7 @@ const ManageSchedule = () => {
                   margin: "10px 0",
                   borderRadius: "4px",
                 }}
+                onClick={() => handleOpenDialog(event)}
               >
                 <ListItemText
                   primary={event.title}
@@ -252,6 +261,39 @@ const ManageSchedule = () => {
           >
             Save
           </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={open} onClose={handleCloseDialog}>
+        <DialogTitle>Course Details</DialogTitle>
+        <DialogContent>
+          {selectedEvent && (
+            <>
+              <Typography variant="h6">{selectedEvent.title}</Typography>
+              <Typography>
+                Date:{" "}
+                {formatDate(selectedEvent.start, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </Typography>
+              <Typography>
+                Time:{" "}
+                {formatDate(selectedEvent.start, {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}{" "}
+                -{" "}
+                {formatDate(selectedEvent.end, {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Typography>
+            </>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <ButtonPrimary onClick={handleCloseDialog}>Close</ButtonPrimary>
         </DialogActions>
       </Dialog>
     </Box>
