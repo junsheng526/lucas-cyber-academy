@@ -35,12 +35,7 @@ const CoursePage: FC<ListingCoursePageProps> = () => {
           {loading ? (
             <p className="text-center text-gray-500">Loading courses...</p>
           ) : (
-            <SectionGridFeatureProperty
-              heading="All Courses"
-              subHeading="Let’s Learn The World Most Useful Tutorials & Grow Together...."
-              courseListings={courses} // Pass fetched courses to the component
-              pagination={true}
-            />
+            <SectionGridFeatureProperty courseListings={courses} />
           )}
         </div>
       </div>

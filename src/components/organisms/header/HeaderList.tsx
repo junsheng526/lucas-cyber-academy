@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState } from "react";
+import { FC, useState } from "react";
 import {
   ListBulletIcon,
   Square3Stack3DIcon,
@@ -8,40 +8,36 @@ import Input from "../../atoms/input/Input";
 
 export interface HeaderListProps {
   tabActive: string;
-  tabs: string[];
-  heading: ReactNode;
-  subHeading?: ReactNode;
+  tabs?: string[];
+  heading: string;
+  subHeading?: string;
   totalItems: number;
-  onClickTab?: (item: string) => void;
   onViewChange?: (view: "list" | "card") => void;
-  onSearchChange?: (searchQuery: string) => void; // New prop for search
+  onSearchChange?: (searchQuery: string) => void;
 }
 
 const HeaderList: FC<HeaderListProps> = ({
-  subHeading = "",
-  heading = "Latest Articles 🎈",
-  totalItems = 0,
-  onViewChange = () => {},
-  onSearchChange = () => {},
+  subHeading,
+  heading,
+  totalItems,
+  onViewChange,
+  onSearchChange,
 }) => {
   const [activeView, setActiveView] = useState<"list" | "card">("card");
 
   const handleViewChange = (view: "list" | "card") => {
-    setActiveView(view); // Update active view state
-    onViewChange(view);
+    setActiveView(view);
+    onViewChange?.(view);
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onSearchChange(event.target.value);
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onSearchChange?.(e.target.value);
   };
 
   return (
     <div className="flex flex-col mb-8 relative">
-      <Heading desc={subHeading} isCenter={false}>
-        {heading}
-      </Heading>
+      <Heading desc={subHeading}>{heading}</Heading>
 
-      {/* Total Items */}
       <div className="text-start text-sm text-gray-700">
         <span className="block my-2 md:my-3 font-normal text-base sm:text-lg text-neutral-500">
           Total {totalItems} courses
@@ -49,7 +45,6 @@ const HeaderList: FC<HeaderListProps> = ({
       </div>
 
       <div className="flex items-center justify-between space-x-4">
-        {/* Search Input */}
         <div className="flex-grow max-w-xs">
           <Input
             placeholder="Search courses..."
@@ -58,25 +53,20 @@ const HeaderList: FC<HeaderListProps> = ({
           />
         </div>
 
-        {/* View Options */}
-        <div className="flex items-center space-x-4">
+        <div className="flex space-x-4">
           <button
             onClick={() => handleViewChange("list")}
-            className={`p-2 rounded-full border border-gray-300 ${
-              activeView === "list"
-                ? "bg-primary text-white"
-                : "hover:bg-gray-100 text-gray-700"
-            }`} // Apply bg-primary for active state
+            className={`p-2 rounded-full border ${
+              activeView === "list" ? "bg-primary text-white" : "text-gray-700"
+            }`}
           >
             <ListBulletIcon className="w-5 h-5" />
           </button>
           <button
             onClick={() => handleViewChange("card")}
-            className={`p-2 rounded-full border border-gray-300 hover:bg-gray-100 ${
-              activeView === "card"
-                ? "bg-primary text-white"
-                : "hover:bg-gray-100 text-gray-700"
-            }`} // Apply bg-primary for active state
+            className={`p-2 rounded-full border ${
+              activeView === "card" ? "bg-primary text-white" : "text-gray-700"
+            }`}
           >
             <Square3Stack3DIcon className="w-5 h-5" />
           </button>

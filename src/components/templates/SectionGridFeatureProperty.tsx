@@ -1,70 +1,62 @@
 import { FC, useState } from "react";
-import HeaderFilter from "../organisms/header/HeaderFilter";
 import PropertyCardH from "../organisms/card/PropertyCardH";
 import Pagination from "../molecules/button/Pagination";
 import HeaderList from "../organisms/header/HeaderList";
 import StayCard2 from "../organisms/card/StayCard2";
-import ButtonPrimary from "../molecules/button/ButtonPrimary";
 import { Course } from "../../types/model";
 
 export interface SectionGridFeaturePropertyProps {
-  courseListings?: Course[];
+  courseListings: Course[];
   gridClass?: string;
-  heading?: string;
-  subHeading?: string;
-  headingIsCenter?: boolean;
   tabs?: string[];
-  pagination?: boolean;
-  itemsPerPage?: number;
 }
 
 const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
   courseListings = [],
   gridClass = "",
-  heading = "Featured Courses",
-  subHeading = "Popular courses we recommend for you",
-  headingIsCenter,
-  tabs = ["Development", "Design", "Marketing", "Photography"],
-  pagination = false,
-  itemsPerPage = 8, // Default items per page
+  tabs = [],
 }) => {
   const [view, setView] = useState<"list" | "card">("card");
-  const [currentPage, setCurrentPage] = useState(1); // State to track the current page
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState<string>(""); // New state for search
 
-  const totalItems = courseListings.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const itemsPerPage = 8;
 
-  // Get the items for the current page
-  const currentItems = courseListings.slice(
+  // Filter courses based on search query
+  const filteredCourses = courseListings.filter((course) =>
+    course.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
+
+  const currentItems = filteredCourses.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  const renderCard = (course: Course) => {
-    const CardComponent = view === "list" ? PropertyCardH : StayCard2;
-
-    return <CardComponent data={course} />;
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setCurrentPage(1); // Reset to first page when searching
   };
+
+  const renderCard = (course: Course) =>
+    view === "list" ? (
+      <PropertyCardH data={course} />
+    ) : (
+      <StayCard2 data={course} />
+    );
 
   return (
     <div className="relative">
-      {pagination ? (
-        <HeaderList
-          tabActive={tabs[0]}
-          subHeading={subHeading}
-          tabs={tabs}
-          heading={heading}
-          totalItems={totalItems}
-          onViewChange={setView} // Pass view change handler
-        />
-      ) : (
-        <HeaderFilter
-          tabActive={tabs[0]}
-          subHeading={subHeading}
-          tabs={tabs}
-          heading={heading}
-        />
-      )}
+      <HeaderList
+        tabActive="Development"
+        subHeading="Popular courses we recommend for you"
+        heading="Featured Courses"
+        totalItems={filteredCourses.length}
+        onViewChange={setView}
+        onSearchChange={handleSearch} // Handle search here
+        tabs={tabs}
+      />
 
       <div
         className={`${
@@ -76,17 +68,13 @@ const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
         {currentItems.map(renderCard)}
       </div>
 
-      {pagination && totalPages > 1 ? (
+      {totalPages > 1 && (
         <div className="flex mt-16 justify-center items-center">
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={(newPage) => setCurrentPage(newPage)} // Update current page
+            onPageChange={(newPage) => setCurrentPage(newPage)}
           />
-        </div>
-      ) : (
-        <div className="flex mt-16 justify-center items-center">
-          <ButtonPrimary loading>Show me more</ButtonPrimary>
         </div>
       )}
     </div>
