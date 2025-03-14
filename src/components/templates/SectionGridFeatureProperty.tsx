@@ -6,7 +6,6 @@ import HeaderList from "../organisms/header/HeaderList";
 import StayCard2 from "../organisms/card/StayCard2";
 import ButtonPrimary from "../molecules/button/ButtonPrimary";
 import { Course } from "../../types/model";
-import { useNavigate } from "react-router-dom";
 
 export interface SectionGridFeaturePropertyProps {
   courseListings?: Course[];
@@ -16,7 +15,7 @@ export interface SectionGridFeaturePropertyProps {
   headingIsCenter?: boolean;
   tabs?: string[];
   pagination?: boolean;
-  itemsPerPage?: number; // Number of items per page
+  itemsPerPage?: number;
 }
 
 const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
@@ -40,12 +39,6 @@ const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
-  const navigate = useNavigate();
-
-  const handleCardClick = (courseId: string) => {
-    navigate(`/courses/${courseId}`);
-  };
 
   const renderCard = (course: Course) => {
     const CardComponent = view === "list" ? PropertyCardH : StayCard2;

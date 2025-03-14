@@ -15,7 +15,7 @@ import { User } from "../../types/user";
 
 const EditProfile: React.FC = () => {
   const user = useAuth();
-  const { uploading, error, fileUrl, uploadFiles } = useFileUpload();
+  const { uploading, error, uploadFiles } = useFileUpload();
   const [fullName, setFullName] = useState<string>("");
   const [role, setRole] = useState<string>("");
   const [profileImage, setProfileImage] = useState<string>("");

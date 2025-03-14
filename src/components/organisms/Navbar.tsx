@@ -1,11 +1,9 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Text from "../atoms/text/Text";
-import { SunIcon } from "@heroicons/react/24/outline";
 import Logo from "../molecules/Logo";
 import { Dialog, Transition } from "@headlessui/react";
 import NavMobile from "./navbar/NavMobile";
-import ButtonPrimary from "../molecules/button/ButtonPrimary";
 import { Docs, firestoreService } from "../../services/firestoreService";
 import { useUser } from "../../hooks/useUser";
 import { signOut } from "@firebase/auth";

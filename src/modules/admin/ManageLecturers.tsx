@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  IconButton,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -19,7 +18,6 @@ import { Header } from "../../components/organisms/header/Header";
 import { useCourses } from "../../hooks/useCourses";
 import { useLecturers } from "../../hooks/useLecturers";
 import { Lecturer } from "../../types/model";
-import { Close } from "@mui/icons-material";
 import { Docs, firestoreService } from "../../services/firestoreService";
 
 const ManageLecturers = () => {

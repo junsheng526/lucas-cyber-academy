@@ -1,7 +1,6 @@
 import { FC } from "react";
 import GallerySlider from "../slider/GallerySlider";
 import Badge from "../../molecules/Badge";
-import BtnLikeIcon from "../../molecules/button/BtnLikeIcon";
 import SaleOffBadge from "../../molecules/SaleOffBadge";
 import { Course } from "../../../types/model";
 import { Link } from "react-router-dom";
@@ -11,8 +10,6 @@ export interface StayCard2Props {
   data?: Course;
   size?: "default" | "small";
 }
-
-// const DEMO_DATA = DEMO_STAY_LISTINGS[0];
 
 const StayCard2: FC<StayCard2Props> = ({
   size = "default",
@@ -27,17 +24,10 @@ const StayCard2: FC<StayCard2Props> = ({
     category,
     price = 0,
     duration,
-    lessons,
-    level,
-    tags = [],
     isAds = false,
-    featuredImage,
     saleOff,
   } = data || {};
 
-  // TODO: address should query based on lecturer
-
-  // Renders the image slider with badges and like button
   const renderSliderGallery = () => {
     return (
       <div className="relative w-full">
@@ -47,10 +37,6 @@ const StayCard2: FC<StayCard2Props> = ({
           galleryImgs={galleryImgs}
           imageClass="rounded-lg"
           href={href}
-        />
-        <BtnLikeIcon
-          isLiked={false}
-          className="absolute right-3 top-3 p-1 rounded-full shadow-md"
         />
         {saleOff && (
           <SaleOffBadge className="absolute left-3 top-3 bg-red-500 text-white rounded-md px-2 py-1" />
@@ -116,9 +102,6 @@ const StayCard2: FC<StayCard2Props> = ({
               <span className="text-sm text-gray-500 font-normal">/hour</span>
             )}
           </span>
-          {/* {!!reviewStart && (
-            <StartRating reviewCount={reviewCount} point={reviewStart} />
-          )} */}
         </div>
       </div>
     );

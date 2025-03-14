@@ -1,6 +1,5 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import StartRating from "../../molecules/StartRating";
-import BtnLikeIcon from "../../molecules/button/BtnLikeIcon";
 import SaleOffBadge from "../../molecules/SaleOffBadge";
 import Badge from "../../molecules/Badge";
 import GallerySlider from "../slider/GallerySlider";
@@ -12,19 +11,6 @@ export interface PropertyCardHProps {
   data?: Course;
 }
 
-const DEMO_DATA = {
-  galleryImgs: [],
-  title: "Sample Property",
-  href: "/property/1",
-  like: false,
-  saleOff: true,
-  isAds: false,
-  price: 150,
-  reviewStart: 4.5,
-  reviewCount: 120,
-  id: "1",
-};
-
 const PropertyCardH: FC<PropertyCardHProps> = ({ className = "", data }) => {
   const {
     id,
@@ -33,12 +19,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({ className = "", data }) => {
     href = "#",
     category,
     price = 0,
-    duration,
-    lessons,
-    level,
-    tags = [],
     isAds = false,
-    featuredImage,
     saleOff = "aa",
   } = data || {};
 
@@ -148,12 +129,6 @@ const PropertyCardH: FC<PropertyCardHProps> = ({ className = "", data }) => {
           {renderContent()}
         </Link>
       </div>
-      <BtnLikeIcon
-        colorClass={`bg-neutral-100 hover:bg-neutral-200 hover:bg-opacity-70 text-neutral-600`}
-        // isLiked={like}
-        isLiked={true}
-        className="absolute right-5 top-5 sm:right-3 sm:top-3"
-      />
     </div>
   );
 };

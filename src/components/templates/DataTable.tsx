@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { tokens } from "../../styles/theme";
 
@@ -15,17 +15,12 @@ interface DataTableProps {
 export const DataTable = ({
   columns,
   rows,
-  loading,
-  error,
   checkboxSelection = false,
   height = "75vh",
   getRowHeight,
 }: DataTableProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  //   if (loading) return <Typography>Loading...</Typography>;
-  //   if (error) return <Typography>{error}</Typography>;
 
   return (
     <Box
