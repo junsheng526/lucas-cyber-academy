@@ -4,6 +4,7 @@ import CoursePage from "../modules/course/Course";
 import CourseDetailsPage from "../modules/course/CourseDetailsPage";
 import Home from "../modules/home/home";
 import ContactUs from "../modules/contact-us/ContactUs";
+import AboutUs from "../modules/about-us/AboutUs";
 
 export const publicRoutes = [
   { path: "/", element: <Home /> },
@@ -12,4 +13,5 @@ export const publicRoutes = [
   { path: "/register", element: <PageSignUp /> },
   { path: "/courses/:id", element: <CourseDetailsPage /> },
   { path: "/contact-us", element: <ContactUs /> },
+  { path: "/about-us", element: <AboutUs /> },
 ];
