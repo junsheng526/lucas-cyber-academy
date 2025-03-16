@@ -130,25 +130,23 @@ const Navbar: React.FC = () => {
         <div className="container mx-auto flex justify-between items-center lg:px-28">
           <div className="flex items-center">
             <Logo className="w-24 self-center mr-4" img={logoUrl} />
-            <ul className="hidden md:flex md:items-center md:space-x-6">
-              {filteredMenuItems.map((item) => {
-                const isHidden = grayscaleConfig[item.key];
-                return (
-                  !isHidden && (
-                    <li key={item.to}>
-                      <Link to={item.to}>
-                        <Text
-                          as="span"
-                          className="block hover:bg-gray-200 hover:text-gray-900 text-gray-500 py-2 px-4 rounded-full items-center flex"
-                        >
-                          {item.name}
-                        </Text>
-                      </Link>
-                    </li>
-                  )
-                );
-              })}
-            </ul>
+            {filteredMenuItems.map((item) => {
+              const isHidden = grayscaleConfig[item.key];
+              return (
+                !isHidden && (
+                  <li key={item.to}>
+                    <Link to={item.to}>
+                      <Text
+                        as="span"
+                        className="block hover:bg-gray-200 hover:text-gray-900 text-gray-500 py-2 px-4 rounded-full items-center flex"
+                      >
+                        {item.name}
+                      </Text>
+                    </Link>
+                  </li>
+                )
+              );
+            })}
           </div>
           <div className="flex items-center space-x-4">
             {userData ? (
