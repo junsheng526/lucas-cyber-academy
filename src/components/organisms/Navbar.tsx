@@ -134,7 +134,7 @@ const Navbar: React.FC = () => {
               const isHidden = grayscaleConfig[item.key];
               return (
                 !isHidden && (
-                  <li key={item.to}>
+                  <li className="list-none" key={item.to}>
                     <Link to={item.to}>
                       <Text
                         as="span"
