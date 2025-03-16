@@ -3,6 +3,7 @@ import { firestoreService, Docs } from "../../services/firestoreService";
 import { useNavigate } from "react-router-dom";
 import ButtonPrimary from "../../components/molecules/button/ButtonPrimary";
 import { HERO_RIGHT } from "../../assets/assets";
+import { Visibility } from "@mui/icons-material";
 
 interface HomeContent {
   title: string;
@@ -14,9 +15,14 @@ interface HomeContent {
 export interface SectionHeroProps {
   homeContentId: string; //  Register home content in Firestore
   className?: string;
+  buttonVisible?: string;
 }
 
-const SectionHero: FC<SectionHeroProps> = ({ className, homeContentId }) => {
+const SectionHero: FC<SectionHeroProps> = ({
+  className,
+  homeContentId,
+  buttonVisible,
+}) => {
   const navigate = useNavigate();
   const [content, setContent] = useState<HomeContent>({
     title: "",
@@ -53,7 +59,7 @@ const SectionHero: FC<SectionHeroProps> = ({ className, homeContentId }) => {
             {content.subtitle}
           </span>
           <ButtonPrimary
-            className="md:px-5 md:py-4 px-7"
+            className={`md:px-5 md:py-4 px-7 ${buttonVisible}`}
             onClick={() => navigate("/courses")}
           >
             {content.buttonText}
