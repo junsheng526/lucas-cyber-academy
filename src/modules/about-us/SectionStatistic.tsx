@@ -21,7 +21,7 @@ const FOUNDER_DEMO = [
 
 const SectionStatistic = ({ className = "" }) => {
   return (
-    <div className={`nc-SectionStatistic relative ${className}`}>
+    <div className={`nc-SectionStatistic relative py-16 ${className}`}>
       <Heading desc="We’re impartial and independent, and every day we create distinctive, world-class programs and content.">
         🚀 Fast Facts
       </Heading>

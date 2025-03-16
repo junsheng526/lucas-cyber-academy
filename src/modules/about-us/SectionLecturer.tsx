@@ -43,7 +43,7 @@ const SectionLecturer = () => {
         className="items-center"
         desc="We’re impartial and independent, and every day we create distinctive, world-class programmes and content"
       >
-        ⛱ Founder
+        ⛱ Meet our Lecturers
       </Heading>
       <div className="grid pt-8 sm:grid-cols-2 gap-x-5 gap-y-8 lg:grid-cols-4 xl:gap-x-8">
         {data.map((item, index) => (
