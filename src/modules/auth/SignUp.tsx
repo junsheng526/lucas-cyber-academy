@@ -5,6 +5,7 @@ import Layout from "../../components/templates/layout/Layout";
 import { registerUser } from "../../services/userService";
 import BgGlassmorphism from "../../components/atoms/background/BgGlassmorphism";
 import ButtonPrimary from "../../components/molecules/button/ButtonPrimary";
+import Popup from "../../components/organisms/popup/Popup";
 
 export interface PageSignUpProps {}
 
@@ -17,14 +18,20 @@ const PageSignUp: FC<PageSignUpProps> = ({}) => {
     role: "",
   });
   const [error, setError] = useState("");
+  const [popup, setPopup] = useState({
+    isOpen: false,
+    type: "success" as "success" | "error" | "warning",
+    title: "",
+    description: "",
+  });
+
+  const navigate = useNavigate();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,11 +40,22 @@ const PageSignUp: FC<PageSignUpProps> = ({}) => {
 
     // Validation
     if (!fullName || !email || !password || !role) {
-      setError("All fields are required.");
+      setPopup({
+        isOpen: true,
+        type: "warning",
+        title: "Missing Fields",
+        description: "All fields are required.",
+      });
       return;
     }
+
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setPopup({
+        isOpen: true,
+        type: "warning",
+        title: "Password Mismatch",
+        description: "Passwords do not match.",
+      });
       return;
     }
 
@@ -53,12 +71,22 @@ const PageSignUp: FC<PageSignUpProps> = ({}) => {
     try {
       // Call the user service to register the user
       await registerUser(userObj);
-      console.log("User registered successfully", userObj);
-      alert("Registered successful!");
-      navigate("/login");
+      setPopup({
+        isOpen: true,
+        type: "success",
+        title: "Registration Successful!",
+        description: "Your account has been created successfully.",
+      });
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000); // Auto redirect after 2 seconds
     } catch (error) {
-      console.error("Registration error", error);
-      alert(`${"Registration error: " + error}`);
+      setPopup({
+        isOpen: true,
+        type: "error",
+        title: "Registration Failed",
+        description: `${"Registration error: " + error}`,
+      });
     }
   };
 
@@ -146,10 +174,6 @@ const PageSignUp: FC<PageSignUpProps> = ({}) => {
               </select>
             </label>
 
-            {error && (
-              <span className="text-red-500 text-sm text-center">{error}</span>
-            )}
-
             <ButtonPrimary type="submit">Sign Up</ButtonPrimary>
           </form>
 
@@ -162,6 +186,16 @@ const PageSignUp: FC<PageSignUpProps> = ({}) => {
           </span>
         </div>
       </div>
+
+      {/* POPUP HERE */}
+      {popup.isOpen && (
+        <Popup
+          type={popup.type}
+          title={popup.title}
+          description={popup.description}
+          onClose={() => setPopup({ ...popup, isOpen: false })}
+        />
+      )}
     </Layout>
   );
 };

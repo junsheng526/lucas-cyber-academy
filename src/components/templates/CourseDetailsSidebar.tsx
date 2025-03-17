@@ -8,6 +8,7 @@ import useEnrollments from "../../hooks/useEnrollments";
 import useEnrollmentStatus from "../../hooks/useEnrollmentStatus";
 import { useUser } from "../../hooks/useUser";
 import { PAYPAL_CONFIG } from "../../config/paypal";
+import Popup from "../organisms/popup/Popup";
 
 interface CourseDetailsSidebarProps {
   course: Course;
@@ -17,7 +18,13 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
   course,
 }) => {
   const [isPaying, setIsPaying] = useState<boolean>(false);
-  const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
+  const [popup, setPopup] = useState<{
+    type: "success" | "error" | "warning" | null;
+    message: string;
+  }>({
+    type: null,
+    message: "",
+  });
 
   const weeks: number = parseInt(course.duration) || 4;
   const totalPrice: number = course.price * weeks;
@@ -32,10 +39,33 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
 
   const handleEnroll = () => {
     if (!user?.uid) {
-      alert("You need to log in to enroll.");
+      setPopup({ type: "warning", message: "You need to log in to enroll." });
       return;
     }
     setIsPaying(true);
+  };
+
+  const handlePaymentSuccess = async (actions: any) => {
+    try {
+      const details = await actions.order?.capture();
+      if (details?.status === "COMPLETED") {
+        setPopup({
+          type: "success",
+          message: "Payment successful! You are now enrolled.",
+        });
+
+        enrollStudent(
+          course.id,
+          course.lecturerId,
+          course.currentEnrollments || 0,
+          course.maxSeats || 30,
+          totalPrice
+        );
+      }
+    } catch (error) {
+      console.error("Error capturing PayPal payment:", error);
+      setPopup({ type: "error", message: "Payment verification failed." });
+    }
   };
 
   return (
@@ -70,14 +100,13 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
           <span>${totalPrice}</span>
         </div>
       </div>
+
       {userData?.role.toLowerCase() === "student" && (
         <div>
           {/* PAYPAL PAYMENT FLOW */}
           {isPaying ? (
             <PayPalScriptProvider
-              options={{
-                clientId: PAYPAL_CONFIG.CLIENT_ID,
-              }}
+              options={{ clientId: PAYPAL_CONFIG.CLIENT_ID }}
             >
               <PayPalButtons
                 style={{ layout: "vertical" }}
@@ -95,32 +124,20 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
                     ],
                   });
                 }}
-                onApprove={async (_data, actions) => {
-                  try {
-                    const details = await actions.order?.capture();
-                    if (details?.status === "COMPLETED") {
-                      setPaymentSuccess(true);
-                      enrollStudent(
-                        course.id,
-                        course.lecturerId,
-                        course.currentEnrollments || 0,
-                        course.maxSeats || 30,
-                        totalPrice
-                      );
-                      alert("Payment successful! You are now enrolled.");
-                    }
-                  } catch (error) {
-                    console.error("Error capturing PayPal payment:", error);
-                    alert("Payment verification failed.");
-                  }
-                }}
+                onApprove={(_data, actions) => handlePaymentSuccess(actions)}
                 onCancel={() => {
-                  alert("Payment was canceled.");
+                  setPopup({
+                    type: "warning",
+                    message: "Payment was canceled.",
+                  });
                   setIsPaying(false);
                 }}
                 onError={(err) => {
                   console.error("PayPal Checkout Error:", err);
-                  alert("Something went wrong with the payment.");
+                  setPopup({
+                    type: "error",
+                    message: "Something went wrong with the payment.",
+                  });
                   setIsPaying(false);
                 }}
               />
@@ -147,6 +164,22 @@ export const CourseDetailsSidebar: React.FC<CourseDetailsSidebarProps> = ({
             </ButtonPrimary>
           )}
         </div>
+      )}
+
+      {/* Popup */}
+      {popup.type && (
+        <Popup
+          type={popup.type}
+          title={
+            popup.type === "success"
+              ? "Success"
+              : popup.type === "error"
+              ? "Error"
+              : "Warning"
+          }
+          description={popup.message}
+          onClose={() => setPopup({ type: null, message: "" })}
+        />
       )}
     </div>
   );
