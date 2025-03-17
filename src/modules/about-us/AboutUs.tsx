@@ -9,7 +9,7 @@ import Layout from "../../components/templates/layout/Layout";
 const AboutUs: React.FC = () => {
   return (
     <Layout>
-      <div className="nc-PageAbout overflow-hidden relative px-[7rem]">
+      <div className="nc-PageAbout overflow-hidden relative md:px-[7rem] px-[2rem]">
         {/* ======== BG GLASS ======== */}
         <BgGlassmorphism />
 

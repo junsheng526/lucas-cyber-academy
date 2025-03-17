@@ -155,7 +155,7 @@ const Navbar: React.FC = () => {
               </IconButton>
             </div>
             {userData ? (
-              <div className="flex items-center space-x-4 hidden md:block">
+              <div className="flex items-center space-x-4 hidden md:flex">
                 <IconButton onClick={handleDashboard}>
                   <WidgetsIcon />
                 </IconButton>

@@ -25,7 +25,7 @@ const ContactUs: React.FC = () => {
     <Layout>
       <div className="container px-4 sm:px-6 lg:px-8">
         <div className="mb-24 lg:mb-32">
-          <h2 className="my-16 sm:my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 justify-center">
+          <h2 className="my-16 sm:my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 md:justify-center">
             Contact
           </h2>
           <div className="max-w-7xl mx-auto">
