@@ -3,6 +3,7 @@ import { CustomLink } from "../../../types/types";
 import Logo from "../../molecules/Logo";
 import SocialsList1 from "../../molecules/SocialsList1";
 import useHomeContent from "../../../hooks/useHomeContent";
+import FooterNav from "./FooterNav";
 
 export interface WidgetFooterMenu {
   id: string;
@@ -78,7 +79,7 @@ const Footer: React.FC = () => {
   const { data, loading, error } = useHomeContent("CtFtz97Oedq4TQKFcCFm");
   return (
     <>
-      {/* <FooterNav /> */}
+      <FooterNav />
 
       <div className="text-start nc-Footer relative px-10 py-24 lg:py-28 border-t border-neutral-200 justify-center flex">
         <div className="container grid grid-cols-2 gap-y-10 gap-x-5 sm:gap-x-8 md:grid-cols-4 lg:grid-cols-5 lg:gap-x-10">

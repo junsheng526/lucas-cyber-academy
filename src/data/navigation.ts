@@ -130,13 +130,13 @@ export const NAVIGATION_DEMO: NavItemType[] = [
   },
   {
     id: ncNanoId(),
-    href: "/",
+    href: "/courses",
     name: "Courses",
     type: "megaMenu",
   },
   {
     id: ncNanoId(),
-    href: "/",
+    href: "/about-us",
     name: "About Us",
     type: "dropdown",
     children: templatesChildrenMenus,
@@ -144,8 +144,8 @@ export const NAVIGATION_DEMO: NavItemType[] = [
 
   {
     id: ncNanoId(),
-    href: "/",
-    name: "Career",
+    href: "/contact-us",
+    name: "Contact Us",
     type: "dropdown",
     children: otherPageChildMenus,
   },

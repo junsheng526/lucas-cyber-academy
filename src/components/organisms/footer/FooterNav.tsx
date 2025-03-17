@@ -1,11 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  HeartIcon,
   MagnifyingGlassIcon,
   UserCircleIcon,
+  EnvelopeIcon,
+  HomeIcon,
 } from "@heroicons/react/24/outline";
 import isInViewport from "../../../utils/isInViewport";
 import MenuBar from "../MenuBar";
+import { useUser } from "../../../hooks/useUser";
+import WidgetsIcon from "@mui/icons-material/Widgets";
+import { signOut } from "@firebase/auth";
+import { auth } from "../../../config/firebase";
+import { useNavigate } from "react-router-dom";
 
 let WIN_PREV_POSITION = 0;
 if (typeof window !== "undefined") {
@@ -18,31 +24,39 @@ interface NavItem {
   icon: any;
 }
 
-const NAV: NavItem[] = [
-  {
-    name: "Explore",
-    link: "/",
-    icon: MagnifyingGlassIcon,
-  },
-  {
-    name: "Wishlists",
-    link: "/account-savelists",
-    icon: HeartIcon,
-  },
-  {
-    name: "Log in",
-    link: "/account",
-    icon: UserCircleIcon,
-  },
-  {
-    name: "Menu",
-    icon: MenuBar,
-  },
-];
-
 const FooterNav = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [navItems, setNavItems] = useState<NavItem[]>([]);
+
+  const { userData } = useUser();
+
+  useEffect(() => {
+    const navItems: NavItem[] = [
+      {
+        name: "Home",
+        link: "/",
+        icon: HomeIcon,
+      },
+      {
+        name: "Courses",
+        link: "/courses",
+        icon: MagnifyingGlassIcon,
+      },
+      {
+        name: "Contact Us",
+        link: "/contact-us",
+        icon: EnvelopeIcon,
+      },
+      {
+        name: userData ? "Profile" : "Log in",
+        link: userData ? "/edit-profile" : "/login",
+        icon: userData?.profileImage || UserCircleIcon,
+      },
+    ];
+
+    setNavItems(navItems);
+  }, [userData]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -83,11 +97,22 @@ const FooterNav = () => {
 
   const handleNavigation = (path: string) => {
     setCurrentPath(path);
-    window.location.href = path; // Simulate navigation
+    window.location.href = path;
   };
 
   const renderItem = (item: NavItem, index: number) => {
     const isActive = currentPath === item.link;
+
+    const IconComponent =
+      typeof item.icon === "string" ? (
+        <img
+          src={item.icon}
+          alt="User Avatar"
+          className="w-6 h-6 rounded-full border"
+        />
+      ) : (
+        <item.icon className={`w-6 h-6 ${isActive ? "text-red-600" : ""}`} />
+      );
 
     return item.link ? (
       <button
@@ -97,7 +122,7 @@ const FooterNav = () => {
           isActive ? "text-neutral-900" : ""
         }`}
       >
-        <item.icon className={`w-6 h-6 ${isActive ? "text-red-600" : ""}`} />
+        {IconComponent}
         <span
           className={`text-[11px] leading-none mt-1 ${
             isActive ? "text-red-600" : ""
@@ -124,7 +149,7 @@ const FooterNav = () => {
       transition-transform duration-300 ease-in-out"
     >
       <div className="w-full max-w-lg flex justify-around mx-auto text-sm text-center">
-        {NAV.map(renderItem)}
+        {navItems.map(renderItem)}
       </div>
     </div>
   );

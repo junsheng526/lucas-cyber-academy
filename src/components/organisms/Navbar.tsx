@@ -9,7 +9,7 @@ import { useUser } from "../../hooks/useUser";
 import { signOut } from "@firebase/auth";
 import { auth } from "../../config/firebase";
 import { IconButton } from "@mui/material";
-import { LogoutOutlined } from "@mui/icons-material";
+import { LogoutOutlined, MenuOutlined } from "@mui/icons-material";
 import WidgetsIcon from "@mui/icons-material/Widgets";
 import { useGrayscale } from "../../hooks/useGrayscale";
 import ButtonPrimary from "../molecules/button/ButtonPrimary";
@@ -134,7 +134,7 @@ const Navbar: React.FC = () => {
               const isHidden = grayscaleConfig[item.key];
               return (
                 !isHidden && (
-                  <li className="list-none" key={item.to}>
+                  <li className="list-none hidden md:block" key={item.to}>
                     <Link to={item.to}>
                       <Text
                         as="span"
@@ -149,8 +149,13 @@ const Navbar: React.FC = () => {
             })}
           </div>
           <div className="flex items-center space-x-4">
+            <div className="block md:hidden">
+              <IconButton onClick={() => setIsVisible(true)}>
+                <MenuOutlined />
+              </IconButton>
+            </div>
             {userData ? (
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4 hidden md:block">
                 <IconButton onClick={handleDashboard}>
                   <WidgetsIcon />
                 </IconButton>
