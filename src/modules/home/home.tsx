@@ -18,7 +18,7 @@ const Home: React.FC = () => {
   return (
     <Layout>
       <BgGlassmorphism />
-      <div className="container relative px-8 md:px-28 space-y-24 mb-24 lg:space-y-28 lg:mb-28">
+      <div className="container relative px-8 md:px-28 space-y-24 lg:space-y-28">
         <SectionHero
           homeContentId="CtFtz97Oedq4TQKFcCFm"
           className="text-start pt-10 pt-16 md:pb-16"

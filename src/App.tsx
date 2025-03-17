@@ -1,6 +1,7 @@
 import "./App.css";
 import "./index.css";
 import "./styles/global.scss";
+import "react-loading-skeleton/dist/skeleton.css";
 import { Route, Routes } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./styles/theme";

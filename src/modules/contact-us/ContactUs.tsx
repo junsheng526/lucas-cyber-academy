@@ -1,10 +1,11 @@
+import Skeleton from "react-loading-skeleton";
 import SocialsList from "../../components/molecules/SocialsList";
 import Layout from "../../components/templates/layout/Layout";
 import useHomeContent from "../../hooks/useHomeContent";
 import ContactForm from "./ContactForm";
 
 const ContactUs: React.FC = () => {
-  const { data } = useHomeContent("CtFtz97Oedq4TQKFcCFm"); // Use Firestore doc ID
+  const { data, loading } = useHomeContent("CtFtz97Oedq4TQKFcCFm"); // Use Firestore doc ID
 
   // Default fallback data
   const info = [
@@ -21,6 +22,7 @@ const ContactUs: React.FC = () => {
       desc: data?.phone || "Phone number not available",
     },
   ];
+
   return (
     <Layout>
       <div className="container px-4 sm:px-6 lg:px-8">
@@ -31,16 +33,25 @@ const ContactUs: React.FC = () => {
           <div className="max-w-7xl mx-auto">
             <div className="flex-shrink-0 grid grid-cols-1 sm:grid-cols-2 gap-12">
               <div className="max-w-sm space-y-8">
-                {info.map((item, index) => (
-                  <div key={index}>
-                    <h3 className="uppercase font-semibold text-sm tracking-wider text-left">
-                      {item.title}
-                    </h3>
-                    <span className="block mt-2 text-neutral-500 text-left">
-                      {item.desc}
-                    </span>
-                  </div>
-                ))}
+                {loading
+                  ? Array(3)
+                      .fill(null)
+                      .map((_, index) => (
+                        <div key={index} className="text-start">
+                          <Skeleton width={100} height={16} />
+                          <Skeleton width="80%" height={20} className="mt-2" />
+                        </div>
+                      ))
+                  : info.map((item, index) => (
+                      <div key={index}>
+                        <h3 className="uppercase font-semibold text-sm tracking-wider text-left">
+                          {item.title}
+                        </h3>
+                        <span className="block mt-2 text-neutral-500 text-left">
+                          {item.desc}
+                        </span>
+                      </div>
+                    ))}
                 <div>
                   <h3 className="uppercase font-semibold text-sm tracking-wider text-left">
                     🌏 SOCIALS

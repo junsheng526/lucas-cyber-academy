@@ -8,6 +8,8 @@ import NextBtn from "../molecules/button/NextBtn";
 import Heading from "../molecules/text/Heading";
 import { useCourses } from "../../hooks/useCourses";
 import { Course } from "../../types/model";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const SectionSliderNewCategories: FC = () => {
   const { courses, loading, error } = useCourses(); // Fetch courses
@@ -45,16 +47,29 @@ const SectionSliderNewCategories: FC = () => {
     trackMouse: true,
   });
 
-  // Render course cards
+  // Render Skeleton Loader for Courses
+  const renderSkeleton = () =>
+    Array.from({ length: numberOfItems }).map((_, i) => (
+      <li
+        key={i}
+        className="inline-block px-4"
+        style={{ width: `calc(1 / ${numberOfItems} * 100%)` }}
+      >
+        <Skeleton height={220} className="rounded-2xl" />
+        <Skeleton width={120} height={20} className="mt-4" />
+        <Skeleton width={80} height={20} />
+      </li>
+    ));
+
+  // Render actual course cards
   const renderCard = (course: Course) => <CardCategory3 course={course} />;
 
-  if (loading) return <p>Loading courses...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
-  if (!courses.length) return <p>No courses available.</p>;
 
   return (
     <div className="nc-SectionSliderNewCategories">
       <Heading desc="Explore our top-rated courses">Popular Courses</Heading>
+
       <MotionConfig
         transition={{
           x: { type: "spring", stiffness: 300, damping: 30 },
@@ -67,18 +82,20 @@ const SectionSliderNewCategories: FC = () => {
             initial={false}
           >
             <AnimatePresence initial={false} custom={direction}>
-              {courses.map((course, index) => (
-                <motion.li
-                  key={index}
-                  className="inline-block px-4"
-                  custom={direction}
-                  initial={{ x: `${(currentIndex - 1) * -100}%` }}
-                  animate={{ x: `${currentIndex * -100}%` }}
-                  style={{ width: `calc(1 / ${numberOfItems} * 100%)` }}
-                >
-                  {renderCard(course)}
-                </motion.li>
-              ))}
+              {loading
+                ? renderSkeleton() // Show Skeleton while loading
+                : courses.map((course, index) => (
+                    <motion.li
+                      key={index}
+                      className="inline-block px-4"
+                      custom={direction}
+                      initial={{ x: `${(currentIndex - 1) * -100}%` }}
+                      animate={{ x: `${currentIndex * -100}%` }}
+                      style={{ width: `calc(1 / ${numberOfItems} * 100%)` }}
+                    >
+                      {renderCard(course)}
+                    </motion.li>
+                  ))}
             </AnimatePresence>
           </motion.ul>
 

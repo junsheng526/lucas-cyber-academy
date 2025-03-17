@@ -12,32 +12,31 @@ interface User {
 
 export const useUser = () => {
   const user = useAuth();
-  const [userData, setUserData] = useState<User | null>(null);
+  const [userData, setUserData] = useState<User | undefined | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [userCount, setUserCount] = useState<number>(0);
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (user?.uid) {
-        try {
-          const userData = await firestoreService.fetchDocById(
-            Docs.USERS,
-            user.uid
-          );
-          if (userData) {
-            setUserData(userData);
-          } else {
-            setError("User not found");
-          }
-        } catch (err) {
-          console.error("Error fetching user data:", err);
-          setError("Error fetching user data");
-        } finally {
-          setLoading(false);
-        }
-      } else {
+      if (!user?.uid) {
         setError("No user is authenticated.");
+      }
+      try {
+        const userData = await firestoreService.fetchDocById(
+          Docs.USERS,
+          user.uid
+        );
+        if (userData) {
+          setUserData(userData);
+        } else {
+          setUserData(undefined);
+          setError("User not found");
+        }
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+        setError("Error fetching user data");
+      } finally {
         setLoading(false);
       }
     };
@@ -57,16 +56,11 @@ export const useUser = () => {
       }
     };
 
-    if (user?.uid) {
-      fetchUserData();
-    } else {
-      setLoading(false);
-    }
-
+    fetchUserData();
     fetchUserCount();
 
     return () => {
-      setUserData(null);
+      setUserData(undefined);
       setError(null);
       setLoading(true);
     };

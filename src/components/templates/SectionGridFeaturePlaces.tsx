@@ -6,6 +6,10 @@ import StayCard from "../organisms/card/StayCard";
 import { useNavigate } from "react-router-dom";
 import ButtonPrimary from "../molecules/button/ButtonPrimary";
 import { useCourses } from "../../hooks/useCourses";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import StayCard2Skeleton from "../organisms/card/StayCard2Skeleton";
+
 export interface SectionGridFeaturePlacesProps {
   stayListings?: any[];
   gridClass?: string;
@@ -46,6 +50,12 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
   const { filteredCourses, categories, loading, error, filterCourses } =
     useCourses();
 
+  // Skeleton for cards
+  const renderSkeleton = () =>
+    Array(8)
+      .fill(null)
+      .map((_, index) => <StayCard2Skeleton key={index} />);
+
   return (
     <>
       {!pagination ? (
@@ -63,7 +73,9 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
           <div
             className={`grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${gridClass}`}
           >
-            {filteredCourses.map((stay) => renderCard(stay))}
+            {loading
+              ? renderSkeleton()
+              : filteredCourses.map((stay) => renderCard(stay))}
           </div>
           <div className="flex mt-16 justify-center items-center">
             <ButtonPrimary onClick={() => navigate("/courses")}>
@@ -80,7 +92,9 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
           <div
             className={`grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${gridClass}`}
           >
-            {filteredCourses.map((stay) => renderCard(stay))}
+            {loading
+              ? renderSkeleton()
+              : filteredCourses.map((stay) => renderCard(stay))}
           </div>
           <div className="flex mt-16 justify-center items-center">
             {/* <Pagination /> */}
