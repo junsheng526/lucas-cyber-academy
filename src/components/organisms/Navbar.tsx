@@ -56,7 +56,7 @@ const Navbar: React.FC = () => {
 
   const renderSkeletonNavbar = () => (
     <div className="flex items-center justify-between w-full">
-      <div className="flex justify-start">
+      <div className="flex justify-start hidden md:flex">
         <Skeleton width={100} height={48} />
         <Skeleton
           count={4}
