@@ -13,21 +13,14 @@ import { useState, useEffect } from "react";
 import { firestoreService, Docs } from "../../services/firestoreService";
 import { Header } from "../../components/organisms/header/Header";
 import { tokens } from "../../styles/theme";
-
-interface VideoType {
-  id: string;
-  title: string;
-  thumbnail: string;
-}
-
-interface HomeContent {
+interface AboutUsHeader {
   title: string;
   subtitle: string;
   imageUrl: string;
 }
 
 const ManageAboutUsContent = () => {
-  const [content, setContent] = useState<HomeContent>({
+  const [content, setContent] = useState<AboutUsHeader>({
     title: "",
     subtitle: "",
     imageUrl: "",
@@ -52,7 +45,7 @@ const ManageAboutUsContent = () => {
           });
         }
       } catch (err) {
-        console.error("Error fetching home content:", err);
+        console.error("Error fetching about us content:", err);
       }
       setLoading(false);
     };
@@ -69,7 +62,7 @@ const ManageAboutUsContent = () => {
       );
       setOpenEditDialog(false);
     } catch (err) {
-      console.error("Error updating home content:", err);
+      console.error("Error updating about us content:", err);
     }
     setLoading(false);
   };
@@ -121,7 +114,7 @@ const ManageAboutUsContent = () => {
       </Box>
       {/* Edit Content Dialog */}
       <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
-        <DialogTitle>Edit Home Content</DialogTitle>
+        <DialogTitle>Edit About Us Content</DialogTitle>
         <DialogContent
           sx={{ display: "flex", flexDirection: "column", gap: 2 }}
         >
