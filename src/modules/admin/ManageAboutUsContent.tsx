@@ -8,11 +8,13 @@ import {
   DialogActions,
   Typography,
   useTheme,
+  Avatar,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { firestoreService, Docs } from "../../services/firestoreService";
 import { Header } from "../../components/organisms/header/Header";
 import { tokens } from "../../styles/theme";
+import useAboutLecturers, { Lecturer } from "../../hooks/useAboutLecturers";
 interface AboutUsHeader {
   title: string;
   subtitle: string;
@@ -69,6 +71,35 @@ const ManageAboutUsContent = () => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { lecturers, error, addLecturer, updateLecturer, deleteLecturer } =
+    useAboutLecturers();
+
+  const [openEditLecturerDialog, setOpenEditLecturerDialog] = useState(false);
+  const [selectedLecturer, setSelectedLecturer] = useState<Lecturer | null>(
+    null
+  );
+  const [updatedLecturer, setUpdatedLecturer] = useState({
+    name: "",
+    job: "",
+    avatar: "",
+  });
+
+  const handleEditClick = (lecturer: Lecturer) => {
+    setSelectedLecturer(lecturer);
+    setUpdatedLecturer({
+      name: lecturer.name,
+      job: lecturer.job,
+      avatar: lecturer.avatar,
+    });
+    setOpenEditDialog(true);
+  };
+
+  const handleSave = async () => {
+    if (selectedLecturer) {
+      await updateLecturer(selectedLecturer.id, updatedLecturer);
+      setOpenEditDialog(false);
+    }
+  };
 
   return (
     <Box m="20px" maxWidth="100wh">
@@ -111,6 +142,50 @@ const ManageAboutUsContent = () => {
             style={{ width: "100%", maxWidth: "400px", marginTop: "10px" }}
           />
         </Box>
+        <Box
+          gridColumn="span 6"
+          sx={{ backgroundColor: colors.primary[400] }}
+          p="20px"
+        >
+          <Typography variant="h6" sx={{ my: 3 }}>
+            Lecturers Section
+          </Typography>
+          {loading ? (
+            <Typography>Loading...</Typography>
+          ) : error ? (
+            <Typography color="error">{error}</Typography>
+          ) : (
+            lecturers.map((lecturer) => (
+              <Box
+                key={lecturer.id}
+                display="flex"
+                alignItems="center"
+                gap={2}
+                mb={2}
+                className="justify-between"
+              >
+                <div className="flex">
+                  <Avatar src={lecturer.avatar} alt={lecturer.name} />
+                  <Box className="mx-4">
+                    <Typography>
+                      <strong>Name:</strong> {lecturer.name}
+                    </Typography>
+                    <Typography>
+                      <strong>Job:</strong> {lecturer.job}
+                    </Typography>
+                  </Box>
+                </div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleEditClick(lecturer)}
+                >
+                  Edit
+                </Button>
+              </Box>
+            ))
+          )}
+        </Box>
       </Box>
       {/* Edit Content Dialog */}
       <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
@@ -149,6 +224,43 @@ const ManageAboutUsContent = () => {
             onClick={handleSaveContent}
             disabled={loading}
           >
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+        <DialogTitle>Edit Lecturer Details</DialogTitle>
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+        >
+          <TextField
+            label="Name"
+            value={updatedLecturer.name}
+            onChange={(e) =>
+              setUpdatedLecturer({ ...updatedLecturer, name: e.target.value })
+            }
+            fullWidth
+          />
+          <TextField
+            label="Job"
+            value={updatedLecturer.job}
+            onChange={(e) =>
+              setUpdatedLecturer({ ...updatedLecturer, job: e.target.value })
+            }
+            fullWidth
+          />
+          <TextField
+            label="Profile Image URL"
+            value={updatedLecturer.avatar}
+            onChange={(e) =>
+              setUpdatedLecturer({ ...updatedLecturer, avatar: e.target.value })
+            }
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>
+          <Button variant="contained" color="primary" onClick={handleSave}>
             Save
           </Button>
         </DialogActions>

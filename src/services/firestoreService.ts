@@ -22,12 +22,13 @@ export type NodeRef =
   | "payments"
   | "sessions"
   | "user_profile"
-  | "lecturer"
+  | "lecturers"
   | "course_schedules"
   | "grayscale"
   | "course_ratings"
   | "home_content"
-  | "analysis_data";
+  | "analysis_data"
+  | "stats_content";
 
 export enum Docs {
   USERS = "users",
@@ -39,12 +40,13 @@ export enum Docs {
   PAYMENTS = "payments",
   SESSION = "sessions",
   USER_PROFILE = "user_profile",
-  LECTURERS = "lecturer",
+  LECTURERS = "lecturers",
   COURSE_SCHEDULES = "course_schedules",
   GRAYSCALE = "grayscale",
   COURSE_RATINGS = "course_ratings",
   HOME_CONTENT = "home_content",
   ANALYSIS_DATA = "analysis_data",
+  STATS_CONTENT = "stats_content",
 }
 
 // Firestore Utilities
