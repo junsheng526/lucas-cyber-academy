@@ -8,11 +8,13 @@ import {
   DialogActions,
   Typography,
   useTheme,
+  IconButton,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { firestoreService, Docs } from "../../services/firestoreService";
 import { Header } from "../../components/organisms/header/Header";
 import { tokens } from "../../styles/theme";
+import { Delete, Edit } from "@mui/icons-material";
 
 interface VideoType {
   id: string;
@@ -26,9 +28,9 @@ interface HomeContent {
   buttonText: string;
   imageUrl: string;
   logo: string;
-  address: string; // ✅ NEW FIELD
-  email: string; // ✅ NEW FIELD
-  phone: string; // ✅ NEW FIELD
+  address: string;
+  email: string;
+  phone: string;
   videos: VideoType[];
 }
 
@@ -39,14 +41,16 @@ const ManageHomeContent = () => {
     buttonText: "",
     imageUrl: "",
     logo: "",
-    address: "", // ✅ Default Empty
-    email: "", // ✅ Default Empty
-    phone: "", // ✅ Default Empty
+    address: "",
+    email: "",
+    phone: "",
     videos: [],
   });
 
   const [loading, setLoading] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [openVideoDialog, setOpenVideoDialog] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState<VideoType | null>(null);
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -63,9 +67,9 @@ const ManageHomeContent = () => {
             buttonText: doc.buttonText || "",
             imageUrl: doc.imageUrl || "",
             logo: doc.logo || "",
-            address: doc.address || "", // ✅ Fetch Address
-            email: doc.email || "", // ✅ Fetch Email
-            phone: doc.phone || "", // ✅ Fetch Phone
+            address: doc.address || "",
+            email: doc.email || "",
+            phone: doc.phone || "",
             videos: doc.videos || [],
           });
         }
@@ -90,6 +94,36 @@ const ManageHomeContent = () => {
       console.error("Error updating home content:", err);
     }
     setLoading(false);
+  };
+
+  const handleEditVideo = (video: VideoType) => {
+    setSelectedVideo(video);
+    setOpenVideoDialog(true);
+  };
+
+  const handleDeleteVideo = (videoId: string) => {
+    const updatedVideos = content.videos.filter(
+      (video) => video.id !== videoId
+    );
+    setContent({ ...content, videos: updatedVideos });
+  };
+
+  const handleSaveVideo = () => {
+    if (selectedVideo) {
+      const updatedVideos = content.videos.map((video) =>
+        video.id === selectedVideo.id ? selectedVideo : video
+      );
+      setContent({ ...content, videos: updatedVideos });
+    } else {
+      const newVideo: VideoType = {
+        id: Date.now().toString(),
+        title: "",
+        thumbnail: "",
+      };
+      setContent({ ...content, videos: [...content.videos, newVideo] });
+      setSelectedVideo(newVideo);
+    }
+    setOpenVideoDialog(false);
   };
 
   const theme = useTheme();
@@ -117,7 +151,6 @@ const ManageHomeContent = () => {
           sx={{ backgroundColor: colors.primary[400] }}
           p="20px"
         >
-          {/* Hero Section */}
           <Typography variant="h6" sx={{ mt: 3 }}>
             Hero Section
           </Typography>
@@ -154,7 +187,6 @@ const ManageHomeContent = () => {
             alt="Logo"
             style={{ width: "150px", marginTop: "10px", borderRadius: "5px" }}
           />
-
           {/* ✅ New Contact Info Section */}
           <Typography variant="h6" sx={{ mt: 5 }}>
             Contact Information
@@ -168,6 +200,47 @@ const ManageHomeContent = () => {
           <Typography>
             <strong>Phone:</strong> {content.phone}
           </Typography>
+          {/* Videos Section */}
+          <Typography variant="h6" sx={{ mt: 5 }}>
+            Videos
+          </Typography>
+          {content.videos.map((video) => (
+            <Box
+              key={video.id}
+              display="flex"
+              alignItems="center"
+              gap={2}
+              mt={1}
+            >
+              <img
+                src={video.thumbnail}
+                alt={video.title}
+                width="80px"
+                height="50px"
+              />
+              <Typography>{video.title}</Typography>
+              <IconButton onClick={() => handleEditVideo(video)}>
+                <Edit />
+              </IconButton>
+              <IconButton
+                onClick={() => handleDeleteVideo(video.id)}
+                color="error"
+              >
+                <Delete />
+              </IconButton>
+            </Box>
+          ))}
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              setSelectedVideo(null);
+              setOpenVideoDialog(true);
+            }}
+            sx={{ mt: 2 }}
+          >
+            Add Video
+          </Button>
         </Box>
       </Box>
 
@@ -244,6 +317,37 @@ const ManageHomeContent = () => {
             onClick={handleSaveContent}
             disabled={loading}
           >
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Edit Video Dialog */}
+      <Dialog open={openVideoDialog} onClose={() => setOpenVideoDialog(false)}>
+        <DialogTitle>{selectedVideo ? "Edit Video" : "Add Video"}</DialogTitle>
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+        >
+          <TextField
+            label="Video Title"
+            value={selectedVideo?.title || ""}
+            onChange={(e) =>
+              setSelectedVideo({ ...selectedVideo!, title: e.target.value })
+            }
+            fullWidth
+          />
+          <TextField
+            label="Thumbnail URL"
+            value={selectedVideo?.thumbnail || ""}
+            onChange={(e) =>
+              setSelectedVideo({ ...selectedVideo!, thumbnail: e.target.value })
+            }
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenVideoDialog(false)}>Cancel</Button>
+          <Button variant="contained" color="primary" onClick={handleSaveVideo}>
             Save
           </Button>
         </DialogActions>
