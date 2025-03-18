@@ -1,5 +1,6 @@
 import Dashboard from "../modules/admin/Dashboard";
 import EditProfile from "../modules/admin/EditProfile";
+import ManageAboutUsContent from "../modules/admin/ManageAboutUsContent";
 import ManageCourse from "../modules/admin/ManageCourse";
 import ManageGrayscale from "../modules/admin/ManageGrayscale";
 import ManageHomeContent from "../modules/admin/ManageHomeContent";
@@ -27,4 +28,5 @@ export const secureRoutes = [
   createSecureRoute("/student-dashboard", ["student"], StudentDashboard),
   createSecureRoute("/view-schedule", ["student"], ViewSchedule),
   createSecureRoute("/manage-grayscale", ["admin"], ManageGrayscale),
+  createSecureRoute("/manage-about-us", ["admin"], ManageAboutUsContent),
 ];
