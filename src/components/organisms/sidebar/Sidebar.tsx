@@ -54,6 +54,12 @@ const menuItems = {
       icon: <AddHomeOutlined />,
     },
     {
+      key: "manageAboutUs",
+      title: "Manage About Us",
+      to: "/manage-about-us",
+      icon: <AddHomeOutlined />,
+    },
+    {
       key: "manageGrayscale",
       title: "Manage Grayscale",
       to: "/manage-grayscale",
