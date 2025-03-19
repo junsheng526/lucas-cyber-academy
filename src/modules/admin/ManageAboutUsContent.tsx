@@ -10,71 +10,32 @@ import {
   useTheme,
   Avatar,
 } from "@mui/material";
-import { useState, useEffect } from "react";
-import { firestoreService, Docs } from "../../services/firestoreService";
+import { useState } from "react";
 import { Header } from "../../components/organisms/header/Header";
 import { tokens } from "../../styles/theme";
 import useAboutLecturers, { Lecturer } from "../../hooks/useAboutLecturers";
-interface AboutUsHeader {
-  title: string;
-  subtitle: string;
-  imageUrl: string;
-}
+import useAboutStats, { Stat } from "../../hooks/useAboutStats";
+import useAboutContent, { Content } from "../../hooks/useAboutContent";
 
 const ManageAboutUsContent = () => {
-  const [content, setContent] = useState<AboutUsHeader>({
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const [loading, setLoading] = useState(false);
+  const [openEditContentDialog, setOpenEditContentDialog] = useState(false);
+  const [openEditStatDialog, setOpenEditStatDialog] = useState(false);
+  const [openEditLecturerDialog, setOpenEditLecturerDialog] = useState(false);
+  const {
+    lecturers,
+    error: lecturersError,
+    updateLecturer,
+  } = useAboutLecturers();
+  const { stats, error: statsError, updateStat } = useAboutStats();
+  const { content, error: contentError, updateContent } = useAboutContent();
+  const [updatedContent, setUpdatedContent] = useState({
     title: "",
     subtitle: "",
     imageUrl: "",
   });
-
-  const [loading, setLoading] = useState(false);
-  const [openEditDialog, setOpenEditDialog] = useState(false);
-
-  useEffect(() => {
-    const fetchContent = async () => {
-      setLoading(true);
-      try {
-        const doc = await firestoreService.fetchDocById(
-          Docs.HOME_CONTENT,
-          "OWzezYNeCRH9YJMb8rPS"
-        );
-        if (doc) {
-          setContent({
-            title: doc.title || "",
-            subtitle: doc.subtitle || "",
-            imageUrl: doc.imageUrl || "",
-          });
-        }
-      } catch (err) {
-        console.error("Error fetching about us content:", err);
-      }
-      setLoading(false);
-    };
-    fetchContent();
-  }, []);
-
-  const handleSaveContent = async () => {
-    setLoading(true);
-    try {
-      await firestoreService.updateDoc(
-        Docs.HOME_CONTENT,
-        "OWzezYNeCRH9YJMb8rPS",
-        content
-      );
-      setOpenEditDialog(false);
-    } catch (err) {
-      console.error("Error updating about us content:", err);
-    }
-    setLoading(false);
-  };
-
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const { lecturers, error, addLecturer, updateLecturer, deleteLecturer } =
-    useAboutLecturers();
-
-  const [openEditLecturerDialog, setOpenEditLecturerDialog] = useState(false);
   const [selectedLecturer, setSelectedLecturer] = useState<Lecturer | null>(
     null
   );
@@ -83,21 +44,58 @@ const ManageAboutUsContent = () => {
     job: "",
     avatar: "",
   });
+  const [selectedStat, setSelectedStat] = useState<Stat | null>(null);
+  const [updatedStat, setUpdatedStat] = useState({
+    heading: "",
+    subHeading: "",
+  });
 
-  const handleEditClick = (lecturer: Lecturer) => {
+  const handleEditContentClick = (content: Content) => {
+    setUpdatedContent({
+      title: content.title,
+      subtitle: content.subtitle,
+      imageUrl: content.imageUrl,
+    });
+    setOpenEditContentDialog(true);
+  };
+
+  const handleSaveContent = async () => {
+    if (updatedContent) {
+      await updateContent(updatedContent);
+      setOpenEditContentDialog(false);
+    }
+  };
+
+  const handleEditLecturerClick = (lecturer: Lecturer) => {
     setSelectedLecturer(lecturer);
     setUpdatedLecturer({
       name: lecturer.name,
       job: lecturer.job,
       avatar: lecturer.avatar,
     });
-    setOpenEditDialog(true);
+    setOpenEditLecturerDialog(true);
   };
 
-  const handleSave = async () => {
+  const handleSaveLecturer = async () => {
     if (selectedLecturer) {
       await updateLecturer(selectedLecturer.id, updatedLecturer);
-      setOpenEditDialog(false);
+      setOpenEditLecturerDialog(false);
+    }
+  };
+
+  const handleEditStatClick = (stat: Stat) => {
+    setSelectedStat(stat);
+    setUpdatedStat({
+      heading: stat.heading,
+      subHeading: stat.subHeading,
+    });
+    setOpenEditStatDialog(true);
+  };
+
+  const handleSaveStat = async () => {
+    if (selectedStat) {
+      await updateStat(selectedStat.id, updatedStat);
+      setOpenEditStatDialog(false);
     }
   };
 
@@ -111,7 +109,7 @@ const ManageAboutUsContent = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => setOpenEditDialog(true)}
+          onClick={() => handleEditContentClick(content)}
         >
           Edit Content
         </Button>
@@ -125,22 +123,30 @@ const ManageAboutUsContent = () => {
         >
           {/* Hero Section */}
           <Typography variant="h6" sx={{ mt: 3 }}>
-            Hero Section
+            <strong>Hero Section</strong>
           </Typography>
-          <Typography>
-            <strong>Title:</strong> {content.title}
-          </Typography>
-          <Typography>
-            <strong>Subtitle:</strong> {content.subtitle}
-          </Typography>
-          <Typography>
-            <strong>Hero Image:</strong>
-          </Typography>
-          <img
-            src={content.imageUrl}
-            alt="Hero"
-            style={{ width: "100%", maxWidth: "400px", marginTop: "10px" }}
-          />
+          {loading ? (
+            <Typography>Loading...</Typography>
+          ) : contentError ? (
+            <Typography color="error">{contentError}</Typography>
+          ) : (
+            <Box gap={2} mb={2} className="justify-between">
+              <Typography>
+                <strong>Title:</strong> {content.title}
+              </Typography>
+              <Typography>
+                <strong>Subtitle:</strong> {content.subtitle}
+              </Typography>
+              <Typography>
+                <strong>Hero Image:</strong>
+              </Typography>
+              <img
+                src={content.imageUrl}
+                alt="Hero"
+                style={{ width: "100%", maxWidth: "400px", marginTop: "10px" }}
+              />
+            </Box>
+          )}
         </Box>
         <Box
           gridColumn="span 6"
@@ -148,12 +154,12 @@ const ManageAboutUsContent = () => {
           p="20px"
         >
           <Typography variant="h6" sx={{ my: 3 }}>
-            Lecturers Section
+            <strong>Lecturers Section</strong>
           </Typography>
           {loading ? (
             <Typography>Loading...</Typography>
-          ) : error ? (
-            <Typography color="error">{error}</Typography>
+          ) : lecturersError ? (
+            <Typography color="error">{lecturersError}</Typography>
           ) : (
             lecturers.map((lecturer) => (
               <Box
@@ -178,7 +184,53 @@ const ManageAboutUsContent = () => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => handleEditClick(lecturer)}
+                  onClick={() => handleEditLecturerClick(lecturer)}
+                >
+                  Edit
+                </Button>
+              </Box>
+            ))
+          )}
+        </Box>
+        <Box
+          gridColumn="span 6"
+          sx={{ backgroundColor: colors.primary[400] }}
+          p="20px"
+        >
+          <Typography variant="h6" sx={{ my: 3 }}>
+            <strong>Statistics Section</strong>
+          </Typography>
+          {loading ? (
+            <Typography>Loading...</Typography>
+          ) : statsError ? (
+            <Typography color="error">{statsError}</Typography>
+          ) : (
+            stats.map((stat, index) => (
+              <Box
+                key={stat.id}
+                display="flex"
+                alignItems="center"
+                gap={2}
+                mb={2}
+                className="justify-between"
+              >
+                <div className="flex">
+                  <Box className="mx-4">
+                    <Typography>
+                      <strong>Statistic Box</strong> {index + 1}
+                    </Typography>
+                    <Typography>
+                      <strong>Heading:</strong> {stat.heading}
+                    </Typography>
+                    <Typography>
+                      <strong>Subheading:</strong> {stat.subHeading}
+                    </Typography>
+                  </Box>
+                </div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleEditStatClick(stat)}
                 >
                   Edit
                 </Button>
@@ -188,36 +240,43 @@ const ManageAboutUsContent = () => {
         </Box>
       </Box>
       {/* Edit Content Dialog */}
-      <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
-        <DialogTitle>Edit About Us Content</DialogTitle>
+      <Dialog
+        open={openEditContentDialog}
+        onClose={() => setOpenEditContentDialog(false)}
+      >
+        <DialogTitle>Edit About Us Header</DialogTitle>
         <DialogContent
           sx={{ display: "flex", flexDirection: "column", gap: 2 }}
         >
           <TextField
             label="Title"
-            value={content.title}
-            onChange={(e) => setContent({ ...content, title: e.target.value })}
+            value={updatedContent.title}
+            onChange={(e) =>
+              setUpdatedContent({ ...updatedContent, title: e.target.value })
+            }
             fullWidth
           />
           <TextField
             label="Subtitle"
-            value={content.subtitle}
+            value={updatedContent.subtitle}
             onChange={(e) =>
-              setContent({ ...content, subtitle: e.target.value })
+              setUpdatedContent({ ...updatedContent, subtitle: e.target.value })
             }
             fullWidth
           />
           <TextField
             label="Hero Image URL"
-            value={content.imageUrl}
+            value={updatedContent.imageUrl}
             onChange={(e) =>
-              setContent({ ...content, imageUrl: e.target.value })
+              setUpdatedContent({ ...updatedContent, imageUrl: e.target.value })
             }
             fullWidth
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>
+          <Button onClick={() => setOpenEditContentDialog(false)}>
+            Cancel
+          </Button>
           <Button
             variant="contained"
             color="primary"
@@ -228,7 +287,10 @@ const ManageAboutUsContent = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+      <Dialog
+        open={openEditLecturerDialog}
+        onClose={() => setOpenEditLecturerDialog(false)}
+      >
         <DialogTitle>Edit Lecturer Details</DialogTitle>
         <DialogContent
           sx={{ display: "flex", flexDirection: "column", gap: 2 }}
@@ -259,8 +321,46 @@ const ManageAboutUsContent = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>
-          <Button variant="contained" color="primary" onClick={handleSave}>
+          <Button onClick={() => setOpenEditLecturerDialog(false)}>
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSaveLecturer}
+          >
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openEditStatDialog}
+        onClose={() => setOpenEditStatDialog(false)}
+      >
+        <DialogTitle>Edit Statistic Details</DialogTitle>
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+        >
+          <TextField
+            label="Heading"
+            value={updatedStat.heading}
+            onChange={(e) =>
+              setUpdatedStat({ ...updatedStat, heading: e.target.value })
+            }
+            fullWidth
+          />
+          <TextField
+            label="Sub-Heading"
+            value={updatedStat.subHeading}
+            onChange={(e) =>
+              setUpdatedStat({ ...updatedStat, subHeading: e.target.value })
+            }
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenEditStatDialog(false)}>Cancel</Button>
+          <Button variant="contained" color="primary" onClick={handleSaveStat}>
             Save
           </Button>
         </DialogActions>
