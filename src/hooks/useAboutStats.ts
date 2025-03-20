@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { firestoreService, Docs } from "../services/firestoreService";
 
-interface Stat {
+export interface Stat {
   id: string;
   heading: string;
   subHeading: string;
@@ -31,6 +31,18 @@ const useAboutStats = () => {
     fetchStats();
   }, []);
 
+  const addStat = async (statData: Omit<Stat, "id">) => {
+    try {
+      const newDoc = await firestoreService.insertDoc(
+        Docs.STATS_CONTENT,
+        statData
+      );
+      setStats([...stats, { id: newDoc, ...statData }]);
+    } catch (error) {
+      console.error("Error adding statistic:", error);
+    }
+  };
+
   const updateStat = async (id: string, updatedData: Partial<Stat>) => {
     try {
       await firestoreService.updateDoc(Docs.STATS_CONTENT, id, updatedData);
@@ -44,7 +56,16 @@ const useAboutStats = () => {
     }
   };
 
-  return { stats, loading, error, updateStat };
+  const deleteStat = async (id: string) => {
+    try {
+      await firestoreService.deleteDoc(Docs.STATS_CONTENT, id);
+      setStats(stats.filter((statData) => statData.id !== id));
+    } catch (error) {
+      console.error("Error deleting statistic:", error);
+    }
+  };
+
+  return { stats, loading, error, addStat, updateStat, deleteStat };
 };
 
 export default useAboutStats;
